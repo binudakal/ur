@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=gnome-ur
+Exec=gnome-ur
+Icon=com.github.binudakal.gnomeur
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true

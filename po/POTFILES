@@ -1,0 +1,6 @@
+data/com.github.binudakal.gnomeur.desktop.in
+data/com.github.binudakal.gnomeur.metainfo.xml.in
+data/com.github.binudakal.gnomeur.gschema.xml
+src/main.py
+src/window.py
+src/window.ui
