@@ -30,6 +30,7 @@ gnome_ur_sources = [
   '__init__.py',
   'main.py',
   'window.py',
+  'game.py'
 ]
 
 install_data(gnome_ur_sources, install_dir: moduledir)

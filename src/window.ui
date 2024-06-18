@@ -51,316 +51,241 @@
 
                     <!-- LEFT TILES -->
                     <child>
-                      <object class="GtkButton" id="leftTile1">
+                      <object class="GtkButton" id="LTile0">
+                        <property name="sensitive">False</property>
+                        <property name="has-frame">False</property>
+                        <layout>
+                          <property name="row">4</property>
+                          <property name="column">0</property>
+                        </layout>
+
+                        <!-- <child> -->
+                        <!--   <object class="GtkImage" id="LTile0Icon"> -->
+                        <!--     <property name="pixel-size">30</property> -->
+                        <!--   </object> -->
+                        <!-- </child> -->
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="LTile1">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">3</property>
                           <property name="column">0</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="leftTile2">
+                      <object class="GtkButton" id="LTile2">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">2</property>
                           <property name="column">0</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="leftTile3">
+                      <object class="GtkButton" id="LTile3">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="leftTile4">
+                      <object class="GtkButton" id="LTile4">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">0</property>
                           <property name="column">0</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon-name">view-grid-symbolic</property>
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
+
                     <!-- RIGHT TILES -->
                     <child>
-                      <object class="GtkButton" id="rightTile1">
+                    <object class="GtkButton" id="RTile0">
+                        <property name="sensitive">False</property>
+                        <property name="has-frame">False</property>
+                        <layout>
+                          <property name="row">4</property>
+                          <property name="column">2</property>
+                        </layout>
+
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="RTile1">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">3</property>
                           <property name="column">2</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="rightTile2">
+                      <object class="GtkButton" id="RTile2">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">2</property>
                           <property name="column">2</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="rightTile3">
+                      <object class="GtkButton" id="RTile3">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">1</property>
                           <property name="column">2</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="rightTile4">
+                      <object class="GtkButton" id="RTile4">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">0</property>
                           <property name="column">2</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon-name">view-grid-symbolic</property>
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
 
 
                     <!-- COMMON TILES -->
                     <child>
-                      <object class="GtkButton" id="commonTile5">
+                      <object class="GtkButton" id="CTile5">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="commonTile6">
+                      <object class="GtkButton" id="CTile6">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">1</property>
                           <property name="column">1</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+                        <!-- <style> -->
+                        <!--   <class name="tile"></class> -->
+                        <!-- </style> -->
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="commonTile7">
+                      <object class="GtkButton" id="CTile7">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">2</property>
                           <property name="column">1</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="commonTile8">
+                      <object class="GtkButton" id="CTile8">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">3</property>
                           <property name="column">1</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon-name">view-grid-symbolic</property>
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="commonTile9">
+                      <object class="GtkButton" id="CTile9">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">4</property>
                           <property name="column">1</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="commonTile10">
+                      <object class="GtkButton" id="CTile10">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">5</property>
                           <property name="column">1</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="commonTile11">
+                      <object class="GtkButton" id="CTile11">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">6</property>
                           <property name="column">1</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="commonTile12">
+                      <object class="GtkButton" id="CTile12">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">7</property>
                           <property name="column">1</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
 
                     <!-- LEFT TILES -->
                     <child>
-                      <object class="GtkButton" id="leftTile13">
+                      <object class="GtkButton" id="LTile13">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">7</property>
                           <property name="column">0</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="leftTile14">
+                      <object class="GtkButton" id="LTile14">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">6</property>
                           <property name="column">0</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon-name">view-grid-symbolic</property>
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
 
                     <!-- RIGHT TILES -->
                     <child>
-                      <object class="GtkButton" id="rightTile13">
+                      <object class="GtkButton" id="RTile13">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">7</property>
                           <property name="column">2</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="rightTile14">
+                      <object class="GtkButton" id="RTile14">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">6</property>
                           <property name="column">2</property>
                         </layout>
-                        <property name="hexpand">False</property>
-                        <child>
-                          <object class="GtkImage">
-                            <property name="icon-name">view-grid-symbolic</property>
-                            <property name="pixel-size">60</property>
-                          </object>
-                        </child>
+
                       </object>
                     </child>
 
