@@ -26,16 +26,12 @@ class gameTile():
         self.sensitive = sensitivity
         self.defaultIcon = icon
         self.currentIcon = None
-        self.clicked = False
+        self.toggled = False
 
 
 @Gtk.Template(resource_path='/com/github/binudakal/gnomeur/window.ui')
 class GnomeUrWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'GnomeUrWindow'
-
-    css_provider = Gtk.CssProvider()
-    css_provider.load_from_path('main.css')
-    Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
     LTile0 = Gtk.Template.Child()
     LTile1 = Gtk.Template.Child()
@@ -65,6 +61,15 @@ class GnomeUrWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        css_provider = Gtk.CssProvider()
+
+        css_provider.load_from_path('/app/share/gnome-ur/gnome_ur/main.css')
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
         self.allTiles = []
 
         for attr in dir(GnomeUrWindow):
@@ -75,6 +80,7 @@ class GnomeUrWindow(Adw.ApplicationWindow):
 
         for tile in self.allTiles:
             tile.button.set_icon_name(tile.defaultIcon)
+            tile.button.set_css_classes(['tile'])
             tile.button.connect("clicked", self.on_click, tile)
 
     def set_sensitivity(self, button_id, sensitivity):
@@ -84,23 +90,25 @@ class GnomeUrWindow(Adw.ApplicationWindow):
 
     def load_movable(self, movablePieces):
 
-        def movable(x):
+        def find_movable(x):
             tilePos = int(x.var[1:].replace("Tile", ""))
             tileSide = x.var[:1]
-            temp = [piece.side for piece in list(movablePieces.keys())]
 
-            return tilePos in list(movablePieces.values()) and tileSide in temp
+            pieceSides = [piece.side for piece in list(movablePieces.keys())]
+            piecePositions = [piece.position for piece in list(movablePieces.keys())]
 
-        # movable = lambda x: int(x.var[1:].replace("Tile", "")) in list(movablePieces.values()) and x.var[:1] in list(movablePieces.keys())
-        self.movableTiles = filter(movable, self.allTiles)
+            return tileSide in pieceSides and tilePos in piecePositions
+
+        # filter all the tiles on the board to find the movable ones
+        self.movableTiles = filter(find_movable, self.allTiles)
 
         for tile in self.movableTiles:
-            print("eigwg", tile.var)
+            print(tile.var)
+
 
 
     def on_click(self, clickedButton, clickedTile):
-        print(self.movableTiles)
-
+        print(clickedTile.var)
         self.activeTile = clickedTile
         self.activeButton = self.activeTile.button
 
@@ -108,7 +116,7 @@ class GnomeUrWindow(Adw.ApplicationWindow):
         clickedTile.button.set_icon_name(focusIcon)
 
         # if the button has not already been clicked:
-        if not self.activeTile.clicked:
+        if not self.activeTile.toggled:
             print("toggled")
             # go through each other unfocused tile and reset their icons + disable them
             for tile in self.allTiles:
@@ -122,11 +130,11 @@ class GnomeUrWindow(Adw.ApplicationWindow):
                         self.set_sensitivity(tile.var, False)
 
             # toggle
-            self.activeTile.clicked = True
+            self.activeTile.toggled = True
         else:
             print("untoggled")
-            for tile in self.movableTiles:
-                print(tile)
+            # for tile in self.movableTiles:
+
 
         # go through each other unfocused tile and reset their icons + disable them
             for tile in self.allTiles:
@@ -142,15 +150,9 @@ class GnomeUrWindow(Adw.ApplicationWindow):
                     self.set_sensitivity(tile.var, True)
 
             # untoggle
-            self.activeTile.clicked = False
+            self.activeTile.toggled = False
 
 
-
-
-        # movablePlaces = []
-        # if self.activeButton.position in movablePlaces:
-
-        # self.show_moves()
 
 
 
