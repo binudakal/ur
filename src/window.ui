@@ -58,7 +58,6 @@
                           <property name="row">4</property>
                           <property name="column">0</property>
                         </layout>
-
                       </object>
                     </child>
                     <child>
@@ -329,7 +328,7 @@
                             <property name="row-spacing">60</property>
                             <child>
                               <object class="GtkSeparator">
-                                    <property name="margin-end">220</property>
+                                    <property name="margin-end">245</property>
                                     <layout>
                                       <property name="row">0</property>
                                       <property name="column">0</property>
@@ -338,7 +337,7 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="diceButton">
-                                <property name="label">Roll</property>
+                                <property name="label">Roll 🎲</property>
                                 <style>
                                   <class name="suggested-action"></class>
                                 </style>

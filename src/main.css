@@ -4,6 +4,6 @@
   -gtk-icon-size: 50px;
 }
 
-.dice-button{
-  /* font-size: 10px; */
+.invisible{
+  background-color: rgba(0,0,0,0);;
 }

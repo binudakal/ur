@@ -34,14 +34,12 @@ class ButtonManager:
         self.win = win
 
     def disable_all_buttons(self):
-        """Disable all buttons."""
-        button_ids = [
-            "LTile1", "LTile2", "LTile3", "LTile4", "LTile13", "LTile14",
-            "CTile5", "CTile6", "CTile7", "CTile8", "CTile9", "CTile10", "CTile11", "CTile12",
-            "RTile1", "RTile2", "RTile3", "RTile4", "RTile13", "RTile14"
-        ]
-        for button_id in button_ids:
-            self.win.set_sensitivity(button_id, False)
+        for tile in self.win.allTiles:
+            self.win.set_sensitivity(tile.var, False)
+
+    def deactivate_all_buttons(self):
+        for tile in win.allTiles:
+            self.win.set_active(tile.var, False)
 
 
 @Gtk.Template(resource_path='/com/github/binudakal/gnomeur/window.ui')
@@ -100,10 +98,10 @@ class GnomeUrWindow(Adw.ApplicationWindow):
         for attr in dir(GnomeUrWindow):
             if "Tile" in attr:
                 position = int(attr[1:].replace("Tile", ""))
-                icon = "view-grid-symbolic" if position in [4, 8, 14] else ""
+                icon = "starred-symbolic" if position in [4, 8, 14] else ""
                 self.allTiles.append(gameTile(getattr(self, attr), attr, False, icon))
 
-        for tile in self.allTiles:
+        for tile in filter(lambda x: "Tile0" not in x.var, self.allTiles):
             tile.button.set_icon_name(tile.defaultIcon)
             tile.button.set_css_classes(['tile'])
             tile.button.connect("clicked", self.tile_click, tile)
@@ -146,6 +144,15 @@ class GnomeUrWindow(Adw.ApplicationWindow):
         # for tile in self.movableTiles:
         #     print(tile.var)
 
+        for pair in movablePieces.items():
+            if pair[0].position <= 4 or 13 <= pair[0].position <= 14:
+                self.set_sensitivity(f"{pair[0].side}Tile{pair[0].position}", True)
+            elif 5 <= pair[0].position <= 12:
+                self.set_sensitivity(f"CTile{pair[0].position}", True)
+
+
+    # def enable_tiles(movablePieces):
+
     def await_move(self):
         # while not self.activeTile:
         #     print("1")
@@ -155,8 +162,19 @@ class GnomeUrWindow(Adw.ApplicationWindow):
         # print(self.game.roll_dice())
         self.game.play_game(self.game.roll_dice())
 
+    def clean_board(self):
+        for tile in self.allTiles:
+            tile.button.set_active(False)
+        self.button_manager.disable_all_buttons()
+
+    def reset_icon(self, tile):
+        if tile.currentIcon != None:
+            tile.button.set_icon_name(tile.currentIcon)
+        else:
+            tile.button.set_icon_name(tile.defaultIcon)
+        # pass
+
     def tile_click(self, clickedButton, clickedTile):
-        print(clickedButton.get_active())
         # focusIcon = "audio-volume-muted-symbolic"
         # clickedTile.button.set_icon_name(focusIcon)
 
@@ -169,10 +187,7 @@ class GnomeUrWindow(Adw.ApplicationWindow):
             for tile in self.allTiles:
                 if tile.button != self.activeTile.button:
 
-                        if tile.currentIcon != None:
-                            tile.button.set_icon_name(tile.currentIcon)
-                        else:
-                            tile.button.set_icon_name(tile.defaultIcon)
+                        self.reset_icon(tile)
 
                         tile.button.set_active(False)
                         self.set_sensitivity(tile.var, False)
@@ -182,18 +197,15 @@ class GnomeUrWindow(Adw.ApplicationWindow):
             print("untoggled")
 
             for tile in self.allTiles:
-                # reset icons
-                if tile.currentIcon != None:
-                    tile.button.set_icon_name(tile.currentIcon)
-                else:
-                    tile.button.set_icon_name(tile.defaultIcon)
+
+                self.reset_icon(tile)
 
                 # enable the button once again if it is a movable one
                 if tile in self.movableTiles:
                     print(tile)
                     self.set_sensitivity(tile.var, True)
 
-            self.activeTile = None # untoggle
+            # self.activeTile = None # untoggle
 
 
 

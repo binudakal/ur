@@ -136,9 +136,7 @@ class Game:
         time.sleep(pauseTime)
 
     def move_pieces(self, player, diceroll):
-        self.button_manager.disable_all_buttons()
-        for tile in self.win.allTiles:
-            tile.button.set_active(False)
+        self.win.clean_board()
 
         print(f"{player.name} rolled a {diceroll}.")
         self.win.update_text(player.name, diceroll)
@@ -197,16 +195,13 @@ class Game:
         for i, pair in enumerate(movablePieces.items()):
             print(f"[{i + 1}] {player.side}{pair[0].ID}: {pair[0].position} --> {pair[1]}")
 
-        for pair in movablePieces.items():
-            if pair[0].position <= 4 or 13 <= pair[0].position <= 14:
-                self.win.set_sensitivity(f"{pair[0].side}Tile{pair[0].position}", True)
-            elif 5 <= pair[0].position <= 12:
-                self.win.set_sensitivity(f"CTile{pair[0].position}", True)
+        self.win.load_movable(movablePieces)
+
 
         # moveChoice = int(input("\nSelect an option: ")) - 1
         moveChoice = 0  # for debugging (chooses the first option each time)
 
-        self.win.load_movable(movablePieces)
+
 
         selectedPiece = list(movablePieces.keys())[moveChoice]
         newPosition = movablePieces[selectedPiece]
@@ -258,22 +253,12 @@ class Game:
         # Display the empty board at the start of gameplay
         self.print_board()
 
-        # while True:
-        #     for player in self.players:
-        #         self.button_manager.disable_all_buttons()
-        #         diceroll = self.roll_dice()
-        #         self.move_pieces(player, diceroll)
-
-        #         if self.check_winner(player):
-        #             print(f"{player.name} has exhausted all of their pieces and won the game!\n")
-        #             return
-
-
         # move the current player
         self.move_pieces(self.currentPlayer, diceroll)
 
         if self.check_winner(self.currentPlayer):
             print(f"{self.currentPlayer.name} has exhausted all of their pieces and won the game!\n")
+            self.win.diceButton.set_sensitive(False)
             return
 
         # set currentPlayer/next player
