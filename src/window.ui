@@ -51,7 +51,7 @@
 
                     <!-- LEFT TILES -->
                     <child>
-                      <object class="GtkButton" id="LTile0">
+                      <object class="GtkToggleButton" id="LTile0">
                         <property name="sensitive">False</property>
                         <property name="has-frame">False</property>
                         <layout>
@@ -62,7 +62,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="LTile1">
+                      <object class="GtkToggleButton" id="LTile1">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">3</property>
@@ -72,7 +72,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="LTile2">
+                      <object class="GtkToggleButton" id="LTile2">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">2</property>
@@ -82,7 +82,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="LTile3">
+                      <object class="GtkToggleButton" id="LTile3">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">1</property>
@@ -92,7 +92,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="LTile4">
+                      <object class="GtkToggleButton" id="LTile4">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">0</property>
@@ -104,7 +104,7 @@
 
                     <!-- RIGHT TILES -->
                     <child>
-                    <object class="GtkButton" id="RTile0">
+                    <object class="GtkToggleButton" id="RTile0">
                         <property name="sensitive">False</property>
                         <property name="has-frame">False</property>
                         <layout>
@@ -115,7 +115,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="RTile1">
+                      <object class="GtkToggleButton" id="RTile1">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">3</property>
@@ -125,7 +125,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="RTile2">
+                      <object class="GtkToggleButton" id="RTile2">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">2</property>
@@ -135,7 +135,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="RTile3">
+                      <object class="GtkToggleButton" id="RTile3">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">1</property>
@@ -145,7 +145,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="RTile4">
+                      <object class="GtkToggleButton" id="RTile4">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">0</property>
@@ -157,7 +157,7 @@
 
                     <!-- COMMON TILES -->
                     <child>
-                      <object class="GtkButton" id="CTile5">
+                      <object class="GtkToggleButton" id="CTile5">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">0</property>
@@ -167,7 +167,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="CTile6">
+                      <object class="GtkToggleButton" id="CTile6">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">1</property>
@@ -179,7 +179,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="CTile7">
+                      <object class="GtkToggleButton" id="CTile7">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">2</property>
@@ -189,7 +189,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="CTile8">
+                      <object class="GtkToggleButton" id="CTile8">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">3</property>
@@ -199,7 +199,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="CTile9">
+                      <object class="GtkToggleButton" id="CTile9">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">4</property>
@@ -209,7 +209,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="CTile10">
+                      <object class="GtkToggleButton" id="CTile10">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">5</property>
@@ -219,7 +219,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="CTile11">
+                      <object class="GtkToggleButton" id="CTile11">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">6</property>
@@ -229,7 +229,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="CTile12">
+                      <object class="GtkToggleButton" id="CTile12">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">7</property>
@@ -241,7 +241,7 @@
 
                     <!-- LEFT TILES -->
                     <child>
-                      <object class="GtkButton" id="LTile13">
+                      <object class="GtkToggleButton" id="LTile13">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">7</property>
@@ -251,7 +251,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="LTile14">
+                      <object class="GtkToggleButton" id="LTile14">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">6</property>
@@ -263,7 +263,7 @@
 
                     <!-- RIGHT TILES -->
                     <child>
-                      <object class="GtkButton" id="RTile13">
+                      <object class="GtkToggleButton" id="RTile13">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">7</property>
@@ -273,7 +273,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="RTile14">
+                      <object class="GtkToggleButton" id="RTile14">
                         <property name="sensitive">false</property>
                         <layout>
                           <property name="row">6</property>
@@ -288,20 +288,16 @@
               </object>
             </child>
 
-            <!-- <child> -->
-
-            <!-- </child> -->
-
 
             <child>
-              <object class="GtkBox" id="infoBar">
-                <property name="margin-start">0</property>
+              <object class="GtkBox" id="infoScreen">
+                <!-- <property name="margin-top">0</property> -->
                 <child>
                   <object class="GtkGrid">
-                    <property name="row-spacing">50</property>
+                    <property name="row-spacing">60</property>
                     <child>
                       <object class="GtkSeparator">
-                            <property name="margin-bottom">200</property>
+                            <property name="margin-bottom">100</property>
                             <layout>
                               <property name="row">-1</property>
                               <property name="column">-1</property>
@@ -312,7 +308,7 @@
                       <object class="GtkLabel" id="titleText">
                         <property name="wrap" translatable="no">true</property>
                         <property name="width-chars">25</property>
-                        <property name="label">Player 1's turn</property>
+                        <property name="label"></property>
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
@@ -323,18 +319,76 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="diceText">
-                            <property name="wrap" translatable="no">true</property>
-                            <property name="width-chars">25</property>
-                            <property name="label">Dice updates here</property>
-                            <layout>
+                      <object class="GtkBox">
+                        <layout>
                               <property name="row">2</property>
                               <property name="column">0</property>
+                        </layout>
+                        <child>
+                          <object class="GtkGrid">
+                            <property name="row-spacing">60</property>
+                            <child>
+                              <object class="GtkSeparator">
+                                    <property name="margin-end">220</property>
+                                    <layout>
+                                      <property name="row">0</property>
+                                      <property name="column">0</property>
+                                    </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="diceButton">
+                                <property name="label">Roll</property>
+                                <style>
+                                  <class name="suggested-action"></class>
+                                </style>
+                                <layout>
+                                  <property name="row">0</property>
+                                  <property name="column">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <layout>
+                              <property name="row">0</property>
+                              <property name="column">2</property>
                             </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+
+
+                    <child>
+                      <object class="GtkLabel" id="diceText">
+                        <property name="wrap" translatable="no">true</property>
+                        <property name="width-chars">25</property>
+                        <property name="label"></property>
+                        <layout>
+                          <property name="row">3</property>
+                          <property name="column">0</property>
+                        </layout>
+                        <style>
+                            <class name="subtitle"></class>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="pileText">
+                        <property name="wrap" translatable="no">true</property>
+                        <property name="width-chars">25</property>
+                        <property name="label"></property>
+                        <layout>
+                          <property name="row">4</property>
+                          <property name="column">0</property>
+                        </layout>
+                        <style>
+                            <class name="subtitle"></class>
+                        </style>
                       </object>
                     </child>
                     <!-- <child> -->
-                    <!--   <object class="GtkButton" id="enableButtons"> -->
+                    <!--   <object class="GtkToggleButton" id="enableButtons"> -->
                     <!--     <property name="label">enable</property> -->
                         <!-- <property name="hexpand">False</property> -->
                         <!-- <property name="vexpand">False</property> -->

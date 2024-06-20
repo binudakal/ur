@@ -2,10 +2,7 @@ import random
 import time
 from abc import ABC, abstractmethod
 
-from .window import GnomeUrWindow
-
-def roll_dice():
-    return sum(random.randint(0, 1) for _ in range(4))
+# from .window import GnomeUrWindow
 
 pauseTime = 0
 
@@ -85,8 +82,12 @@ class Game:
         self.players = [Player("Player 1", "L"), Player("Player 2", "R")]
         self.app = app
         self.win = win
-        self.button_manager = app.button_manager
+        self.button_manager = win.button_manager
 
+        self.currentPlayer = self.players[0]
+
+    def roll_dice(self):
+        return sum(random.randint(0, 1) for _ in range(4))
 
     def print_board(self):
         off_board = lambda x: x.position == 0
@@ -100,6 +101,7 @@ class Game:
             player2Pile += f"{self.players[1].side}{piece2.ID}, "
 
         print(f"\n{player1Pile[:-2]}\n{player2Pile[:-2]}")
+        self.win.pileText.set_text(f"\n{player1Pile[:-2]}\n{player2Pile[:-2]}")
 
         leftBoard = self.players[0].halfBoard.positions
         rightBoard = self.players[1].halfBoard.positions
@@ -135,8 +137,11 @@ class Game:
 
     def move_pieces(self, player, diceroll):
         self.button_manager.disable_all_buttons()
+        for tile in self.win.allTiles:
+            tile.button.set_active(False)
 
         print(f"{player.name} rolled a {diceroll}.")
+        self.win.update_text(player.name, diceroll)
         time.sleep(pauseTime / 2)
 
         # If a player rolls 0, skip their turn
@@ -144,7 +149,7 @@ class Game:
             self.print_board()
             return
 
-        # Create an empty dictionary which
+        # Create an empty dictionary which will hold movable pieces and where they can move to
         movablePieces = {}
 
         # Flag which will be used to skip other pieces in the pile
@@ -185,7 +190,7 @@ class Game:
             print(f"{player.name} has no possible moves.\n")
             return
 
-
+        # self.win.show_movable()
 
         # Display the piece movement options
         print("\n #  MOVE OPTIONS")
@@ -194,9 +199,9 @@ class Game:
 
         for pair in movablePieces.items():
             if pair[0].position <= 4 or 13 <= pair[0].position <= 14:
-                self.button_manager.set_sensitivity(f"{pair[0].side}Tile{pair[0].position}", True)
+                self.win.set_sensitivity(f"{pair[0].side}Tile{pair[0].position}", True)
             elif 5 <= pair[0].position <= 12:
-                self.button_manager.set_sensitivity(f"CTile{pair[0].position}", True)
+                self.win.set_sensitivity(f"CTile{pair[0].position}", True)
 
         # moveChoice = int(input("\nSelect an option: ")) - 1
         moveChoice = 0  # for debugging (chooses the first option each time)
@@ -243,22 +248,40 @@ class Game:
         # After moving the piece, check whether it landed on a rosette
         if selectedPiece.position in boardRosettes:
             print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
-            self.move_pieces(player, roll_dice())
+            self.move_pieces(player, self.roll_dice())
 
 
     def check_winner(self, player):
         return not player.pieces
 
-    def play_game(self):
+    def play_game(self, diceroll):
         # Display the empty board at the start of gameplay
         self.print_board()
 
-        while True:
-            for player in self.players:
-                self.button_manager.disable_all_buttons()
-                diceroll = roll_dice()
-                self.move_pieces(player, diceroll)
+        # while True:
+        #     for player in self.players:
+        #         self.button_manager.disable_all_buttons()
+        #         diceroll = self.roll_dice()
+        #         self.move_pieces(player, diceroll)
 
-                if self.check_winner(player):
-                    print(f"{player.name} has exhausted all of their pieces and won the game!\n")
-                    return
+        #         if self.check_winner(player):
+        #             print(f"{player.name} has exhausted all of their pieces and won the game!\n")
+        #             return
+
+
+        # move the current player
+        self.move_pieces(self.currentPlayer, diceroll)
+
+        if self.check_winner(self.currentPlayer):
+            print(f"{self.currentPlayer.name} has exhausted all of their pieces and won the game!\n")
+            return
+
+        # set currentPlayer/next player
+        for player in self.players:
+            if player is not self.currentPlayer:
+                self.currentPlayer = player
+                break
+
+
+
+

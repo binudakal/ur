@@ -18,6 +18,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from gi.repository import Gtk, Gdk, Adw
+from .game import *
 
 class gameTile():
     def __init__(self, button, var, sensitivity, icon):
@@ -27,6 +28,20 @@ class gameTile():
         self.defaultIcon = icon
         self.currentIcon = None
         self.toggled = False
+
+class ButtonManager:
+    def __init__(self, win):
+        self.win = win
+
+    def disable_all_buttons(self):
+        """Disable all buttons."""
+        button_ids = [
+            "LTile1", "LTile2", "LTile3", "LTile4", "LTile13", "LTile14",
+            "CTile5", "CTile6", "CTile7", "CTile8", "CTile9", "CTile10", "CTile11", "CTile12",
+            "RTile1", "RTile2", "RTile3", "RTile4", "RTile13", "RTile14"
+        ]
+        for button_id in button_ids:
+            self.win.set_sensitivity(button_id, False)
 
 
 @Gtk.Template(resource_path='/com/github/binudakal/gnomeur/window.ui')
@@ -56,10 +71,20 @@ class GnomeUrWindow(Adw.ApplicationWindow):
     RTile13 = Gtk.Template.Child()
     RTile14 = Gtk.Template.Child()
 
+    diceText = Gtk.Template.Child()
+    diceButton = Gtk.Template.Child()
+    titleText = Gtk.Template.Child()
+    pileText = Gtk.Template.Child()
+
 
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        self.app = self.get_application()
+        self.button_manager = ButtonManager(self)
+
+        self.activeTile = None
 
         css_provider = Gtk.CssProvider()
 
@@ -81,12 +106,28 @@ class GnomeUrWindow(Adw.ApplicationWindow):
         for tile in self.allTiles:
             tile.button.set_icon_name(tile.defaultIcon)
             tile.button.set_css_classes(['tile'])
-            tile.button.connect("clicked", self.on_click, tile)
+            tile.button.connect("clicked", self.tile_click, tile)
+
+        self.diceButton.connect("clicked", self.dice_click)
+
+
+        self.game = Game(self.app, self)
+        # self.game.play_game()
+
+
+
 
     def set_sensitivity(self, button_id, sensitivity):
         button = getattr(self, f'{button_id}')
-
         button.set_sensitive(sensitivity)
+
+    def show_movable(self):
+        pass
+
+    def update_text(self, playerName, diceroll):
+        self.titleText.set_text(f"{playerName}'s turn")
+        self.diceText.set_text(f"{playerName} rolled a {diceroll}.")
+        self.pileText.set_text(f"Player 1's pile:  L1, L2, L3, L4, L5\nPlayer 2's pile:  R1, R2, R3, R4, R5")
 
     def load_movable(self, movablePieces):
 
@@ -102,43 +143,45 @@ class GnomeUrWindow(Adw.ApplicationWindow):
         # filter all the tiles on the board to find the movable ones
         self.movableTiles = filter(find_movable, self.allTiles)
 
-        for tile in self.movableTiles:
-            print(tile.var)
+        # for tile in self.movableTiles:
+        #     print(tile.var)
 
+    def await_move(self):
+        # while not self.activeTile:
+        #     print("1")
+        pass
 
+    def dice_click(self, clickedButton):
+        # print(self.game.roll_dice())
+        self.game.play_game(self.game.roll_dice())
 
-    def on_click(self, clickedButton, clickedTile):
-        print(clickedTile.var)
-        self.activeTile = clickedTile
-        self.activeButton = self.activeTile.button
-
-        focusIcon = "audio-volume-muted-symbolic"
-        clickedTile.button.set_icon_name(focusIcon)
+    def tile_click(self, clickedButton, clickedTile):
+        print(clickedButton.get_active())
+        # focusIcon = "audio-volume-muted-symbolic"
+        # clickedTile.button.set_icon_name(focusIcon)
 
         # if the button has not already been clicked:
-        if not self.activeTile.toggled:
+        if clickedButton.get_active():
+            self.activeTile = clickedTile # toggle
+
             print("toggled")
             # go through each other unfocused tile and reset their icons + disable them
             for tile in self.allTiles:
-                if tile.button != self.activeButton:
+                if tile.button != self.activeTile.button:
 
                         if tile.currentIcon != None:
                             tile.button.set_icon_name(tile.currentIcon)
                         else:
                             tile.button.set_icon_name(tile.defaultIcon)
 
+                        tile.button.set_active(False)
                         self.set_sensitivity(tile.var, False)
 
-            # toggle
-            self.activeTile.toggled = True
+
         else:
             print("untoggled")
-            # for tile in self.movableTiles:
 
-
-        # go through each other unfocused tile and reset their icons + disable them
             for tile in self.allTiles:
-
                 # reset icons
                 if tile.currentIcon != None:
                     tile.button.set_icon_name(tile.currentIcon)
@@ -147,10 +190,11 @@ class GnomeUrWindow(Adw.ApplicationWindow):
 
                 # enable the button once again if it is a movable one
                 if tile in self.movableTiles:
+                    print(tile)
                     self.set_sensitivity(tile.var, True)
 
-            # untoggle
-            self.activeTile.toggled = False
+            self.activeTile = None # untoggle
+
 
 
 

@@ -9,23 +9,7 @@ from .window import GnomeUrWindow
 from .game import *
 
 
-class ButtonManager:
-    def __init__(self, window):
-        self.window = window
 
-    def set_sensitivity(self, button_id, sensitivity):
-        """Set the sensitivity of a button."""
-        self.window.set_sensitivity(button_id, sensitivity)
-
-    def disable_all_buttons(self):
-        """Disable all buttons."""
-        button_ids = [
-            "LTile1", "LTile2", "LTile3", "LTile4", "LTile13", "LTile14",
-            "CTile5", "CTile6", "CTile7", "CTile8", "CTile9", "CTile10", "CTile11", "CTile12",
-            "RTile1", "RTile2", "RTile3", "RTile4", "RTile13", "RTile14"
-        ]
-        for button_id in button_ids:
-            self.set_sensitivity(button_id, False)
 
 class GnomeUrApplication(Adw.Application):
     """The main application singleton class."""
@@ -44,14 +28,17 @@ class GnomeUrApplication(Adw.Application):
         We raise the application's main window, creating it if
         necessary.
         """
+
         win = self.props.active_window
+
+
         if not win:
             win = GnomeUrWindow(application=self)
             self.win = win
-            self.button_manager = ButtonManager(win)
-            self.game = Game(self, win)
+            # self.game = Game(self, win)
 
-        self.game.play_game()
+
+        # self.game.play_game()
         win.present()
 
     def on_about_action(self, widget, _):
