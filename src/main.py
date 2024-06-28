@@ -5,17 +5,17 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
 from gi.repository import Gtk, Gio, Adw
-from .window import GnomeUrWindow
+from .window import UrWindow
 from .game import *
 
 
 
 
-class GnomeUrApplication(Adw.Application):
+class UrApplication(Adw.Application):
     """The main application singleton class."""
 
     def __init__(self):
-        super().__init__(application_id='com.github.binudakal.gnomeur',
+        super().__init__(application_id='com.github.binudakal.ur',
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
@@ -33,7 +33,7 @@ class GnomeUrApplication(Adw.Application):
 
 
         if not win:
-            win = GnomeUrWindow(application=self)
+            win = UrWindow(application=self)
             self.win = win
             # self.game = Game(self, win)
 
@@ -45,7 +45,7 @@ class GnomeUrApplication(Adw.Application):
         """Callback for the app.about action."""
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='Ur',
-                                application_icon='com.github.binudakal.gnomeur',
+                                application_icon='com.github.binudakal.ur',
                                 developer_name='Binuda Kalugalage',
                                 version='0.1.0',
                                 developers=['Binuda Kalugalage'],
@@ -74,7 +74,7 @@ class GnomeUrApplication(Adw.Application):
 
 def main(version):
     """The application's entry point."""
-    app = GnomeUrApplication()
+    app = UrApplication()
     return app.run(sys.argv)
 
 if __name__ == "__main__":

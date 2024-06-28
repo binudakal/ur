@@ -1,3 +1,3 @@
-# gnome-ur
+# ur
 
 A description of this project.

@@ -1,6 +1,6 @@
 #!@PYTHON@
 
-# gnome-ur.in
+# ur.in
 #
 # Copyright 2024 Binuda Kalugalage
 #
@@ -39,8 +39,8 @@ if __name__ == '__main__':
     import gi
 
     from gi.repository import Gio
-    resource = Gio.Resource.load(os.path.join(pkgdatadir, 'gnome-ur.gresource'))
+    resource = Gio.Resource.load(os.path.join(pkgdatadir, 'ur.gresource'))
     resource._register()
 
-    from gnome_ur import main
+    from ur import main
     sys.exit(main.main(VERSION))

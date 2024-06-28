@@ -2,7 +2,7 @@ import random
 import time
 from abc import ABC, abstractmethod
 
-# from .window import GnomeUrWindow
+# from .window import UrWindow
 
 pauseTime = 0
 
@@ -22,8 +22,9 @@ class Board(ABC):
         piece.position = 0
 
     def remove_piece(self, piece):
+        piece.position = None
+        # piece.position = None  # to prevent double rosette bug
         self.positions[piece.position] = None
-        piece.position = None  # to prevent double rosette bug
         piece.owner.pieces.remove(piece)
 
     @abstractmethod
@@ -61,11 +62,13 @@ class Piece:
         self.position = 0
         self.ID = pieceNumber
         self.onCommon = False
+        self.side = self.owner.side
 
-        if self.position <= 4 or 13 <= self.position <= 14:
-            self.side = self.owner.side
-        elif 5 <= newPosition <= 12:
-            self.side = "C"
+        # check if piece moved to commonboard after each move
+        # if self.position <= 4 or 13 <= self.position <= 14:
+        #     self.side = self.owner.side
+        # elif 5 <= newPosition <= 12:
+        #     self.side = "C"
 
 class Player:
     def __init__(self, name, side):
@@ -75,7 +78,7 @@ class Player:
         self.halfBoard = halfBoard()
 
 class Game:
-    __gtype_name__ = 'GnomeUrGame'
+    __gtype_name__ = 'UrGame'
 
     def __init__(self, app, win):
         self.boardCommon = commonBoard()
@@ -136,6 +139,16 @@ class Game:
         time.sleep(pauseTime)
 
     def move_pieces(self, player, diceroll):
+
+        # this doesn't update at the correct time
+        for piece in player.pieces:
+            if 5 <= piece.position <= 12:
+                piece.side = "C"
+            else:
+                piece.side = piece.owner.side
+
+
+
         self.win.clean_board()
 
         print(f"{player.name} rolled a {diceroll}.")
@@ -240,6 +253,8 @@ class Game:
         # Display the game board after moving a piece
         self.print_board()
 
+
+
         # After moving the piece, check whether it landed on a rosette
         if selectedPiece.position in boardRosettes:
             print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
@@ -259,6 +274,7 @@ class Game:
         if self.check_winner(self.currentPlayer):
             print(f"{self.currentPlayer.name} has exhausted all of their pieces and won the game!\n")
             self.win.diceButton.set_sensitive(False)
+            self.win.titleText.set_text(f"{self.currentPlayer.name} wins!")
             return
 
         # set currentPlayer/next player

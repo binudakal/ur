@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <requires lib="Adw" version="1.0"/>
-  <template class="GnomeUrWindow" parent="AdwApplicationWindow">
+  <template class="UrWindow" parent="AdwApplicationWindow">
     <property name="default-width">600</property>
     <property name="default-height">750</property>
     <property name="content">
@@ -328,7 +328,7 @@
                             <property name="row-spacing">60</property>
                             <child>
                               <object class="GtkSeparator">
-                                    <property name="margin-end">245</property>
+                                    <property name="margin-end">235</property>
                                     <layout>
                                       <property name="row">0</property>
                                       <property name="column">0</property>

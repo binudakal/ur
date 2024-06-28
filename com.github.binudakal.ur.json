@@ -1,9 +1,9 @@
 {
-    "id" : "com.github.binudakal.gnomeur",
+    "id" : "com.github.binudakal.ur",
     "runtime" : "org.gnome.Platform",
     "runtime-version" : "46",
     "sdk" : "org.gnome.Sdk",
-    "command" : "gnome-ur",
+    "command" : "ur",
     "finish-args" : [
         "--share=network",
         "--share=ipc",
@@ -24,7 +24,7 @@
     ],
     "modules" : [
         {
-            "name" : "gnome-ur",
+            "name" : "ur",
             "builddir" : true,
             "buildsystem" : "meson",
             "sources" : [

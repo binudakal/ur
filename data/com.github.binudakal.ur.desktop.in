@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=gnome-ur
 Exec=gnome-ur
-Icon=com.github.binudakal.gnomeur
+Icon=com.github.binudakal.ur
 Terminal=false
 Type=Application
 Categories=GTK;

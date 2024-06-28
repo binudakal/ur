@@ -1,1 +1,1 @@
-i18n.gettext('gnome-ur', preset: 'glib')
+i18n.gettext('ur', preset: 'glib')

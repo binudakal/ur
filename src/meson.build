@@ -1,9 +1,9 @@
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
-moduledir = pkgdatadir / 'gnome_ur'
+moduledir = pkgdatadir / 'ur'
 gnome = import('gnome')
 
-gnome.compile_resources('gnome-ur',
-  'gnome-ur.gresource.xml',
+gnome.compile_resources('ur',
+  'ur.gresource.xml',
   gresource_bundle: true,
   install: true,
   install_dir: pkgdatadir,
@@ -18,15 +18,15 @@ conf.set('localedir', get_option('prefix') / get_option('localedir'))
 conf.set('pkgdatadir', pkgdatadir)
 
 configure_file(
-  input: 'gnome-ur.in',
-  output: 'gnome-ur',
+  input: 'ur.in',
+  output: 'ur',
   configuration: conf,
   install: true,
   install_dir: get_option('bindir'),
   install_mode: 'r-xr-xr-x'
 )
 
-gnome_ur_sources = [
+ur_sources = [
   '__init__.py',
   'main.py',
   'window.py',
@@ -34,4 +34,4 @@ gnome_ur_sources = [
   'main.css'
 ]
 
-install_data(gnome_ur_sources, install_dir: moduledir)
+install_data(ur_sources, install_dir: moduledir)
