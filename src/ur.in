@@ -31,9 +31,9 @@ localedir = '@localedir@'
 
 sys.path.insert(1, pkgdatadir)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-locale.bindtextdomain('gnome-ur', localedir)
-locale.textdomain('gnome-ur')
-gettext.install('gnome-ur', localedir)
+locale.bindtextdomain('ur', localedir)
+locale.textdomain('ur')
+gettext.install('ur', localedir)
 
 if __name__ == '__main__':
     import gi

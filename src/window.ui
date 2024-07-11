@@ -256,7 +256,16 @@
                           <property name="row">6</property>
                           <property name="column">0</property>
                         </layout>
-
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkToggleButton" id="LTile15">
+                        <property name="sensitive">false</property>
+                        <property name="has-frame">False</property>
+                        <layout>
+                          <property name="row">5</property>
+                          <property name="column">0</property>
+                        </layout>
                       </object>
                     </child>
 
@@ -278,10 +287,18 @@
                           <property name="row">6</property>
                           <property name="column">2</property>
                         </layout>
-
                       </object>
                     </child>
-
+                    <child>
+                      <object class="GtkToggleButton" id="RTile15">
+                        <property name="sensitive">false</property>
+                        <property name="has-frame">False</property>
+                        <layout>
+                          <property name="row">5</property>
+                          <property name="column">2</property>
+                        </layout>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
