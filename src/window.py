@@ -166,16 +166,13 @@ class UrWindow(Adw.ApplicationWindow):
                 self.movableTileMap[f"{pair[0].side}Tile{pair[0].position}"] = f"{pair[0].owner.side}Tile15"
 
 
-    def show_potential(self, clickedTile):
-        if clickedTile.var in self.movableTileMap.keys():
-            self.set_sensitivity(self.movableTileMap[clickedTile.var], True)
+    def show_potential(self):
+        if self.activeTile.var in self.movableTileMap.keys():
+            self.set_sensitivity(self.movableTileMap[self.activeTile.var], True)
 
 
     def hide_potential(self):
-        for tile in self.allTiles:
-            if tile not in self.movableTiles:
-                tile.button.set_active(False)
-                self.set_sensitivity(tile.var, False)
+        self.set_sensitivity(self.movableTileMap[self.activeTile.var], False)
 
 
     def dice_click(self, clickedButton):
@@ -194,14 +191,23 @@ class UrWindow(Adw.ApplicationWindow):
         else:
             tile.button.set_icon_name(tile.defaultIcon)
 
+    def send_move():
+        return newPosition
 
     def tile_click(self, clickedButton, clickedTile):
+        self.activeTile = clickedTile
 
-        # if the button has not already been clicked:
-        if clickedButton.get_active():
-            self.show_potential(clickedTile)
-        else:
-            self.hide_potential()
+        # for clicking a movable tile
+        if self.activeTile in self.movableTiles:
+            if clickedButton.get_active():
+                self.show_potential()
+            else:
+                self.hide_potential()
+        # for clicking a tile to move to
+        elif self.activeTile.var in self.movableTileMap.values():
+            print(f"{list(self.movableTileMap.keys())[list(self.movableTileMap.values()).index(self.activeTile.var)]} --> {self.activeTile.var}")
+            # self.movePosition =
+
 
 
 

@@ -214,6 +214,9 @@ class Game:
         # moveChoice = int(input("\nSelect an option: ")) - 1
         moveChoice = 0  # for debugging (chooses the first option each time)
 
+        print(movablePieces)
+        # moveChoice = self.win.send_move()
+
 
 
         selectedPiece = list(movablePieces.keys())[moveChoice]
