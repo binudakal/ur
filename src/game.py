@@ -147,8 +147,6 @@ class Game:
             else:
                 piece.side = piece.owner.side
 
-
-
         self.win.clean_board()
 
         print(f"{player.name} rolled a {diceroll}.")
@@ -199,9 +197,12 @@ class Game:
         # Handle scenario with no possible moves
         if not movablePieces:
             print(f"{player.name} has no possible moves.\n")
+            self.win.diceText.set_text(f"{player.name} has no possible moves.")
             return
 
         # self.win.show_movable()
+
+        # -----------------------------------------
 
         # Display the piece movement options
         print("\n #  MOVE OPTIONS")
@@ -213,11 +214,6 @@ class Game:
 
         # moveChoice = int(input("\nSelect an option: ")) - 1
         moveChoice = 0  # for debugging (chooses the first option each time)
-
-        print(movablePieces)
-        # moveChoice = self.win.send_move()
-
-
 
         selectedPiece = list(movablePieces.keys())[moveChoice]
         newPosition = movablePieces[selectedPiece]
@@ -262,6 +258,11 @@ class Game:
         if selectedPiece.position in boardRosettes:
             print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
             self.move_pieces(player, self.roll_dice())
+
+        # -----------------------------------------------
+
+    # def make_move():
+
 
 
     def check_winner(self, player):
