@@ -193,8 +193,8 @@ class UrWindow(Adw.ApplicationWindow):
         else:
             tile.button.set_icon_name(tile.defaultIcon)
 
-    def send_move(self, tile):
-        self.moveTo = tile.var[5:]
+    # def send_move(self, tile):
+    #     self.moveTo = tile.var[5:]
         # return tile.var[5:]
 
     def tile_click(self, clickedButton, clickedTile):
@@ -206,10 +206,13 @@ class UrWindow(Adw.ApplicationWindow):
                 self.show_potential()
             else:
                 self.hide_potential()
+
         # for clicking a tile to move to
         elif self.activeTile.var in self.movableTileMap.values():
             print(f"{list(self.movableTileMap.keys())[list(self.movableTileMap.values()).index(self.activeTile.var)]} --> {self.activeTile.var}")
-            print(self.send_move(self.activeTile))
+
+            self.game.make_move(int(self.activeTile.var[5:]))
+
             self.clean_board()
 
 

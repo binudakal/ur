@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://raw.githubusercontent.com/binudakal/ur/master/data/icons/hicolor/scalable/apps/com.github.binudakal.ur.svg" width="300"></img>
+<img src="https://raw.githubusercontent.com/binudakal/ur/master/data/assets/com.github.binudakal.ur.svg" width="300"></img>
 </div>
 
 # Ur

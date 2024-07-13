@@ -8,6 +8,8 @@ pauseTime = 0
 
 boardRosettes = [4, 8, 14]
 
+# Create the dictionary which will hold movable pieces and where they can move to
+
 class Board(ABC):
     def is_occupied(self, position):
         # Return the (occupied status, occupying piece)
@@ -88,6 +90,9 @@ class Game:
         self.button_manager = win.button_manager
 
         self.currentPlayer = self.players[0]
+        self.movablePieces = {}
+
+        self.initialAction = 0
 
     def roll_dice(self):
         return sum(random.randint(0, 1) for _ in range(4))
@@ -138,9 +143,8 @@ class Game:
         print("-----------------------------------")
         time.sleep(pauseTime)
 
-    def move_pieces(self, player, diceroll):
+    def calculate_movable(self, player, diceroll):
 
-        # this doesn't update at the correct time
         for piece in player.pieces:
             if 5 <= piece.position <= 12:
                 piece.side = "C"
@@ -158,8 +162,8 @@ class Game:
             self.print_board()
             return
 
-        # Create an empty dictionary which will hold movable pieces and where they can move to
-        movablePieces = {}
+        # Reset movablePieces
+        self.movablePieces = {}
 
         # Flag which will be used to skip other pieces in the pile
         pilePieceConsidered = False
@@ -175,7 +179,7 @@ class Game:
             # Check if spaces are occupied
             if newPosition <= 4 or 13 <= newPosition <= 14:
                 if not player.halfBoard.is_occupied(newPosition)[0]:
-                    movablePieces[piece] = newPosition
+                    self.movablePieces[piece] = newPosition
 
             # With current player's pieces
             elif 5 <= newPosition <= 12:
@@ -183,40 +187,60 @@ class Game:
                 if occupiedStatus[0]:
                     # Check that the piece to replace is not one of the current player's, and that it is not on a rosette
                     if (occupiedStatus[1].owner != piece.owner) and (occupiedStatus[1].position not in boardRosettes):
-                        movablePieces[piece] = newPosition
+                        self.movablePieces[piece] = newPosition
                 else:
-                    movablePieces[piece] = newPosition
+                    self.movablePieces[piece] = newPosition
 
             # Off the board by exactly 1
             elif newPosition == 15:
-                movablePieces[piece] = newPosition
+                self.movablePieces[piece] = newPosition
 
             if piece.position == 0:
                 pilePieceConsidered = True
 
         # Handle scenario with no possible moves
-        if not movablePieces:
+        if not self.movablePieces:
             print(f"{player.name} has no possible moves.\n")
             self.win.diceText.set_text(f"{player.name} has no possible moves.")
             return
 
         # self.win.show_movable()
 
+
+
+        if self.initialAction < 2:
+            self.make_move(newPosition)
+            self.initialAction += 1
+            print("initial")
+
+
+        ## here
+
+
+
+    def make_move(self, newPosition):
         # -----------------------------------------
+
+        print(list(self.movablePieces.values()), "---", newPosition)
+
+        player = list(x.owner for x in self.movablePieces.keys())[list(self.movablePieces.values()).index(newPosition)]
+
+
 
         # Display the piece movement options
         print("\n #  MOVE OPTIONS")
-        for i, pair in enumerate(movablePieces.items()):
+        for i, pair in enumerate(self.movablePieces.items()):
             print(f"[{i + 1}] {player.side}{pair[0].ID}: {pair[0].position} --> {pair[1]}")
 
-        self.win.load_movable(movablePieces)
-
+        self.win.load_movable(self.movablePieces)
 
         # moveChoice = int(input("\nSelect an option: ")) - 1
         moveChoice = 0  # for debugging (chooses the first option each time)
 
-        selectedPiece = list(movablePieces.keys())[moveChoice]
-        newPosition = movablePieces[selectedPiece]
+
+
+        selectedPiece = list(self.movablePieces.keys())[moveChoice]
+        newPosition = self.movablePieces[selectedPiece]
 
         # halfBoard ->
         if selectedPiece.position in player.halfBoard.positions:
@@ -247,7 +271,7 @@ class Game:
         # off the board ->
         else:
             # halfBoard
-            player.halfBoard.move_piece(selectedPiece, diceroll)
+            player.halfBoard.move_piece(selectedPiece, newPosition)
 
         # Display the game board after moving a piece
         self.print_board()
@@ -257,11 +281,9 @@ class Game:
         # After moving the piece, check whether it landed on a rosette
         if selectedPiece.position in boardRosettes:
             print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
-            self.move_pieces(player, self.roll_dice())
+            self.calculate_movable(player, self.roll_dice())
 
         # -----------------------------------------------
-
-    # def make_move():
 
 
 
@@ -273,11 +295,12 @@ class Game:
         self.print_board()
 
         # move the current player
-        self.move_pieces(self.currentPlayer, diceroll)
+        self.calculate_movable(self.currentPlayer, diceroll)
 
         if self.check_winner(self.currentPlayer):
             print(f"{self.currentPlayer.name} has exhausted all of their pieces and won the game!\n")
             self.win.diceButton.set_sensitive(False)
+            self.win.clean_board()
             self.win.titleText.set_text(f"{self.currentPlayer.name} wins!")
             return
 
