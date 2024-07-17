@@ -129,7 +129,7 @@ class UrWindow(Adw.ApplicationWindow):
     def update_text(self, playerName, diceroll):
         self.titleText.set_text(f"{playerName}'s turn")
         self.diceText.set_text(f"{playerName} rolled a {diceroll}.")
-        self.pileText.set_text(f"Player 1's pile:  L1, L2, L3, L4, L5\nPlayer 2's pile:  R1, R2, R3, R4, R5")
+        # self.pileText.set_text(f"Player 1's pile:  L1, L2, L3, L4, L5\nPlayer 2's pile:  R1, R2, R3, R4, R5")
 
 
     def load_movable(self, movablePieces):
@@ -209,10 +209,9 @@ class UrWindow(Adw.ApplicationWindow):
 
         # for clicking a tile to move to
         elif self.activeTile.var in self.movableTileMap.values():
-            print(f"{list(self.movableTileMap.keys())[list(self.movableTileMap.values()).index(self.activeTile.var)]} --> {self.activeTile.var}")
+            # print(f"{list(self.movableTileMap.keys())[list(self.movableTileMap.values()).index(self.activeTile.var)]} --> {self.activeTile.var}")
 
             self.game.make_move(int(self.activeTile.var[5:]))
-
             self.clean_board()
 
 

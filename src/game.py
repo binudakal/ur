@@ -155,7 +155,7 @@ class Game:
 
         print(f"{player.name} rolled a {diceroll}.")
         self.win.update_text(player.name, diceroll)
-        time.sleep(pauseTime / 2)
+        # time.sleep(pauseTime / 2)
 
         # If a player rolls 0, skip their turn
         if diceroll == 0:
@@ -204,29 +204,6 @@ class Game:
             self.win.diceText.set_text(f"{player.name} has no possible moves.")
             return
 
-        # self.win.show_movable()
-
-
-
-        if self.initialAction < 2:
-            self.make_move(newPosition)
-            self.initialAction += 1
-            print("initial")
-
-
-        ## here
-
-
-
-    def make_move(self, newPosition):
-        # -----------------------------------------
-
-        print(list(self.movablePieces.values()), "---", newPosition)
-
-        player = list(x.owner for x in self.movablePieces.keys())[list(self.movablePieces.values()).index(newPosition)]
-
-
-
         # Display the piece movement options
         print("\n #  MOVE OPTIONS")
         for i, pair in enumerate(self.movablePieces.items()):
@@ -234,13 +211,14 @@ class Game:
 
         self.win.load_movable(self.movablePieces)
 
-        # moveChoice = int(input("\nSelect an option: ")) - 1
-        moveChoice = 0  # for debugging (chooses the first option each time)
 
+    def make_move(self, newPosition):
 
+        # print(list(self.movablePieces.values()), "---", newPosition)
 
-        selectedPiece = list(self.movablePieces.keys())[moveChoice]
-        newPosition = self.movablePieces[selectedPiece]
+        player = list(x.owner for x in self.movablePieces.keys())[list(self.movablePieces.values()).index(newPosition)]
+
+        selectedPiece = list(self.movablePieces.keys())[list(self.movablePieces.values()).index(newPosition)]
 
         # halfBoard ->
         if selectedPiece.position in player.halfBoard.positions:
@@ -279,6 +257,7 @@ class Game:
 
 
         # After moving the piece, check whether it landed on a rosette
+        # TODO: fix rosettes
         if selectedPiece.position in boardRosettes:
             print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
             self.calculate_movable(player, self.roll_dice())
