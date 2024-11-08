@@ -58,6 +58,11 @@
                           <property name="row">4</property>
                           <property name="column">0</property>
                         </layout>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="file">./Documents/Github Repos/ur/data/icons/hicolor/symbolic/white_counter.svg</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
@@ -106,11 +111,16 @@
                     <object class="GtkToggleButton" id="RTile0">
                         <property name="sensitive">False</property>
                         <property name="has-frame">False</property>
+                        <property name="icon-name">audio-volume-muted-symbolic</property>
                         <layout>
                           <property name="row">4</property>
                           <property name="column">2</property>
                         </layout>
-
+                        <child>
+                          <object class="GtkImage">
+                            <property name="file">./Documents/Github Repos/ur/data/icons/hicolor/symbolic/black_counter.svg</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
@@ -448,5 +458,6 @@
     </section>
   </menu>
 </interface>
+
 
 

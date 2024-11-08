@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="123.73731mm"
+   height="123.73732mm"
+   viewBox="0 0 123.73731 123.73732"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <radialGradient
+       xlink:href="#linearGradient9"
+       id="radialGradient6-1-7-6-9-7-1-6"
+       cx="-25.043093"
+       cy="205.27203"
+       fx="-25.043093"
+       fy="205.27203"
+       r="7.8672791"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.8163061,0,0,0.8163061,112.70471,67.901879)" />
+    <linearGradient
+       id="linearGradient9">
+      <stop
+         style="stop-color:#505050;stop-opacity:1;"
+         offset="0.05662224"
+         id="stop9" />
+      <stop
+         style="stop-color:#303030;stop-opacity:1;"
+         offset="0.41633886"
+         id="stop10" />
+      <stop
+         style="stop-color:#202020;stop-opacity:1;"
+         offset="0.76115423"
+         id="stop8" />
+    </linearGradient>
+  </defs>
+  <g
+     id="g11"
+     style="display:inline;stroke-width:0.02;stroke-dasharray:none;enable-background:new"
+     transform="matrix(9.5889067,0,0,9.5889067,-822.82174,-2195.999)">
+    <circle
+       style="display:inline;fill:url(#radialGradient6-1-7-6-9-7-1-6);fill-opacity:1;stroke:#202020;stroke-width:0.06;stroke-dasharray:none;stroke-opacity:1;enable-background:new"
+       id="path5-4-3-3-0-2-1-4"
+       cx="92.261864"
+       cy="235.46664"
+       r="6.4221077" />
+    <circle
+       style="display:inline;mix-blend-mode:hard-light;fill:#bdb9ab;fill-opacity:1;stroke-width:0.02;stroke-dasharray:none;enable-background:new"
+       id="path6-8-9-7"
+       cx="89.74324"
+       cy="233.14502"
+       r="1.1334119" />
+    <circle
+       style="display:inline;mix-blend-mode:hard-light;fill:#bdb9ab;fill-opacity:1;stroke-width:0.02;stroke-dasharray:none;enable-background:new"
+       id="path6-7-9-4-65"
+       cx="94.767853"
+       cy="233.18146"
+       r="1.1334119" />
+    <circle
+       style="display:inline;mix-blend-mode:hard-light;fill:#bdb9ab;fill-opacity:1;stroke-width:0.02;stroke-dasharray:none;enable-background:new"
+       id="path6-5-7-7-6"
+       cx="89.740753"
+       cy="238.09157"
+       r="1.1334119" />
+    <circle
+       style="display:inline;mix-blend-mode:hard-light;fill:#bdb9ab;fill-opacity:1;stroke-width:0.02;stroke-dasharray:none;enable-background:new"
+       id="path6-7-3-3-8-9"
+       cx="94.765373"
+       cy="238.12801"
+       r="1.1334119" />
+    <circle
+       style="display:inline;mix-blend-mode:hard-light;fill:#bdb9ab;fill-opacity:1;stroke-width:0.02;stroke-dasharray:none;enable-background:new"
+       id="path6-7-3-5-6-4-3"
+       cx="92.250473"
+       cy="235.62021"
+       r="1.1334119" />
+  </g>
+</svg>

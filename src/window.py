@@ -17,7 +17,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from gi.repository import Gtk, Gdk, Adw
+from gi.repository import Gtk, Gdk, Adw, Gio
 from .game import *
 
 class gameTile():
@@ -28,6 +28,8 @@ class gameTile():
         self.defaultIcon = icon
         self.currentIcon = None
         self.toggled = False
+        self.currentImage = None
+
 
 class ButtonManager:
     def __init__(self, win):
@@ -79,17 +81,17 @@ class UrWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.set_title("Ur")
+
 
         self.app = self.get_application()
         self.button_manager = ButtonManager(self)
 
         self.activeTile = None
+        self.clickedTiles = []
 
-        self.movablePieces = None
         self.movableTileMap = {}
         self.movableTiles = None
-
-        self.moveTo = None
 
         # Load CSS
         css_provider = Gtk.CssProvider()
@@ -148,24 +150,38 @@ class UrWindow(Adw.ApplicationWindow):
         # filter all the tiles on the board to find the movable ones
         self.movableTiles = list(filter(find_movable, self.allTiles))
 
-        for pair in movablePieces.items():
+        for key, value in self.movablePieces.items():
 
             # if the movable piece is on one half of the board
-            if pair[0].position <= 4 or 13 <= pair[0].position <= 14:
-                self.set_sensitivity(f"{pair[0].side}Tile{pair[0].position}", True)
+            if key.position <= 4 or 13 <= key.position <= 14:
+                self.set_sensitivity(f"{key.side}Tile{key.position}", True)
 
             # if in common board
-            elif 5 <= pair[0].position <= 12:
-                self.set_sensitivity(f"CTile{pair[0].position}", True)
+            elif 5 <= key.position <= 12:
+                self.set_sensitivity(f"CTile{key.position}", True)
 
-
+            # TODO: make movableTileMap have actual tiles, not their vars
             # create map of movable tiles and the potential new tiles
-            if pair[1] <= 4 or 13 <= pair[1] <= 14:
-                self.movableTileMap[f"{pair[0].side}Tile{pair[0].position}"] = f"{pair[0].owner.side}Tile{pair[1]}"
-            elif 5 <= pair[1] <= 12:
-                self.movableTileMap[f"{pair[0].side}Tile{pair[0].position}"] = f"CTile{pair[1]}"
-            elif pair[1] == 15:
-                self.movableTileMap[f"{pair[0].side}Tile{pair[0].position}"] = f"{pair[0].owner.side}Tile15"
+            if value <= 4 or 13 <= value <= 14:
+                self.movableTileMap[f"{key.side}Tile{key.position}"] = f"{key.owner.side}Tile{value}"
+            elif 5 <= value <= 12:
+                self.movableTileMap[f"{key.side}Tile{key.position}"] = f"CTile{value}"
+            elif value == 15:
+                self.movableTileMap[f"{key.side}Tile{key.position}"] = f"{key.owner.side}Tile15"
+
+
+
+        for piece, tile in zip(self.movablePieces, self.movableTiles):
+            pieceSide = piece.owner.side
+            if pieceSide == "L":
+                counterImage = Gtk.Image.new_from_file("./Documents/Github Repos/ur/data/icons/hicolor/symbolic/white_counter.svg")
+            elif pieceSide == "R":
+                counterImage = Gtk.Image.new_from_file("./Documents/Github Repos/ur/data/icons/hicolor/symbolic/black_counter.svg")
+            tile.currentImage = counterImage
+            # tile.button.set_child(tile.currentImage)
+
+
+
 
 
     def show_potential(self):
@@ -175,6 +191,7 @@ class UrWindow(Adw.ApplicationWindow):
 
     def hide_potential(self):
         self.set_sensitivity(self.movableTileMap[self.activeTile.var], False)
+        # self.activeTile.button.set_icon_name('')
 
 
     def dice_click(self, clickedButton):
@@ -188,16 +205,34 @@ class UrWindow(Adw.ApplicationWindow):
 
 
     def reset_icon(self, tile):
-        if tile.currentIcon != None:
+        if tile.currentIcon:
             tile.button.set_icon_name(tile.currentIcon)
         else:
             tile.button.set_icon_name(tile.defaultIcon)
 
-    # def send_move(self, tile):
-    #     self.moveTo = tile.var[5:]
-        # return tile.var[5:]
+    def update_icons(self, previous, current):
+        print(f"{previous.var} --> {current.var}")
+        # for tile in self.movableTiles:
+        #     if tile.var == a or tile.var == b:
+        #         print(tile)
+
+        for tile in self.movableTiles:
+            print(tile.currentImage)
+
+        if previous.var[-1] != "0":
+            previous.button.set_child(None)
+
+        current.button.set_child(previous.currentImage)
+
+
+
+
+
 
     def tile_click(self, clickedButton, clickedTile):
+        if self.activeTile:
+            self.previousTile = self.activeTile
+
         self.activeTile = clickedTile
 
         # for clicking a movable tile
@@ -209,9 +244,13 @@ class UrWindow(Adw.ApplicationWindow):
 
         # for clicking a tile to move to
         elif self.activeTile.var in self.movableTileMap.values():
-            # print(f"{list(self.movableTileMap.keys())[list(self.movableTileMap.values()).index(self.activeTile.var)]} --> {self.activeTile.var}")
+            # print(self.movableTileMap)
+            # self.update_icons(list(self.movableTileMap.keys())[list(self.movableTileMap.values()).index(self.activeTile.var)], self.activeTile.var)
+
+
 
             self.game.make_move(int(self.activeTile.var[5:]))
+            self.update_icons(self.previousTile, self.activeTile)
             self.clean_board()
 
 

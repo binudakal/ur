@@ -12,8 +12,8 @@ boardRosettes = [4, 8, 14]
 
 class Board(ABC):
     def is_occupied(self, position):
-        # Return the (occupied status, occupying piece)
-        return (self.positions[position] is not None, self.positions[position])
+        # Return the occupying piece
+        return self.positions[position]
 
     def add_piece(self, piece, position):
         self.positions[position] = piece
@@ -49,7 +49,7 @@ class commonBoard(Board):
 
     def move_piece(self, piece, position):
         # If the other player's piece is already there,
-        if self.is_occupied(position)[0]:
+        if self.is_occupied(position):
             # Return it to their pile (position = 0)
             print(f"{self.positions[position].owner.side}{self.positions[position].ID} was returned to {self.positions[position].owner.name}'s pile.")
             self.return_piece(self.positions[position])
@@ -178,15 +178,15 @@ class Game:
 
             # Check if spaces are occupied
             if newPosition <= 4 or 13 <= newPosition <= 14:
-                if not player.halfBoard.is_occupied(newPosition)[0]:
+                if not player.halfBoard.is_occupied(newPosition):
                     self.movablePieces[piece] = newPosition
 
             # With current player's pieces
             elif 5 <= newPosition <= 12:
                 occupiedStatus = self.boardCommon.is_occupied(newPosition)
-                if occupiedStatus[0]:
+                if occupiedStatus:
                     # Check that the piece to replace is not one of the current player's, and that it is not on a rosette
-                    if (occupiedStatus[1].owner != piece.owner) and (occupiedStatus[1].position not in boardRosettes):
+                    if (occupiedStatus.owner != piece.owner) and (occupiedStatus.position not in boardRosettes):
                         self.movablePieces[piece] = newPosition
                 else:
                     self.movablePieces[piece] = newPosition
