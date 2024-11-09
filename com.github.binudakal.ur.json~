@@ -1,7 +1,7 @@
 {
     "id" : "com.github.binudakal.ur",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "master",
+    "runtime-version" : ["46", "47"],
     "sdk" : "org.gnome.Sdk",
     "command" : "ur",
     "finish-args" : [
@@ -32,13 +32,7 @@
                     "type" : "git",
                     "url" : "file:///home/binudakal/Documents/Github Repos"
                 }
-            ],
-            "config-opts" : [
-                "--libdir=lib"
             ]
         }
-    ],
-    "build-options" : {
-        "env" : {        }
-    }
+    ]
 }

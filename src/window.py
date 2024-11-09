@@ -210,8 +210,8 @@ class UrWindow(Adw.ApplicationWindow):
         else:
             tile.button.set_icon_name(tile.defaultIcon)
 
-    def update_icons(self, previous, current):
-        print(f"{previous.var} --> {current.var}")
+    def update_icons(self):
+        print(f"{self.previousTile.var} --> {self.activeTile.var}")
         # for tile in self.movableTiles:
         #     if tile.var == a or tile.var == b:
         #         print(tile)
@@ -219,10 +219,10 @@ class UrWindow(Adw.ApplicationWindow):
         for tile in self.movableTiles:
             print(tile.currentImage)
 
-        if previous.var[-1] != "0":
-            previous.button.set_child(None)
+        if self.previousTile.var[-1] != "0":
+            self.previousTile.button.set_child(None)
 
-        current.button.set_child(previous.currentImage)
+        self.activeTile.button.set_child(self.previousTile.currentImage)
 
 
 
@@ -250,7 +250,7 @@ class UrWindow(Adw.ApplicationWindow):
 
 
             self.game.make_move(int(self.activeTile.var[5:]))
-            self.update_icons(self.previousTile, self.activeTile)
+            self.update_icons()
             self.clean_board()
 
 

@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=gnome-ur
-Exec=gnome-ur
+Name=ur
+Exec=ur
 Icon=com.github.binudakal.ur
 Terminal=false
 Type=Application

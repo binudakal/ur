@@ -24,8 +24,7 @@ class Board(ABC):
         piece.position = 0
 
     def remove_piece(self, piece):
-        piece.position = None
-        # piece.position = None  # to prevent double rosette bug
+        piece.position = None  # to prevent double rosette bug
         self.positions[piece.position] = None
         piece.owner.pieces.remove(piece)
 
@@ -155,7 +154,6 @@ class Game:
 
         print(f"{player.name} rolled a {diceroll}.")
         self.win.update_text(player.name, diceroll)
-        # time.sleep(pauseTime / 2)
 
         # If a player rolls 0, skip their turn
         if diceroll == 0:

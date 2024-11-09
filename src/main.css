@@ -2,6 +2,18 @@
   padding : 8px;
   /* border-radius: 10px; */
   -gtk-icon-size: 50px;
+  width: 8px;
+  height: 8px;
+  background-color: #ddd1a1;
+}
+
+.grid-board {
+    background-color: #C4AC78;
+    border-radius: 8px;
+    padding: 20px;
+    margin-left: 40px;
+    margin-bottom: 30px;
+    border: 12px solid #7b6533;
 }
 
 .invisible{
