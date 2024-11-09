@@ -174,9 +174,9 @@ class UrWindow(Adw.ApplicationWindow):
         for piece, tile in zip(self.movablePieces, self.movableTiles):
             pieceSide = piece.owner.side
             if pieceSide == "L":
-                counterImage = Gtk.Image.new_from_file("./Documents/Github Repos/ur/data/icons/hicolor/symbolic/white_counter.svg")
+                counterImage = Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/apps/white_counter.svg")
             elif pieceSide == "R":
-                counterImage = Gtk.Image.new_from_file("./Documents/Github Repos/ur/data/icons/hicolor/symbolic/black_counter.svg")
+                counterImage = Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/apps/black_counter.svg")
             tile.currentImage = counterImage
             # tile.button.set_child(tile.currentImage)
 

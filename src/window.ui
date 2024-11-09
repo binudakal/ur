@@ -63,7 +63,7 @@
                         </layout>
                         <child>
                           <object class="GtkImage">
-                            <property name="file">./Documents/Github Repos/ur/data/icons/hicolor/symbolic/white_counter.svg</property>
+                            <property name="file">/app/share/icons/hicolor/symbolic/apps/white_counter.svg</property>
                           </object>
                         </child>
                       </object>
@@ -121,7 +121,7 @@
                         </layout>
                         <child>
                           <object class="GtkImage">
-                            <property name="file">./Documents/Github Repos/ur/data/icons/hicolor/symbolic/black_counter.svg</property>
+                            <property name="file">/app/share/icons/hicolor/symbolic/apps/black_counter.svg</property>
                           </object>
                         </child>
                       </object>

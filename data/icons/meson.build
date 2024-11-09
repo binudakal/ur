@@ -11,3 +11,16 @@ install_data(
   symbolic_dir / ('@0@-symbolic.svg').format(application_id),
   install_dir: get_option('datadir') / 'icons' / symbolic_dir
 )
+
+# Install counter SVGs in symbolic directory
+counter_dir = 'hicolor' / 'symbolic'
+
+install_data(
+  counter_dir / 'white_counter.svg',
+  install_dir: get_option('datadir') / 'icons' / symbolic_dir
+)
+
+install_data(
+  counter_dir / 'black_counter.svg',
+  install_dir: get_option('datadir') / 'icons' / symbolic_dir
+)
