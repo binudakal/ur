@@ -12,18 +12,29 @@ boardRosettes = [4, 8, 14]
 
 class Board(ABC):
     def is_occupied(self, position):
-        # Return the occupying piece
+        """"
+        Return the occupying piece if occupied, None otherwise
+        """
         return self.positions[position]
 
     def add_piece(self, piece, position):
+        """
+        Add a piece to the board
+        """
         self.positions[position] = piece
         piece.position = position
 
     def return_piece(self, piece):
+        """
+        Remove a piece from the board, moving it back to the pile
+        """
         self.positions[piece.position] = None
         piece.position = 0
 
     def remove_piece(self, piece):
+        """
+        Completely destroy a piece, after having reached the end
+        """
         piece.position = None  # to prevent double rosette bug
         self.positions[piece.position] = None
         piece.owner.pieces.remove(piece)
@@ -39,19 +50,24 @@ class halfBoard(Board):
 
     def move_piece(self, piece, position):
         # Update the position dictionaries
-        self.return_piece(piece)  # remove current piece from its old spot
+        self.return_piece(piece)  # remove piece from its current/old spot
         self.add_piece(piece, position)  # add it to its new spot
+
 
 class commonBoard(Board):
     def __init__(self):
         self.positions = {i: None for i in range(5, 13)}
 
-    def move_piece(self, piece, position):
+    def replace_piece(self, position):
         # If the other player's piece is already there,
-        if self.is_occupied(position):
+        occupyingPiece = self.is_occupied(position)
+        if occupyingPiece:
             # Return it to their pile (position = 0)
-            print(f"{self.positions[position].owner.side}{self.positions[position].ID} was returned to {self.positions[position].owner.name}'s pile.")
-            self.return_piece(self.positions[position])
+            self.return_piece(occupyingPiece)
+            print(f"{occupyingPiece.owner.side}{occupyingPiece.ID} was returned to {occupyingPiece.owner.name}'s pile.")
+
+    def move_piece(self, piece, position):
+        self.replace_piece(position)
 
         # Move the piece to the new spot (after removing old piece above if applicable)
         self.return_piece(piece)
@@ -62,21 +78,17 @@ class Piece:
         self.owner = player
         self.position = 0
         self.ID = pieceNumber
-        self.onCommon = False
         self.side = self.owner.side
 
-        # check if piece moved to commonboard after each move
-        # if self.position <= 4 or 13 <= self.position <= 14:
-        #     self.side = self.owner.side
-        # elif 5 <= newPosition <= 12:
-        #     self.side = "C"
+    def __str__(self):
+        return f"Player {self.owner.name}'s piece {self.side}{self.ID} at position {self.position}"
 
 class Player:
     def __init__(self, name, side):
         self.name = name
         self.side = side
         self.pieces = [Piece(self, _ + 1) for _ in range(5)]
-        self.halfBoard = halfBoard()
+        self.boardHalf = halfBoard()
 
 class Game:
     __gtype_name__ = 'UrGame'
@@ -91,7 +103,6 @@ class Game:
         self.currentPlayer = self.players[0]
         self.movablePieces = {}
 
-        self.initialAction = 0
 
     def roll_dice(self):
         return sum(random.randint(0, 1) for _ in range(4))
@@ -110,8 +121,8 @@ class Game:
         print(f"\n{player1Pile[:-2]}\n{player2Pile[:-2]}")
         self.win.pileText.set_text(f"\n{player1Pile[:-2]}\n{player2Pile[:-2]}")
 
-        leftBoard = self.players[0].halfBoard.positions
-        rightBoard = self.players[1].halfBoard.positions
+        leftBoard = self.players[0].boardHalf.positions
+        rightBoard = self.players[1].boardHalf.positions
         middleBoard = self.boardCommon.positions
 
         totalBoard = "\n"
@@ -140,7 +151,9 @@ class Game:
 
         print(totalBoard)
         print("-----------------------------------")
-        time.sleep(pauseTime)
+
+        # self.win.boardText.set_text(totalBoard)
+
 
     def calculate_movable(self, player, diceroll):
 
@@ -153,7 +166,6 @@ class Game:
         self.win.clean_board()
 
         print(f"{player.name} rolled a {diceroll}.")
-        self.win.update_text(player.name, diceroll)
 
         # If a player rolls 0, skip their turn
         if diceroll == 0:
@@ -176,7 +188,7 @@ class Game:
 
             # Check if spaces are occupied
             if newPosition <= 4 or 13 <= newPosition <= 14:
-                if not player.halfBoard.is_occupied(newPosition):
+                if not player.boardHalf.is_occupied(newPosition):
                     self.movablePieces[piece] = newPosition
 
             # With current player's pieces
@@ -216,20 +228,23 @@ class Game:
 
         player = list(x.owner for x in self.movablePieces.keys())[list(self.movablePieces.values()).index(newPosition)]
 
-        selectedPiece = list(self.movablePieces.keys())[list(self.movablePieces.values()).index(newPosition)]
+        selectedPiece = list(self.movablePieces)[list(self.movablePieces.values()).index(newPosition)]
 
         # halfBoard ->
-        if selectedPiece.position in player.halfBoard.positions:
+        if selectedPiece.position in player.boardHalf.positions:
             # halfBoard
-            if newPosition in player.halfBoard.positions:
-                player.halfBoard.move_piece(selectedPiece, newPosition)
+            if newPosition in player.boardHalf.positions:
+                player.boardHalf.move_piece(selectedPiece, newPosition)
             # commonBoard
             elif newPosition in self.boardCommon.positions:
-                player.halfBoard.return_piece(selectedPiece)
+                self.boardCommon.replace_piece(newPosition)
+
+                player.boardHalf.return_piece(selectedPiece)
                 self.boardCommon.add_piece(selectedPiece, newPosition)
+
             # off the board
             else:
-                player.halfBoard.remove_piece(selectedPiece)
+                player.boardHalf.remove_piece(selectedPiece)
 
         # commonBoard ->
         elif selectedPiece.position in self.boardCommon.positions:
@@ -237,9 +252,9 @@ class Game:
             if newPosition in self.boardCommon.positions:
                 self.boardCommon.move_piece(selectedPiece, newPosition)
             # halfBoard
-            elif newPosition in player.halfBoard.positions:
+            elif newPosition in player.boardHalf.positions:
                 self.boardCommon.return_piece(selectedPiece)
-                player.halfBoard.add_piece(selectedPiece, newPosition)
+                player.boardHalf.add_piece(selectedPiece, newPosition)
             # off the board
             else:
                 self.boardCommon.remove_piece(selectedPiece)
@@ -247,7 +262,7 @@ class Game:
         # off the board ->
         else:
             # halfBoard
-            player.halfBoard.move_piece(selectedPiece, newPosition)
+            player.boardHalf.move_piece(selectedPiece, newPosition)
 
         # Display the game board after moving a piece
         self.print_board()
@@ -258,20 +273,34 @@ class Game:
         # TODO: fix rosettes
         if selectedPiece.position in boardRosettes:
             print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
-            self.calculate_movable(player, self.roll_dice())
+            self.play_turn(self.roll_dice(), True)
+            # self.calculate_movable(player, self.roll_dice())
 
         # -----------------------------------------------
-
 
 
     def check_winner(self, player):
         return not player.pieces
 
-    def play_game(self, diceroll):
+    def get_other_player(self):
+        for player in self.players:
+            if player is not self.currentPlayer:
+                return player
+
+
+    def play_turn(self, diceroll, rosette):
         # Display the empty board at the start of gameplay
         self.print_board()
 
+        otherPlayer = self.get_other_player()
+
         # move the current player
+        if not rosette:
+            self.win.update_text(self.currentPlayer.name, diceroll)
+        else:
+            self.win.titleText.set_text(f"{otherPlayer.name} landed on a rosette!")
+            self.win.update_text(otherPlayer.name, diceroll)
+
         self.calculate_movable(self.currentPlayer, diceroll)
 
         if self.check_winner(self.currentPlayer):
@@ -282,10 +311,7 @@ class Game:
             return
 
         # set currentPlayer/next player
-        for player in self.players:
-            if player is not self.currentPlayer:
-                self.currentPlayer = player
-                break
+        self.currentPlayer = otherPlayer
 
 
 

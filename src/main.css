@@ -7,6 +7,17 @@
   background-color: #ddd1a1;
 }
 
+.dice {
+  font-size: 42px;
+  padding : 8px;
+  width: 10px;
+  background-color: #38383c;
+}
+
+.dice:hover {
+  background-color: #434347;
+}
+
 .grid-board {
     background-color: #C4AC78;
     border-radius: 8px;

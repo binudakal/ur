@@ -337,7 +337,7 @@
                       <object class="GtkLabel" id="titleText">
                         <property name="wrap" translatable="no">true</property>
                         <property name="width-chars">25</property>
-                        <property name="label"></property>
+                        <property name="label">Roll the dice!</property>
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
@@ -367,9 +367,9 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="diceButton">
-                                <property name="label">Roll 🎲</property>
+                                <property name="label">🎲</property>
                                 <style>
-                                  <class name="suggested-action"></class>
+                                  <class name="dice"></class>
                                 </style>
                                 <layout>
                                   <property name="row">0</property>
@@ -409,6 +409,20 @@
                         <property name="label"></property>
                         <layout>
                           <property name="row">4</property>
+                          <property name="column">0</property>
+                        </layout>
+                        <style>
+                            <class name="subtitle"></class>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="boardText">
+                        <property name="wrap" translatable="no">true</property>
+                        <property name="width-chars">25</property>
+                        <property name="label"></property>
+                        <layout>
+                          <property name="row">5</property>
                           <property name="column">0</property>
                         </layout>
                         <style>

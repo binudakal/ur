@@ -77,13 +77,15 @@ class UrWindow(Adw.ApplicationWindow):
     diceButton = Gtk.Template.Child()
     titleText = Gtk.Template.Child()
     pileText = Gtk.Template.Child()
+    boardText = Gtk.Template.Child()
+
+    # TODO: Dynamically store tile widgets
+    # ....
 
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.set_title("Ur")
-
-
         self.app = self.get_application()
         self.button_manager = ButtonManager(self)
 
@@ -92,6 +94,7 @@ class UrWindow(Adw.ApplicationWindow):
 
         self.movableTileMap = {}
         self.movableTiles = None
+
 
         # Load CSS
         css_provider = Gtk.CssProvider()
@@ -102,24 +105,25 @@ class UrWindow(Adw.ApplicationWindow):
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
+        # Create tiles
         self.allTiles = []
-
         for attr in dir(UrWindow):
             if "Tile" in attr:
                 position = int(attr[1:].replace("Tile", ""))
                 icon = "starred-symbolic" if position in [4, 8, 14] else ""
                 self.allTiles.append(gameTile(getattr(self, attr), attr, False, icon))
 
+        # Set CSS for tiles
         for tile in filter(lambda x: "Tile0" not in x.var and "Tile15" not in x.var, self.allTiles):
             tile.button.set_icon_name(tile.defaultIcon)
             tile.button.set_css_classes(['tile'])
 
+        # Connect button handlers
         for tile in self.allTiles:
             tile.button.connect("clicked", self.tile_click, tile)
-
         self.diceButton.connect("clicked", self.dice_click)
 
-
+        # Create a game instance
         self.game = Game(self.app, self)
 
 
@@ -170,7 +174,7 @@ class UrWindow(Adw.ApplicationWindow):
                 self.movableTileMap[f"{key.side}Tile{key.position}"] = f"{key.owner.side}Tile15"
 
 
-
+        # Set the movable tile's image to either black or white tile depending on the side of the owner of the piece on it
         for piece, tile in zip(self.movablePieces, self.movableTiles):
             pieceSide = piece.owner.side
             if pieceSide == "L":
@@ -178,10 +182,6 @@ class UrWindow(Adw.ApplicationWindow):
             elif pieceSide == "R":
                 counterImage = Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/apps/black_counter.svg")
             tile.currentImage = counterImage
-            # tile.button.set_child(tile.currentImage)
-
-
-
 
 
     def show_potential(self):
@@ -191,11 +191,10 @@ class UrWindow(Adw.ApplicationWindow):
 
     def hide_potential(self):
         self.set_sensitivity(self.movableTileMap[self.activeTile.var], False)
-        # self.activeTile.button.set_icon_name('')
 
 
     def dice_click(self, clickedButton):
-        self.game.play_game(self.game.roll_dice())
+        self.game.play_turn(self.game.roll_dice(), False)
 
 
     def clean_board(self):
@@ -212,12 +211,6 @@ class UrWindow(Adw.ApplicationWindow):
 
     def update_icons(self):
         print(f"{self.previousTile.var} --> {self.activeTile.var}")
-        # for tile in self.movableTiles:
-        #     if tile.var == a or tile.var == b:
-        #         print(tile)
-
-        for tile in self.movableTiles:
-            print(tile.currentImage)
 
         if self.previousTile.var[-1] != "0":
             self.previousTile.button.set_child(None)
