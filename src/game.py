@@ -31,12 +31,12 @@ class Board(ABC):
         self.positions[piece.position] = None
         piece.position = 0
 
-    def remove_piece(self, piece):
+    def destroy_piece(self, piece):
         """
-        Completely destroy a piece, after having reached the end
+        Completely remove a piece, after having reached the end
         """
-        piece.position = None  # to prevent double rosette bug
         self.positions[piece.position] = None
+        piece.position = None  # to prevent double rosette bug
         piece.owner.pieces.remove(piece)
 
     @abstractmethod
@@ -244,7 +244,7 @@ class Game:
 
             # off the board
             else:
-                player.boardHalf.remove_piece(selectedPiece)
+                player.boardHalf.destroy_piece(selectedPiece)
 
         # commonBoard ->
         elif selectedPiece.position in self.boardCommon.positions:
@@ -257,7 +257,8 @@ class Game:
                 player.boardHalf.add_piece(selectedPiece, newPosition)
             # off the board
             else:
-                self.boardCommon.remove_piece(selectedPiece)
+                # if newPosition in player.boardHalf.positions:
+                self.boardCommon.destroy_piece(selectedPiece)
 
         # off the board ->
         else:
@@ -294,15 +295,15 @@ class Game:
 
         otherPlayer = self.get_other_player()
 
-        # move the current player
         if not rosette:
             self.win.update_text(self.currentPlayer.name, diceroll)
         else:
-            self.win.titleText.set_text(f"{otherPlayer.name} landed on a rosette!")
             self.win.update_text(otherPlayer.name, diceroll)
 
+        # Move the current player
         self.calculate_movable(self.currentPlayer, diceroll)
 
+        # Check for a winner
         if self.check_winner(self.currentPlayer):
             print(f"{self.currentPlayer.name} has exhausted all of their pieces and won the game!\n")
             self.win.diceButton.set_sensitive(False)
@@ -310,7 +311,7 @@ class Game:
             self.win.titleText.set_text(f"{self.currentPlayer.name} wins!")
             return
 
-        # set currentPlayer/next player
+        # Set the other player as the new currentPlayer (next player)
         self.currentPlayer = otherPlayer
 
 

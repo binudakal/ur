@@ -1,4 +1,5 @@
 .tile {
+  font-size: 42px;
   padding : 8px;
   /* border-radius: 10px; */
   -gtk-icon-size: 50px;
@@ -7,10 +8,13 @@
   background-color: #ddd1a1;
 }
 
+.tile:hover{
+  background-color: #cabf94;
+}
+
 .dice {
   font-size: 42px;
   padding : 8px;
-  width: 10px;
   background-color: #38383c;
 }
 
@@ -18,15 +22,35 @@
   background-color: #434347;
 }
 
-.grid-board {
+.board-grid {
     background-color: #C4AC78;
     border-radius: 8px;
-    padding: 20px;
+    padding: 20px 15px 20px 15px;
     margin-left: 40px;
     margin-bottom: 30px;
     border: 12px solid #7b6533;
 }
 
-.invisible{
+.info-grid {
+  margin-top: 200px;
+}
+
+.pile-top{
+  padding : 8px;
+  -gtk-icon-size: 50px;
   background-color: rgba(0,0,0,0);
+}
+
+.pile-top:hover{
+  background-color: #d0b484;
+}
+
+.board-dice{
+  font-size: 42px;
+  padding : 8px;
+  -gtk-icon-size: 50px;
+  background-color: rgba(0,0,0,0);
+}
+.board-dice:hover{
+  background-color: #cabf94;
 }

@@ -21,13 +21,12 @@ from gi.repository import Gtk, Gdk, Adw, Gio
 from .game import *
 
 class gameTile():
-    def __init__(self, button, var, sensitivity, icon):
+    def __init__(self, button, var, num, sensitivity, icon):
         self.button = button
         self.var = var
-        self.sensitive = sensitivity
+        self.num = num
         self.defaultIcon = icon
         self.currentIcon = None
-        self.toggled = False
         self.currentImage = None
 
 
@@ -73,8 +72,11 @@ class UrWindow(Adw.ApplicationWindow):
     RTile14 = Gtk.Template.Child()
     RTile15 = Gtk.Template.Child()
 
-    diceText = Gtk.Template.Child()
     diceButton = Gtk.Template.Child()
+    whiteDice = Gtk.Template.Child()
+    blackDice = Gtk.Template.Child()
+
+    diceText = Gtk.Template.Child()
     titleText = Gtk.Template.Child()
     pileText = Gtk.Template.Child()
     boardText = Gtk.Template.Child()
@@ -111,7 +113,7 @@ class UrWindow(Adw.ApplicationWindow):
             if "Tile" in attr:
                 position = int(attr[1:].replace("Tile", ""))
                 icon = "starred-symbolic" if position in [4, 8, 14] else ""
-                self.allTiles.append(gameTile(getattr(self, attr), attr, False, icon))
+                self.allTiles.append(gameTile(getattr(self, attr), attr, int(position), False, icon))
 
         # Set CSS for tiles
         for tile in filter(lambda x: "Tile0" not in x.var and "Tile15" not in x.var, self.allTiles):
@@ -122,6 +124,9 @@ class UrWindow(Adw.ApplicationWindow):
         for tile in self.allTiles:
             tile.button.connect("clicked", self.tile_click, tile)
         self.diceButton.connect("clicked", self.dice_click)
+
+        self.whiteDice.connect("clicked", self.dice_click)
+        self.blackDice.connect("clicked", self.dice_click)
 
         # Create a game instance
         self.game = Game(self.app, self)
@@ -134,7 +139,7 @@ class UrWindow(Adw.ApplicationWindow):
 
     def update_text(self, playerName, diceroll):
         self.titleText.set_text(f"{playerName}'s turn")
-        self.diceText.set_text(f"{playerName} rolled a {diceroll}.")
+
         # self.pileText.set_text(f"Player 1's pile:  L1, L2, L3, L4, L5\nPlayer 2's pile:  R1, R2, R3, R4, R5")
 
 
@@ -195,6 +200,7 @@ class UrWindow(Adw.ApplicationWindow):
 
     def dice_click(self, clickedButton):
         self.game.play_turn(self.game.roll_dice(), False)
+        # clickedButton.set_sensitive(False)
 
 
     def clean_board(self):
@@ -212,14 +218,11 @@ class UrWindow(Adw.ApplicationWindow):
     def update_icons(self):
         print(f"{self.previousTile.var} --> {self.activeTile.var}")
 
-        if self.previousTile.var[-1] != "0":
+        if self.previousTile.num != 0:
             self.previousTile.button.set_child(None)
+            self.previousTile.button.set_icon_name(self.previousTile.defaultIcon)
 
         self.activeTile.button.set_child(self.previousTile.currentImage)
-
-
-
-
 
 
     def tile_click(self, clickedButton, clickedTile):
@@ -237,12 +240,8 @@ class UrWindow(Adw.ApplicationWindow):
 
         # for clicking a tile to move to
         elif self.activeTile.var in self.movableTileMap.values():
-            # print(self.movableTileMap)
-            # self.update_icons(list(self.movableTileMap.keys())[list(self.movableTileMap.values()).index(self.activeTile.var)], self.activeTile.var)
 
-
-
-            self.game.make_move(int(self.activeTile.var[5:]))
+            self.game.make_move(self.activeTile.num)
             self.update_icons()
             self.clean_board()
 
