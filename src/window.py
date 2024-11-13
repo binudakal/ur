@@ -29,6 +29,23 @@ class gameTile():
         self.currentIcon = None
         self.currentImage = None
 
+class gameDice():
+    def __init__(self, button, label):
+        self.button = button
+        self.label = label
+        self.image = ""
+
+    def update_dice(self, diceroll):
+        self.label.set_text(str(diceroll))
+
+    def dice_click(self, button, game):
+        game.get_other_player().dice.label.set_text("")
+        game.currentPlayer.dice.button.set_sensitive(False)
+
+        game.play_turn(game.roll_dice())
+
+
+
 
 class ButtonManager:
     def __init__(self, win):
@@ -72,14 +89,17 @@ class UrWindow(Adw.ApplicationWindow):
     RTile14 = Gtk.Template.Child()
     RTile15 = Gtk.Template.Child()
 
-    diceButton = Gtk.Template.Child()
-    whiteDice = Gtk.Template.Child()
-    blackDice = Gtk.Template.Child()
 
-    diceText = Gtk.Template.Child()
-    titleText = Gtk.Template.Child()
-    pileText = Gtk.Template.Child()
-    boardText = Gtk.Template.Child()
+    whiteButton = Gtk.Template.Child()
+    whiteLabel = Gtk.Template.Child()
+    blackButton = Gtk.Template.Child()
+    blackLabel = Gtk.Template.Child()
+
+    # diceButton = Gtk.Template.Child()
+    # diceText = Gtk.Template.Child()
+    # titleText = Gtk.Template.Child()
+    # pileText = Gtk.Template.Child()
+    # boardText = Gtk.Template.Child()
 
     # TODO: Dynamically store tile widgets
     # ....
@@ -91,12 +111,12 @@ class UrWindow(Adw.ApplicationWindow):
         self.app = self.get_application()
         self.button_manager = ButtonManager(self)
 
+        self.dice = [gameDice(self.whiteButton, self.whiteLabel), gameDice(self.blackButton, self.blackLabel)]
         self.activeTile = None
-        self.clickedTiles = []
+        self.activeDice = None
 
         self.movableTileMap = {}
         self.movableTiles = None
-
 
         # Load CSS
         css_provider = Gtk.CssProvider()
@@ -120,16 +140,14 @@ class UrWindow(Adw.ApplicationWindow):
             tile.button.set_icon_name(tile.defaultIcon)
             tile.button.set_css_classes(['tile'])
 
+        # Create a game instance
+        self.game = Game(self.app, self)
+
         # Connect button handlers
         for tile in self.allTiles:
             tile.button.connect("clicked", self.tile_click, tile)
-        self.diceButton.connect("clicked", self.dice_click)
-
-        self.whiteDice.connect("clicked", self.dice_click)
-        self.blackDice.connect("clicked", self.dice_click)
-
-        # Create a game instance
-        self.game = Game(self.app, self)
+        self.whiteButton.connect("clicked", self.dice[0].dice_click, self.game)
+        self.blackButton.connect("clicked", self.dice[1].dice_click, self.game)
 
 
     def set_sensitivity(self, button_id, sensitivity):
@@ -137,10 +155,10 @@ class UrWindow(Adw.ApplicationWindow):
         button.set_sensitive(sensitivity)
 
 
-    def update_text(self, playerName, diceroll):
-        self.titleText.set_text(f"{playerName}'s turn")
-
-        # self.pileText.set_text(f"Player 1's pile:  L1, L2, L3, L4, L5\nPlayer 2's pile:  R1, R2, R3, R4, R5")
+    # def update_dice(self, player, diceroll):
+        # self.titleText.set_text(f"{player.name}'s turn")
+        # self.diceText.set_text(f"{player.name} rolled a {diceroll}")
+    #     player.dice.label.set_text(str(diceroll))
 
 
     def load_movable(self, movablePieces):
@@ -163,6 +181,7 @@ class UrWindow(Adw.ApplicationWindow):
 
             # if the movable piece is on one half of the board
             if key.position <= 4 or 13 <= key.position <= 14:
+
                 self.set_sensitivity(f"{key.side}Tile{key.position}", True)
 
             # if in common board
@@ -196,11 +215,6 @@ class UrWindow(Adw.ApplicationWindow):
 
     def hide_potential(self):
         self.set_sensitivity(self.movableTileMap[self.activeTile.var], False)
-
-
-    def dice_click(self, clickedButton):
-        self.game.play_turn(self.game.roll_dice(), False)
-        # clickedButton.set_sensitive(False)
 
 
     def clean_board(self):
@@ -240,10 +254,12 @@ class UrWindow(Adw.ApplicationWindow):
 
         # for clicking a tile to move to
         elif self.activeTile.var in self.movableTileMap.values():
-
+            self.game.currentPlayer.dice.button.set_sensitive(True)
+            self.clean_board()
             self.game.make_move(self.activeTile.num)
             self.update_icons()
-            self.clean_board()
+
+
 
 
 

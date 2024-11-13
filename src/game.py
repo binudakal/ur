@@ -84,20 +84,21 @@ class Piece:
         return f"Player {self.owner.name}'s piece {self.side}{self.ID} at position {self.position}"
 
 class Player:
-    def __init__(self, name, side):
+    def __init__(self, name, side, dice):
         self.name = name
         self.side = side
         self.pieces = [Piece(self, _ + 1) for _ in range(5)]
         self.boardHalf = halfBoard()
+        self.dice = dice
 
 class Game:
     __gtype_name__ = 'UrGame'
 
     def __init__(self, app, win):
-        self.boardCommon = commonBoard()
-        self.players = [Player("Player 1", "L"), Player("Player 2", "R")]
         self.app = app
         self.win = win
+        self.boardCommon = commonBoard()
+        self.players = [Player("Player 1", "L", self.win.dice[0]), Player("Player 2", "R", self.win.dice[1])]
         self.button_manager = win.button_manager
 
         self.currentPlayer = self.players[0]
@@ -119,7 +120,7 @@ class Game:
             player2Pile += f"{self.players[1].side}{piece2.ID}, "
 
         print(f"\n{player1Pile[:-2]}\n{player2Pile[:-2]}")
-        self.win.pileText.set_text(f"\n{player1Pile[:-2]}\n{player2Pile[:-2]}")
+        # self.win.pileText.set_text(f"\n{player1Pile[:-2]}\n{player2Pile[:-2]}")
 
         leftBoard = self.players[0].boardHalf.positions
         rightBoard = self.players[1].boardHalf.positions
@@ -163,7 +164,7 @@ class Game:
             else:
                 piece.side = piece.owner.side
 
-        self.win.clean_board()
+        # self.win.clean_board()
 
         print(f"{player.name} rolled a {diceroll}.")
 
@@ -211,7 +212,6 @@ class Game:
         # Handle scenario with no possible moves
         if not self.movablePieces:
             print(f"{player.name} has no possible moves.\n")
-            self.win.diceText.set_text(f"{player.name} has no possible moves.")
             return
 
         # Display the piece movement options
@@ -223,8 +223,6 @@ class Game:
 
 
     def make_move(self, newPosition):
-
-        # print(list(self.movablePieces.values()), "---", newPosition)
 
         player = list(x.owner for x in self.movablePieces.keys())[list(self.movablePieces.values()).index(newPosition)]
 
@@ -274,8 +272,8 @@ class Game:
         # TODO: fix rosettes
         if selectedPiece.position in boardRosettes:
             print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
-            self.play_turn(self.roll_dice(), True)
-            # self.calculate_movable(player, self.roll_dice())
+            # Skip the other player
+            self.currentPlayer = self.get_other_player()
 
         # -----------------------------------------------
 
@@ -289,16 +287,13 @@ class Game:
                 return player
 
 
-    def play_turn(self, diceroll, rosette):
+    def play_turn(self, diceroll):
         # Display the empty board at the start of gameplay
         self.print_board()
 
         otherPlayer = self.get_other_player()
 
-        if not rosette:
-            self.win.update_text(self.currentPlayer.name, diceroll)
-        else:
-            self.win.update_text(otherPlayer.name, diceroll)
+        self.currentPlayer.dice.update_dice(diceroll)
 
         # Move the current player
         self.calculate_movable(self.currentPlayer, diceroll)
@@ -306,9 +301,7 @@ class Game:
         # Check for a winner
         if self.check_winner(self.currentPlayer):
             print(f"{self.currentPlayer.name} has exhausted all of their pieces and won the game!\n")
-            self.win.diceButton.set_sensitive(False)
             self.win.clean_board()
-            self.win.titleText.set_text(f"{self.currentPlayer.name} wins!")
             return
 
         # Set the other player as the new currentPlayer (next player)
