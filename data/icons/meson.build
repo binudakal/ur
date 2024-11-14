@@ -24,3 +24,13 @@ install_data(
   counter_dir / 'black_counter.svg',
   install_dir: get_option('datadir') / 'icons' / symbolic_dir
 )
+
+install_data(
+  counter_dir / 'rosette.svg',
+  install_dir: get_option('datadir') / 'icons' / symbolic_dir
+)
+
+install_data(
+  counter_dir / 'dice_icon.svg',
+  install_dir: get_option('datadir') / 'icons' / symbolic_dir
+)

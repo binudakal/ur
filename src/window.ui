@@ -32,7 +32,7 @@
                   <child>
                     <object class="GtkGrid">
                       <style>
-                          <class name="board-edge"></class>
+                          <class name="board-outer"></class>
                       </style>
                        <child>
                            <!-- BOARD TILE GRID -->
@@ -40,7 +40,7 @@
                            <property name="row-spacing">12</property>
                            <property name="column-spacing">12</property>
                         <style>
-                            <class name="board-grid"></class>
+                            <class name="board-inner"></class>
                         </style>
 
                           <!-- LEFT TILES -->

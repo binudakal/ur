@@ -17,17 +17,18 @@
   background-color: #434347;
 }
 
-.board-grid {
-    background-color: #C4AC78;
-    border-radius: 14px;
-    padding: 20px 15px 20px 15px;
-}
-.board-edge {
+.board-outer {
     background-color: #7b6533;
     border: 14px solid #7b6533;
-    border-radius: 18px;
+    border-radius: 26px;
     margin-bottom: 20px;
-  }
+}
+.board-inner {
+    background-color: #C4AC78;
+    border-radius: 13px;
+    padding: 20px 15px 20px 15px;
+}
+
 
 .pile-top{
   padding : 8px;
@@ -58,4 +59,10 @@
 .dice-result {
   color: white;
   background-color: rgba(0,0,0,0);
+}
+
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

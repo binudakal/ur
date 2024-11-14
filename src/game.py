@@ -7,6 +7,7 @@ from abc import ABC, abstractmethod
 pauseTime = 0
 
 boardRosettes = [4, 8, 14]
+offBoard = [0, 15]
 
 # Create the dictionary which will hold movable pieces and where they can move to
 
@@ -78,7 +79,14 @@ class Piece:
         self.owner = player
         self.position = 0
         self.ID = pieceNumber
-        self.side = self.owner.side
+
+    @property
+    def side(self):
+        if 5 <= self.position <= 12:
+            return "C"
+        else:
+            return self.owner.side
+
 
     def __str__(self):
         return f"Player {self.owner.name}'s piece {self.side}{self.ID} at position {self.position}"
@@ -99,7 +107,6 @@ class Game:
         self.win = win
         self.boardCommon = commonBoard()
         self.players = [Player("Player 1", "L", self.win.dice[0]), Player("Player 2", "R", self.win.dice[1])]
-        self.button_manager = win.button_manager
 
         self.currentPlayer = self.players[0]
         self.movablePieces = {}
@@ -157,14 +164,6 @@ class Game:
 
 
     def calculate_movable(self, player, diceroll):
-
-        for piece in player.pieces:
-            if 5 <= piece.position <= 12:
-                piece.side = "C"
-            else:
-                piece.side = piece.owner.side
-
-        # self.win.clean_board()
 
         print(f"{player.name} rolled a {diceroll}.")
 
@@ -301,7 +300,6 @@ class Game:
         # Check for a winner
         if self.check_winner(self.currentPlayer):
             print(f"{self.currentPlayer.name} has exhausted all of their pieces and won the game!\n")
-            self.win.clean_board()
             return
 
         # Set the other player as the new currentPlayer (next player)

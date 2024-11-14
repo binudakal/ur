@@ -21,13 +21,29 @@ from gi.repository import Gtk, Gdk, Adw, Gio
 from .game import *
 
 class gameTile():
-    def __init__(self, button, var, num, sensitivity, icon):
-        self.button = button
+    def __init__(self, button, var, location, sensitivity, image):
         self.var = var
-        self.num = num
-        self.defaultIcon = icon
-        self.currentIcon = None
+        self.location = location
+        self.side = var[:1]
+
+        self.button = button
+        self.defaultImage = image
         self.currentImage = None
+        self.defaultIcon = ""
+
+        self.movable = None
+
+
+    def update_image(self, image):
+        if not image:
+            self.button.set_icon_name(self.defaultIcon)
+        else:
+            self.button.set_child(image)
+
+    def __str__(self):
+        return (f"GameTile(var={self.var}, location={self.location}, "
+                f"side={self.side}, movable={self.movable})")
+
 
 class gameDice():
     def __init__(self, button, label):
@@ -36,28 +52,20 @@ class gameDice():
         self.image = ""
 
     def update_dice(self, diceroll):
+        self.label.set_visible(True)
         self.label.set_text(str(diceroll))
 
-    def dice_click(self, button, game):
-        game.get_other_player().dice.label.set_text("")
-        game.currentPlayer.dice.button.set_sensitive(False)
+    def dice_click(self, button, dice, win):
+        if win.activeDice:
+            win.previousDice = win.activeDice
 
-        game.play_turn(game.roll_dice())
+        win.activeDice = dice
+        win.game.get_other_player().dice.label.set_text("")
+        win.game.get_other_player().dice.label.set_visible(False)
+        win.game.currentPlayer.dice.button.set_sensitive(False)
 
+        win.game.play_turn(win.game.roll_dice())
 
-
-
-class ButtonManager:
-    def __init__(self, win):
-        self.win = win
-
-    def disable_all_buttons(self):
-        for tile in self.win.allTiles:
-            self.win.set_sensitivity(tile.var, False)
-
-    def deactivate_all_buttons(self):
-        for tile in win.allTiles:
-            self.win.set_active(tile.var, False)
 
 
 @Gtk.Template(resource_path='/com/github/binudakal/ur/window.ui')
@@ -89,17 +97,10 @@ class UrWindow(Adw.ApplicationWindow):
     RTile14 = Gtk.Template.Child()
     RTile15 = Gtk.Template.Child()
 
-
     whiteButton = Gtk.Template.Child()
     whiteLabel = Gtk.Template.Child()
     blackButton = Gtk.Template.Child()
     blackLabel = Gtk.Template.Child()
-
-    # diceButton = Gtk.Template.Child()
-    # diceText = Gtk.Template.Child()
-    # titleText = Gtk.Template.Child()
-    # pileText = Gtk.Template.Child()
-    # boardText = Gtk.Template.Child()
 
     # TODO: Dynamically store tile widgets
     # ....
@@ -109,14 +110,13 @@ class UrWindow(Adw.ApplicationWindow):
         super().__init__(**kwargs)
         self.set_title("Ur")
         self.app = self.get_application()
-        self.button_manager = ButtonManager(self)
 
         self.dice = [gameDice(self.whiteButton, self.whiteLabel), gameDice(self.blackButton, self.blackLabel)]
         self.activeTile = None
         self.activeDice = None
 
-        self.movableTileMap = {}
-        self.movableTiles = None
+        # Create a game instance
+        self.game = Game(self.app, self)
 
         # Load CSS
         css_provider = Gtk.CssProvider()
@@ -132,22 +132,23 @@ class UrWindow(Adw.ApplicationWindow):
         for attr in dir(UrWindow):
             if "Tile" in attr:
                 position = int(attr[1:].replace("Tile", ""))
-                icon = "starred-symbolic" if position in [4, 8, 14] else ""
-                self.allTiles.append(gameTile(getattr(self, attr), attr, int(position), False, icon))
+                rosetteImage = Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/apps/rosette.svg")
+                image = rosetteImage if position in [4, 8, 14] else None
+                self.allTiles.append(gameTile(getattr(self, attr), attr, int(position), False, image))
 
         # Set CSS for tiles
-        for tile in filter(lambda x: "Tile0" not in x.var and "Tile15" not in x.var, self.allTiles):
-            tile.button.set_icon_name(tile.defaultIcon)
+        regularTiles = filter(lambda x: x.location not in [0, 15], self.allTiles)
+        for tile in regularTiles:
             tile.button.set_css_classes(['tile'])
-
-        # Create a game instance
-        self.game = Game(self.app, self)
+            tile.button.set_icon_name(tile.defaultIcon)
+            if tile.defaultImage:
+                tile.button.set_child(tile.defaultImage)
 
         # Connect button handlers
         for tile in self.allTiles:
             tile.button.connect("clicked", self.tile_click, tile)
-        self.whiteButton.connect("clicked", self.dice[0].dice_click, self.game)
-        self.blackButton.connect("clicked", self.dice[1].dice_click, self.game)
+        self.whiteButton.connect("clicked", self.dice[0].dice_click, self.dice[0], self)
+        self.blackButton.connect("clicked", self.dice[1].dice_click, self.dice[1], self)
 
 
     def set_sensitivity(self, button_id, sensitivity):
@@ -155,109 +156,79 @@ class UrWindow(Adw.ApplicationWindow):
         button.set_sensitive(sensitivity)
 
 
-    # def update_dice(self, player, diceroll):
-        # self.titleText.set_text(f"{player.name}'s turn")
-        # self.diceText.set_text(f"{player.name} rolled a {diceroll}")
-    #     player.dice.label.set_text(str(diceroll))
-
-
     def load_movable(self, movablePieces):
-        self.movablePieces = movablePieces
-        self.movableTileMap = {}
 
-        def find_movable(x):
-            tilePos = int(x.var[1:].replace("Tile", ""))
-            tileSide = x.var[:1]
+        def get_tile_by_var(var_value):
+            return next((tile for tile in self.allTiles if tile.var == var_value), None)
 
-            pieceSides = [piece.side for piece in list(movablePieces.keys())]
-            piecePositions = [piece.position for piece in list(movablePieces.keys())]
+        # Make the movable pieces a property of the tile they are on
+        for tile in self.allTiles:
+            # Reset the movable property
+            tile.movable = None
 
-            return tileSide in pieceSides and tilePos in piecePositions
+            for piece, pos in movablePieces.items():
+                if tile.side == piece.side and tile.location == piece.position:
+                    tile.button.set_sensitive(True)
 
-        # filter all the tiles on the board to find the movable ones
-        self.movableTiles = list(filter(find_movable, self.allTiles))
+                    if pos <= 4 or 13 <= pos <= 15:
+                        tile.movable = get_tile_by_var(f"{piece.owner.side}Tile{pos}")
+                    elif 5 <= pos <= 12:
+                        tile.movable = get_tile_by_var(f"CTile{pos}")
 
-        for key, value in self.movablePieces.items():
-
-            # if the movable piece is on one half of the board
-            if key.position <= 4 or 13 <= key.position <= 14:
-
-                self.set_sensitivity(f"{key.side}Tile{key.position}", True)
-
-            # if in common board
-            elif 5 <= key.position <= 12:
-                self.set_sensitivity(f"CTile{key.position}", True)
-
-            # TODO: make movableTileMap have actual tiles, not their vars
-            # create map of movable tiles and the potential new tiles
-            if value <= 4 or 13 <= value <= 14:
-                self.movableTileMap[f"{key.side}Tile{key.position}"] = f"{key.owner.side}Tile{value}"
-            elif 5 <= value <= 12:
-                self.movableTileMap[f"{key.side}Tile{key.position}"] = f"CTile{value}"
-            elif value == 15:
-                self.movableTileMap[f"{key.side}Tile{key.position}"] = f"{key.owner.side}Tile15"
-
-
-        # Set the movable tile's image to either black or white tile depending on the side of the owner of the piece on it
-        for piece, tile in zip(self.movablePieces, self.movableTiles):
-            pieceSide = piece.owner.side
-            if pieceSide == "L":
-                counterImage = Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/apps/white_counter.svg")
-            elif pieceSide == "R":
-                counterImage = Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/apps/black_counter.svg")
-            tile.currentImage = counterImage
+                    if piece.owner.side == "L":
+                        tile.currentImage = Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/apps/white_counter.svg")
+                    elif piece.owner.side == "R":
+                        tile.currentImage = Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/apps/black_counter.svg")
 
 
     def show_potential(self):
-        if self.activeTile.var in self.movableTileMap.keys():
-            self.set_sensitivity(self.movableTileMap[self.activeTile.var], True)
-
+        self.activeTile.movable.button.set_sensitive(True)
 
     def hide_potential(self):
-        self.set_sensitivity(self.movableTileMap[self.activeTile.var], False)
+        self.activeTile.movable.button.set_sensitive(False)
 
-
-    def clean_board(self):
+    def disable_board(self):
+        # Disable and deactivate all buttons
         for tile in self.allTiles:
             tile.button.set_active(False)
-        self.button_manager.disable_all_buttons()
-
-
-    def reset_icon(self, tile):
-        if tile.currentIcon:
-            tile.button.set_icon_name(tile.currentIcon)
-        else:
-            tile.button.set_icon_name(tile.defaultIcon)
+            tile.button.set_sensitive(False)
 
     def update_icons(self):
-        print(f"{self.previousTile.var} --> {self.activeTile.var}")
+        if self.previousTile.location != 0:
+            # Restore the previous tile's default image/set empty icon
+            self.previousTile.update_image(self.previousTile.defaultImage)
 
-        if self.previousTile.num != 0:
-            self.previousTile.button.set_child(None)
-            self.previousTile.button.set_icon_name(self.previousTile.defaultIcon)
-
-        self.activeTile.button.set_child(self.previousTile.currentImage)
+        # Update the current tile's button image
+        self.activeTile.update_image(self.previousTile.currentImage)
 
 
     def tile_click(self, clickedButton, clickedTile):
+
         if self.activeTile:
             self.previousTile = self.activeTile
 
         self.activeTile = clickedTile
 
-        # for clicking a movable tile
-        if self.activeTile in self.movableTiles:
+        # Clicking a tile from which a piece can be moved
+        if self.activeTile.movable:
             if clickedButton.get_active():
                 self.show_potential()
             else:
                 self.hide_potential()
 
-        # for clicking a tile to move to
-        elif self.activeTile.var in self.movableTileMap.values():
+        # Clicking a tile which a piece can be moved to
+        elif self.activeTile == self.previousTile.movable:
+
+            # Enable the other player's dice
             self.game.currentPlayer.dice.button.set_sensitive(True)
-            self.clean_board()
-            self.game.make_move(self.activeTile.num)
+
+            # Update the icons and then disable the board for the next diceroll
             self.update_icons()
+            self.disable_board()
+
+            # Make the next move
+            self.game.make_move(self.activeTile.location)
+
 
 
 
