@@ -20,7 +20,6 @@ class UrApplication(Adw.Application):
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
-        self.button_manager = None
         self.win = None
 
     def do_activate(self):
@@ -31,14 +30,10 @@ class UrApplication(Adw.Application):
 
         win = self.props.active_window
 
-
         if not win:
             win = UrWindow(application=self)
             self.win = win
-            # self.game = Game(self, win)
 
-
-        # self.game.play_game()
         win.present()
 
     def on_about_action(self, widget, _):
@@ -51,6 +46,38 @@ class UrApplication(Adw.Application):
                                 developers=['Binuda Kalugalage'],
                                 copyright='© 2024 Binuda Kalugalage')
         about.present()
+
+    def on_win_action(self, winner):
+        """Display an alert dialog when a player wins the game."""
+        dialog = Adw.AlertDialog(
+            heading=f"{winner.name} has won!",
+            close_response="new_game",
+        )
+
+        # Set the buttons for the dialog
+        dialog.add_response("new_game", "New Game")
+        dialog.set_response_appearance("new_game", Adw.ResponseAppearance.SUGGESTED)
+
+        dialog.add_response("main_menu", "Main Menu")
+
+        # Connect to the response signal
+        dialog.choose(self.win, None, self.on_win_response)
+
+    def on_win_response(self, _dialog, task):
+        response = _dialog.choose_finish(task)
+        print(f'Selected "{response}" response.')
+        if response == "new_game":
+            self.win.game = Game(self, self.win)
+        elif response == "main_menu":
+            pass
+
+    def on_impossible(self, player):
+        toast = Adw.Toast(
+            title = f"{player.name} has no possible moves!"
+        )
+
+        self.win.toast_overlay.add_toast(toast)
+
 
     def on_preferences_action(self, widget, _):
         """Callback for the app.preferences action."""

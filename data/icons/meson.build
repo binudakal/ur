@@ -12,25 +12,19 @@ install_data(
   install_dir: get_option('datadir') / 'icons' / symbolic_dir
 )
 
-# Install counter SVGs in symbolic directory
-counter_dir = 'hicolor' / 'symbolic'
+# Install other SVGs in symbolic directory
+sym_dir = 'hicolor' / 'symbolic'
 
 install_data(
-  counter_dir / 'white_counter.svg',
-  install_dir: get_option('datadir') / 'icons' / symbolic_dir
-)
+  sym_dir / 'white_counter.svg',
+  sym_dir / 'black_counter.svg',
+  sym_dir / 'dice.svg',
+  sym_dir / 'rosette.svg',
+  sym_dir / '1-3-11.svg',
+  sym_dir / '2-6-9-12.svg',
+  sym_dir / '7-10.svg',
+  sym_dir / '5.svg',
+  sym_dir / '13.svg',
 
-install_data(
-  counter_dir / 'black_counter.svg',
-  install_dir: get_option('datadir') / 'icons' / symbolic_dir
-)
-
-install_data(
-  counter_dir / 'rosette.svg',
-  install_dir: get_option('datadir') / 'icons' / symbolic_dir
-)
-
-install_data(
-  counter_dir / 'dice_icon.svg',
   install_dir: get_option('datadir') / 'icons' / symbolic_dir
 )

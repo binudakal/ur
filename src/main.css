@@ -1,11 +1,19 @@
+.window {
+  border-radius: 26px
+}
+
 .tile {
   font-size: 42px;
   padding : 8px;
   -gtk-icon-size: 50px;
   background-color: #ddd1a1;
+
+    /* background-color: rbga(0,0,0,0); */
+    /* padding : 0px; */
+    /* border-radius: 0px; */
 }
 .tile:hover{
-  background-color: #e4dab4;
+  /* background-color: #e4dab4; */
 }
 
 .dice {
@@ -21,7 +29,6 @@
     background-color: #7b6533;
     border: 14px solid #7b6533;
     border-radius: 26px;
-    margin-bottom: 20px;
 }
 .board-inner {
     background-color: #C4AC78;

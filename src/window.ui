@@ -3,8 +3,9 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="Adw" version="1.0"/>
   <template class="UrWindow" parent="AdwApplicationWindow">
-    <property name="default-width">600</property>
-    <property name="default-height">750</property>
+    <style>
+      <class name="window"></class>
+    </style>
     <property name="content">
       <object class="AdwToolbarView">
         <child type="top">
@@ -270,7 +271,7 @@
                           </child>
                           <child>
                             <object class="GtkToggleButton" id="LTile15">
-                              <property name="sensitive">true</property>
+                              <property name="sensitive">false</property>
                               <property name="has-frame">False</property>
                               <style>
                                 <class name="off-board"></class>
@@ -320,7 +321,7 @@
 
                           <child>
                               <object class="GtkButton" id="whiteButton">
-                                <property name="label">🎲</property>
+                                <!-- <property name="label">🎲</property> -->
                                 <style>
                                   <class name="board-dice"></class>
                                 </style>
@@ -348,7 +349,8 @@
 
                           <child>
                             <object class="GtkButton" id="blackButton">
-                              <property name="label">🎲</property>
+                              <!-- <property name="label">🎲</property> -->
+                              <property name="sensitive">False</property>
                               <style>
                                 <class name="board-dice"></class>
                               </style>
