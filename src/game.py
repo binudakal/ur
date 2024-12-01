@@ -2,12 +2,51 @@ import random
 import time
 from abc import ABC, abstractmethod
 
-# from .window import UrWindow
+from .constants import Constants
+from gi.repository import Gtk, Gdk, Adw, Gio
 
-pauseTime = 0
+class gameDice():
+    def __init__(self, win, owner):
+        self.win = win
+        self.owner = owner
 
-boardRosettes = [4, 8, 14]
-offBoard = [0, 15]
+        if self.owner.side == "L":
+            self.button = self.win.whiteButton
+            self.label = self.win.whiteLabel
+        else:
+            self.button = self.win.blackButton
+            self.label = self.win.blackLabel
+
+        self.button.connect("clicked", self.dice_click)
+        self.button.set_child(Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/dice.svg"))
+
+    def update_label(self, diceroll=None):
+        if diceroll:
+            self.label.set_visible(True)
+            self.label.set_text(diceroll)
+        else:
+            self.label.set_visible(False)
+
+    def dice_click(self, button):
+        diceRoll = self.win.game.roll_dice()
+        movable = self.win.game.calculate_movable(self.owner, diceRoll)
+
+        # Update the label and sensitivity of this dice's button
+        self.update_label(str(diceRoll))
+        self.button.set_sensitive(False)
+
+        # Hide the label of the other dice's button
+        self.win.game.otherPlayer.dice.update_label()
+
+        # If no pieces can be moved, let the other player roll their dice
+        if not movable:
+            # Enable the other player's dice
+            self.win.game.otherPlayer.dice.button.set_sensitive(True)
+
+        self.win.game.alternate_players()
+
+
+boardRosettes = (4, 8, 14)
 
 # Create the dictionary which will hold movable pieces and where they can move to
 
@@ -96,12 +135,12 @@ class Piece:
         return f"{self.owner.name}'s piece {self.owner.side}{self.ID} at position {self.position}"
 
 class Player:
-    def __init__(self, name, side, dice):
+    def __init__(self, name, side, win):
         self.name = name
         self.side = side
-        self.pieces = [Piece(self, _ + 1) for _ in range(5)]
+        self.pieces = [Piece(self, _ + 1) for _ in range(Constants.NUM_PIECES)]
         self.board = halfBoard()
-        self.dice = dice
+        self.dice = gameDice(win, self)
 
     def __str__(self):
         # return f"{self.name} on the {self.side} side."
@@ -114,12 +153,12 @@ class Player:
 class Game:
     __gtype_name__ = 'UrGame'
 
-    def __init__(self, app, win):
-        self.app = app
+    def __init__(self, win):
         self.win = win
-        self.boardCommon = commonBoard()
-        self.players = [Player("Player 1", "L", self.win.dice[0]), Player("Player 2", "R", self.win.dice[1])]
+        self.app = win.app
+        self.players = [Player("Player 1", "L", self.win), Player("Player 2", "R", self.win)]
         self.currentPlayer = self.players[0]
+        self.boardCommon = commonBoard()
 
     @property
     def otherPlayer(self):
@@ -250,6 +289,8 @@ class Game:
 
         self.win.load_movable(movablePieces)
 
+        return movablePieces
+
 
     def make_move(self, oldTile):
 
@@ -306,26 +347,28 @@ class Game:
         if selectedPiece.position in boardRosettes:
             print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
             # Skip the other player
-            self.currentPlayer = self.otherPlayer
-            self.win.inactiveDice = self.win.activeDice
+            self.alternate_players()
 
         # -----------------------------------------------
 
+    def alternate_players(self):
+        self.currentPlayer = self.otherPlayer
 
     # def check_winner(self, player):
     #     return not player.pieces
 
-    def play_turn(self, diceroll):
-        # Display the empty board at the start of gameplay
-        self.print_board()
+    # def play_turn(self, diceroll):
+        ## Display the empty board at the start of gameplay
+    #     self.print_board()
 
-        self.currentPlayer.dice.update_label(str(diceroll))
+    #     self.currentPlayer.dice.update_label(str(diceroll))
 
-        # Move the current player
-        self.calculate_movable(self.currentPlayer, diceroll)
+        ## Move the current player
+    #     self.calculate_movable(self.currentPlayer, diceroll)
 
-        # Set the other player as the new currentPlayer (next player)
-        self.currentPlayer = self.otherPlayer
+        ## Set the other player as the new currentPlayer (next player)
+    #     self.currentPlayer = self.otherPlayer
+
 
 
 

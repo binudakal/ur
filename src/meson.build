@@ -31,7 +31,8 @@ ur_sources = [
   'main.py',
   'window.py',
   'game.py',
-  'main.css'
+  'constants.py',
+  'main.css',
 ]
 
 install_data(ur_sources, install_dir: moduledir)

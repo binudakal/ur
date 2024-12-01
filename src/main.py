@@ -9,8 +9,6 @@ from .window import UrWindow
 from .game import *
 
 
-
-
 class UrApplication(Adw.Application):
     """The main application singleton class."""
 
@@ -66,8 +64,12 @@ class UrApplication(Adw.Application):
     def on_win_response(self, _dialog, task):
         response = _dialog.choose_finish(task)
         print(f'Selected "{response}" response.')
+
         if response == "new_game":
-            self.win.game = Game(self, self.win)
+            self.win.destroy()
+            self.win = UrWindow(application=self)
+            self.win.present()
+
         elif response == "main_menu":
             pass
 
@@ -76,7 +78,7 @@ class UrApplication(Adw.Application):
             title = f"{player.name} has no possible moves!"
         )
 
-        self.win.toast_overlay.add_toast(toast)
+        self.win.toast_overlay. add_toast(toast)
 
 
     def on_preferences_action(self, widget, _):
