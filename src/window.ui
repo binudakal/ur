@@ -33,347 +33,483 @@
                   <child>
                     <object class="GtkGrid">
                       <style>
-                          <class name="board-outer"></class>
+                          <class name="table-edge"></class>
                       </style>
                        <child>
-                           <!-- BOARD TILE GRID -->
-                           <object class="GtkGrid">
-                           <property name="row-spacing">12</property>
-                           <property name="column-spacing">12</property>
+                       <!-- BOARD TILE GRID -->
+                           <object class="GtkGrid" id="boardGrid">
+                             <!-- hear -->
+                           <!-- <property name="row-spacing">10</property> -->
+                           <property name="column-spacing">10</property>
                         <style>
-                            <class name="board-inner"></class>
+                            <class name="table-inner"></class>
                         </style>
 
-                          <!-- LEFT TILES -->
-                          <child>
-                            <object class="GtkToggleButton" id="LTile0">
-                              <property name="sensitive">False</property>
-                              <property name="has-frame">False</property>
-                              <style>
-                                <class name="pile-top"></class>
-                              </style>
-                              <layout>
-                                <property name="row">4</property>
-                                <property name="column">-1</property>
-                              </layout>
-                              <child>
-                                <object class="GtkImage">
-                                  <property name="file">/app/share/icons/hicolor/symbolic/apps/white_counter.svg</property>
-                                </object>
-                              </child>
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="LTile1">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">3</property>
-                                <property name="column">0</property>
-                              </layout>
+                             <child>
+                               <object class="GtkGrid" id="topGrid">
+                                 <property name="column-spacing">10</property>
 
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="LTile2">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">2</property>
-                                <property name="column">0</property>
-                              </layout>
+                                 <child>
+                                   <object class="GtkGrid" id="topLeft">
 
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="LTile3">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">1</property>
-                                <property name="column">0</property>
-                              </layout>
+                                   <child>
+                                      <object class="GtkButton" id="whiteButton">
+                                        <style>
+                                          <class name="dice"></class>
+                                        </style>
+                                      <layout>
+                                        <property name="row">0</property>
+                                        <property name="column">0</property>
+                                      </layout>
+                                      </object>
+                                  </child>
+                                  <child>
+                                    <object class="GtkLabel" id="whiteLabel">
+                                      <property name="label"></property>
+                                      <property name="halign">end</property>
+                                      <property name="valign">end</property>
+                                      <style>
+                                        <class name="dice-result"></class>
+                                      </style>
+                                      <layout>
+                                        <property name="row">0</property>
+                                        <property name="column">0</property>
+                                      </layout>
+                                    </object>
+                                  </child>
 
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="LTile4">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">0</property>
-                                <property name="column">0</property>
-                              </layout>
+                                     <layout>
+                                       <property name="row">0</property>
+                                       <property name="column">0</property>
+                                     </layout>
+                                   </object>
+                                 </child>
 
-                            </object>
-                          </child>
+                                 <child>
+                                   <object class="GtkGrid" id="topMid">
+                                     <property name="row-spacing">10</property>
+                                     <property name="column-spacing">10</property>
+                                     <style>
+                                       <class name="board-top"></class>
+                                     </style>
 
-                          <!-- RIGHT TILES -->
-                          <child>
-                          <object class="GtkToggleButton" id="RTile0">
-                              <property name="sensitive">False</property>
-                              <property name="has-frame">False</property>
-                              <property name="icon-name">audio-volume-muted-symbolic</property>
-                              <style>
-                                <class name="pile-top"></class>
-                              </style>
-                            <layout>
-                                <property name="row">4</property>
-                                <property name="column">3</property>
-                              </layout>
-                              <child>
-                                <object class="GtkImage">
-                                  <property name="file">/app/share/icons/hicolor/symbolic/apps/black_counter.svg</property>
-                                </object>
-                              </child>
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="RTile1">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">3</property>
-                                <property name="column">2</property>
-                              </layout>
+                                     <child>
+                                      <object class="GtkToggleButton" id="LTile1">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">3</property>
+                                          <property name="column">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="LTile2">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">2</property>
+                                          <property name="column">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="LTile3">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">1</property>
+                                          <property name="column">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="LTile4">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">0</property>
+                                          <property name="column">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="CTile5">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">0</property>
+                                          <property name="column">1</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="CTile6">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">1</property>
+                                          <property name="column">1</property>
+                                        </layout>
+                                        <style>
+                                          <class name="tile"></class>
+                                        </style>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="CTile7">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">2</property>
+                                          <property name="column">1</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="CTile8">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">3</property>
+                                          <property name="column">1</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="RTile1">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">3</property>
+                                          <property name="column">2</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="RTile2">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">2</property>
+                                          <property name="column">2</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="RTile3">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">1</property>
+                                          <property name="column">2</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkToggleButton" id="RTile4">
+                                        <property name="sensitive">false</property>
+                                        <layout>
+                                          <property name="row">0</property>
+                                          <property name="column">2</property>
+                                        </layout>
+                                      </object>
+                                    </child>
 
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="RTile2">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">2</property>
-                                <property name="column">2</property>
-                              </layout>
-
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="RTile3">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">1</property>
-                                <property name="column">2</property>
-                              </layout>
-
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="RTile4">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">0</property>
-                                <property name="column">2</property>
-                              </layout>
-                            </object>
-                          </child>
-
-
-                          <!-- COMMON TILES -->
-                          <child>
-                            <object class="GtkToggleButton" id="CTile5">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">0</property>
-                                <property name="column">1</property>
-                              </layout>
-
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="CTile6">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">1</property>
-                                <property name="column">1</property>
-                              </layout>
-                              <style>
-                                <class name="tile"></class>
-                              </style>
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="CTile7">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">2</property>
-                                <property name="column">1</property>
-                              </layout>
-
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="CTile8">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">3</property>
-                                <property name="column">1</property>
-                              </layout>
-
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="CTile9">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">4</property>
-                                <property name="column">1</property>
-                              </layout>
-
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="CTile10">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">5</property>
-                                <property name="column">1</property>
-                              </layout>
-
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="CTile11">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">6</property>
-                                <property name="column">1</property>
-                              </layout>
-
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="CTile12">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">7</property>
-                                <property name="column">1</property>
-                              </layout>
-
-                            </object>
-                          </child>
-
-                          <!-- LEFT TILES -->
-                          <child>
-                            <object class="GtkToggleButton" id="LTile13">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">7</property>
-                                <property name="column">0</property>
-                              </layout>
-
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="LTile14">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">6</property>
-                                <property name="column">0</property>
-                              </layout>
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="LTile15">
-                              <property name="sensitive">false</property>
-                              <property name="has-frame">False</property>
-                              <style>
-                                <class name="off-board"></class>
-                              </style>
-                              <layout>
-                                <property name="row">5</property>
-                                <property name="column">0</property>
-                              </layout>
-                            </object>
-                          </child>
-
-                          <!-- RIGHT TILES -->
-                          <child>
-                            <object class="GtkToggleButton" id="RTile13">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">7</property>
-                                <property name="column">2</property>
-                              </layout>
-
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="RTile14">
-                              <property name="sensitive">false</property>
-                              <layout>
-                                <property name="row">6</property>
-                                <property name="column">2</property>
-                              </layout>
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkToggleButton" id="RTile15">
-                              <property name="sensitive">false</property>
-                              <property name="has-frame">False</property>
-                              <style>
-                                <class name="off-board"></class>
-                              </style>
-                              <layout>
-                                <property name="row">5</property>
-                                <property name="column">2</property>
-                              </layout>
-                            </object>
-                          </child>
-
-                          <!-- DICE BUTTONS -->
-
-                          <child>
-                              <object class="GtkButton" id="whiteButton">
-                                <!-- <property name="label">🎲</property> -->
-                                <style>
-                                  <class name="board-dice"></class>
-                                </style>
-                              <layout>
-                                <property name="row">0</property>
-                                <property name="column">-1</property>
-                              </layout>
-                              </object>
-                          </child>
-                          <child>
-                            <object class="GtkLabel" id="whiteLabel">
-                              <property name="label"></property>
-                              <property name="halign">end</property>
-                              <property name="valign">end</property>
-                              <style>
-                                <class name="dice-result"></class>
-                              </style>
-                              <layout>
-                                <property name="row">0</property>
-                                <property name="column">-1</property>
-                              </layout>
-                            </object>
-                          </child>
+                                     <layout>
+                                       <property name="row">0</property>
+                                       <property name="column">1</property>
+                                     </layout>
+                                   </object>
+                                 </child>
+                                 <layout>
+                                    <property name="row">0</property>
+                                    <property name="column">0</property>
+                                  </layout>
+                               </object>
+                             </child>
 
 
-                          <child>
-                            <object class="GtkButton" id="blackButton">
-                              <!-- <property name="label">🎲</property> -->
-                              <property name="sensitive">False</property>
-                              <style>
-                                <class name="board-dice"></class>
-                              </style>
-                              <layout>
-                                <property name="row">7</property>
-                                <property name="column">3</property>
-                              </layout>
-                            </object>
-                          </child>
-                          <child>
-                            <object class="GtkLabel" id="blackLabel">
-                              <property name="label"></property>
-                              <property name="halign">end</property>
-                              <property name="valign">end</property>
-                              <style>
-                                <class name="dice-result"></class>
-                              </style>
-                              <layout>
-                                <property name="row">7</property>
-                                <property name="column">3</property>
-                              </layout>
-                            </object>
-                          </child>
+                             <child>
+                               <object class="GtkGrid" id="midGrid">
+                                 <property name="row-spacing">10</property>
+
+                                   <child>
+                                     <object class="GtkGrid" id="midLeft">
+                                     <property name="column-spacing">10</property>
+                                       <child>
+                                        <object class="GtkToggleButton" id="LTile0">
+                                          <property name="sensitive">False</property>
+                                          <property name="has-frame">False</property>
+                                          <style>
+                                            <class name="pile-top"></class>
+                                          </style>
+                                          <layout>
+                                            <property name="row">0</property>
+                                            <property name="column">0</property>
+                                          </layout>
+                                          <child>
+                                            <object class="GtkImage">
+                                              <property name="file">/app/share/icons/hicolor/symbolic/white_counter.svg</property>
+                                            </object>
+                                          </child>
+                                        </object>
+                                      </child>
+                                      <child>
+                                          <object class="GtkToggleButton" id="LTile15">
+                                            <property name="sensitive">false</property>
+                                              <property name="margin-start">8</property>
+                                              <property name="margin-end">2</property>
+                                              <property name="margin-top">10</property>
+                                            <style>
+                                              <class name="invisible"></class>
+                                            </style>
+                                            <layout>
+                                              <property name="row">1</property>
+                                              <property name="column">1</property>
+                                            </layout>
+                                          </object>
+                                      </child>
+                                      <layout>
+                                          <property name="row">0</property>
+                                          <property name="column">0</property>
+                                      </layout>
+                                     </object>
+                                   </child>
+
+                                   <child>
+                                     <object class="GtkGrid" id="midMid">
+                                       <property name="row-spacing">10</property>
+                                       <style>
+                                         <class name="board-mid"></class>
+                                       </style>
+                                       <!-- MIDDLE TWO -->
+                                         <child>
+                                            <object class="GtkToggleButton" id="CTile9">
+                                              <property name="sensitive">false</property>
+                                              <layout>
+                                                <property name="row">0</property>
+                                                <property name="column">0</property>
+                                              </layout>
+                                            </object>
+                                          </child>
+                                          <child>
+                                            <object class="GtkToggleButton" id="CTile10">
+                                              <property name="sensitive">false</property>
+                                              <layout>
+                                                <property name="row">1</property>
+                                                <property name="column">0</property>
+                                              </layout>
+                                            </object>
+                                          </child>
+
+                                       <layout>
+                                          <property name="row">0</property>
+                                          <property name="column">2</property>
+                                        </layout>
+                                     </object>
+                                   </child>
+
+                                   <child>
+                                     <object class="GtkGrid" id="midRight">
+                                     <property name="column-spacing">10</property>
+                                       <child>
+                                        <object class="GtkToggleButton" id="RTile0">
+                                          <property name="sensitive">False</property>
+
+                                          <style>
+                                            <class name="pile-top"></class>
+                                          </style>
+                                        <layout>
+                                            <property name="row">0</property>
+                                            <property name="column">1</property>
+                                        </layout>
+                                          <child>
+                                            <object class="GtkImage">
+                                              <property name="file">/app/share/icons/hicolor/symbolic/black_counter.svg</property>
+                                            </object>
+                                          </child>
+                                        </object>
+                                      </child>
+                                      <child>
+                                        <object class="GtkToggleButton" id="RTile15">
+                                          <property name="sensitive">false</property>
+                                          <property name="margin-start">2</property>
+                                          <property name="margin-top">10</property>
+                                          <style>
+                                            <class name="invisible"></class>
+                                          </style>
+                                          <layout>
+                                            <property name="row">1</property>
+                                            <property name="column">0</property>
+                                          </layout>
+                                        </object>
+                                      </child>
+
+                                       <layout>
+                                          <property name="row">0</property>
+                                          <property name="column">4</property>
+                                        </layout>
+                                     </object>
+                                   </child>
+
+                                 <layout>
+                                    <property name="row">1</property>
+                                    <property name="column">0</property>
+                                  </layout>
+                               </object>
+                             </child>
+
+
+                             <child>
+                               <object class="GtkGrid" id="bottomGrid">
+                                 <property name="row-spacing">10</property>
+                                 <property name="column-spacing">10</property>
+
+                                 <child>
+                                   <object class="GtkGrid" id="bottomLeft">
+                                     <child>
+                                          <object class="GtkToggleButton">
+                                            <property name="sensitive">false</property>
+                                            <style>
+                                              <class name="spacer"></class>
+                                            </style>
+                                          <child>
+                                            <object class="GtkImage">
+                                              <property name="file">/app/share/icons/hicolor/symbolic/tiles/empty.svg</property>
+                                            </object>
+                                          </child>
+                                            <layout>
+                                              <property name="row">1</property>
+                                              <property name="column">1</property>
+                                            </layout>
+                                          </object>
+                                      </child>
+                                     <layout>
+                                        <property name="row">0</property>
+                                        <property name="column">0</property>
+                                      </layout>
+                                   </object>
+                                 </child>
+
+                                 <child>
+                                   <object class="GtkGrid" id="bottomMid">
+                                     <property name="row-spacing">10</property>
+                                     <property name="column-spacing">10</property>
+                                     <style>
+                                       <class name="board-bottom"></class>
+                                     </style>
+                                     <child>
+                                        <object class="GtkToggleButton" id="LTile13">
+                                          <property name="sensitive">false</property>
+                                          <layout>
+                                            <property name="row">1</property>
+                                            <property name="column">0</property>
+                                          </layout>
+                                        </object>
+                                      </child>
+                                      <child>
+                                        <object class="GtkToggleButton" id="LTile14">
+                                          <property name="sensitive">false</property>
+                                          <layout>
+                                            <property name="row">0</property>
+                                            <property name="column">0</property>
+                                          </layout>
+                                        </object>
+                                      </child>
+
+                                      <child>
+                                        <object class="GtkToggleButton" id="CTile11">
+                                          <property name="sensitive">false</property>
+                                          <layout>
+                                            <property name="row">0</property>
+                                            <property name="column">1</property>
+                                          </layout>
+                                        </object>
+                                      </child>
+                                      <child>
+                                        <object class="GtkToggleButton" id="CTile12">
+                                          <property name="sensitive">false</property>
+                                          <layout>
+                                            <property name="row">1</property>
+                                            <property name="column">1</property>
+                                          </layout>
+                                        </object>
+                                      </child>
+                                      <child>
+                                        <object class="GtkToggleButton" id="RTile13">
+                                          <property name="sensitive">false</property>
+                                          <layout>
+                                            <property name="row">1</property>
+                                            <property name="column">2</property>
+                                          </layout>
+                                        </object>
+                                      </child>
+                                      <child>
+                                        <object class="GtkToggleButton" id="RTile14">
+                                          <property name="sensitive">false</property>
+                                          <layout>
+                                            <property name="row">0</property>
+                                            <property name="column">2</property>
+                                          </layout>
+                                        </object>
+                                      </child>
+                                     <layout>
+                                        <property name="row">0</property>
+                                        <property name="column">1</property>
+                                      </layout>
+                                   </object>
+                                 </child>
+
+                                 <child>
+                                   <object class="GtkGrid" id="bottomRight">
+
+                                     <child>
+                                          <object class="GtkToggleButton">
+                                            <property name="sensitive">false</property>
+                                            <style>
+                                              <class name="spacer"></class>
+                                            </style>
+                                          <child>
+                                            <object class="GtkImage">
+                                              <property name="file">/app/share/icons/hicolor/symbolic/tiles/empty.svg</property>
+                                            </object>
+                                          </child>
+                                            <layout>
+                                              <property name="row">0</property>
+                                              <property name="column">0</property>
+                                            </layout>
+                                          </object>
+                                      </child>
+                                     <child>
+                                      <object class="GtkButton" id="blackButton">
+                                        <property name="sensitive">False</property>
+                                        <style>
+                                          <class name="dice"></class>
+                                        </style>
+                                        <layout>
+                                          <property name="row">1</property>
+                                          <property name="column">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="blackLabel">
+                                        <property name="label"></property>
+                                        <property name="halign">end</property>
+                                        <property name="valign">end</property>
+                                        <style>
+                                          <class name="dice-label"></class>
+                                        </style>
+                                        <layout>
+                                          <property name="row">1</property>
+                                          <property name="column">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                     <layout>
+                                        <property name="row">0</property>
+                                        <property name="column">2</property>
+                                      </layout>
+                                   </object>
+                                 </child>
+
+                                 <layout>
+                                    <property name="row">2</property>
+                                    <property name="column">0</property>
+                                  </layout>
+                               </object>
+                             </child>
+
                   </object>
                     </child>
                   </object>

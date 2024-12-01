@@ -12,19 +12,29 @@ install_data(
   install_dir: get_option('datadir') / 'icons' / symbolic_dir
 )
 
-# Install other SVGs in symbolic directory
+# Install counter and dice SVGs in symbolic directory
 sym_dir = 'hicolor' / 'symbolic'
 
 install_data(
   sym_dir / 'white_counter.svg',
   sym_dir / 'black_counter.svg',
   sym_dir / 'dice.svg',
-  sym_dir / 'rosette.svg',
-  sym_dir / '1-3-11.svg',
-  sym_dir / '2-6-9-12.svg',
-  sym_dir / '7-10.svg',
-  sym_dir / '5.svg',
-  sym_dir / '13.svg',
 
-  install_dir: get_option('datadir') / 'icons' / symbolic_dir
+  install_dir: get_option('datadir') / 'icons' / sym_dir
+)
+
+# Install tile SVGs in symbolic directory
+tile_dir = 'hicolor' / 'symbolic' / 'tiles'
+
+install_data(
+  tile_dir / 'rosette.svg',
+  tile_dir / '1-3-11.svg',
+  tile_dir / '2-6-9-12.svg',
+  tile_dir / '7-10.svg',
+  tile_dir / '5.svg',
+  tile_dir / '13.svg',
+  tile_dir / '15.svg',
+  tile_dir / 'empty.svg',
+
+  install_dir: get_option('datadir') / 'icons' / tile_dir
 )

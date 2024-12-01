@@ -1,75 +1,101 @@
-.window {
-  border-radius: 26px
+:root {
+  --table-rad: 14px;
+  --board-rad: 10px;
+  --board-outline: #242c5a;
+  --table-color: #C4AC78;
+  --edge-color: #7b6533;
+
+  --brighten: 110%;
+
+
+
 }
 
 .tile {
-  font-size: 42px;
   padding : 8px;
   -gtk-icon-size: 50px;
   background-color: #ddd1a1;
-
-    /* background-color: rbga(0,0,0,0); */
-    /* padding : 0px; */
-    /* border-radius: 0px; */
 }
 .tile:hover{
   /* background-color: #e4dab4; */
+  filter: brightness(var(--brighten));
 }
 
-.dice {
-  font-size: 42px;
+.invisible {
   padding : 8px;
-  background-color: #38383c;
+  -gtk-icon-size: 50px;
+  background: transparent;
 }
-.dice:hover {
-  background-color: #434347;
+.invisible:hover{
+  filter: brightness(var(--brighten));
 }
 
-.board-outer {
-    background-color: #7b6533;
-    border: 14px solid #7b6533;
-    border-radius: 26px;
+.spacer {
+  padding : 8px;
+  background-color: rgba(0,0,0,0);
+  -gtk-icon-size: 50px;
+  margin: 10px 0px 0px 0px;
 }
-.board-inner {
-    background-color: #C4AC78;
-    border-radius: 13px;
+
+.table-edge {
+    background-color: var(--edge-color);
+    border: 14px solid var(--edge-color);
+    border-radius: var(--table-rad);
+}
+.table-inner {
+    background-color: var(--table-color);
+    border-radius: calc(var(--table-rad) - 1px);
     padding: 20px 15px 20px 15px;
+}
+
+
+.board-top{
+  background-color: var(--board-outline);
+  border: 10px solid var(--board-outline);
+  border-radius: var(--board-rad);
+}
+.board-mid{
+  background-color: var(--board-outline);
+  border: 10px solid var(--board-outline);
+  border-top: 5px;
+  border-bottom: 5px;
+  border-radius: 0 0 0 0;
+}
+.board-bottom{
+  background-color: var(--board-outline);
+  border: 10px solid var(--board-outline);
+  border-radius: var(--board-rad);
 }
 
 
 .pile-top{
   padding : 8px;
   -gtk-icon-size: 50px;
-  background-color: rgba(0,0,0,0);
+  background: transparent;
 }
 .pile-top:hover{
-  background-color: #d0b484;
+  filter: brightness(var(--brighten));
 }
 
-.off-board{
-  background-color: #d5bc90;
-}
-.off-board:hover{
-  background-color: #d9c39d;
-}
 
-.board-dice{
+.dice{
   font-size: 42px;
   padding : 8px;
   -gtk-icon-size: 50px;
-  background-color: rgba(0,0,0,0);
+  background: transparent;
+  margin: 10px 0px 10px 0px;
 }
-.board-dice:hover{
-  background-color: rgb(202, 191, 148);
+.dice:hover{
+  filter: brightness(calc(var(--brighten) + 30%));
 }
-
-.dice-result {
+.dice-label {
   color: white;
-  background-color: rgba(0,0,0,0);
 }
 
 
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
+
+/* @keyframes fadeIn { */
+/*   0% { opacity: 0; } */
+/*   100% { opacity: 1; } */
+/* } */
+
