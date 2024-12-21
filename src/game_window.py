@@ -1,4 +1,4 @@
-# window.py
+# game_window.py
 #
 # Copyright 2024 Binuda Kalugalage
 #
@@ -19,6 +19,7 @@
 
 from gi.repository import Gtk, Gdk, Adw, Gio
 from .game import *
+from .constants import Constants
 
 
 class gameTile():
@@ -71,9 +72,9 @@ class gameTile():
                 f"side={self.side}, nextTile={self.nextTile})")
 
 
-@Gtk.Template(resource_path='/com/github/binudakal/ur/window.ui')
-class UrWindow(Adw.ApplicationWindow):
-    __gtype_name__ = 'UrWindow'
+@Gtk.Template(resource_path='/com/github/binudakal/ur/game_window.ui')
+class GameWindow(Adw.ApplicationWindow):
+    __gtype_name__ = 'GameWindow'
 
     LTile0 = Gtk.Template.Child()
     LTile1 = Gtk.Template.Child()
@@ -100,12 +101,13 @@ class UrWindow(Adw.ApplicationWindow):
     RTile14 = Gtk.Template.Child()
     RTile15 = Gtk.Template.Child()
 
-
-
     whiteButton = Gtk.Template.Child()
     whiteLabel = Gtk.Template.Child()
     blackButton = Gtk.Template.Child()
     blackLabel = Gtk.Template.Child()
+
+    returnMenu = Gtk.Template.Child()
+    resetGame = Gtk.Template.Child()
 
     # TODO: Dynamically store tile widgets
     # ....
@@ -113,10 +115,10 @@ class UrWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.set_title("Ur")
         self.app = self.get_application()
 
         self.activeTile = None
+        self.inactiveTile = None
 
         # Create a game instance
         self.game = Game(self)
@@ -136,7 +138,7 @@ class UrWindow(Adw.ApplicationWindow):
 
         # Create tiles
         self.allTiles = []
-        for attr in dir(UrWindow):
+        for attr in dir(GameWindow):
             if "Tile" in attr:
                 position = int(attr[1:].replace("Tile", ""))
 
@@ -145,6 +147,24 @@ class UrWindow(Adw.ApplicationWindow):
                 # Connect button handlers
                 currentTile.button.connect("clicked", self.tile_click, currentTile)
                 self.allTiles.append(currentTile) # append to list of allTiles
+
+                # currentTile.button.set_sensitive(True)
+
+
+        #
+        self.returnMenu.connect("clicked", self.return_menu)
+        self.resetGame.connect("clicked", self.reset_game)
+
+    def return_menu(self, button):
+        print("return")
+        self.app.menuWin.present()
+
+        self.hide()
+        self.destroy()
+
+    def reset_game(self, button):
+        print("game reset")
+
 
 
     def set_sensitivity(self, button_id, sensitivity):
@@ -198,6 +218,14 @@ class UrWindow(Adw.ApplicationWindow):
 
         # Clicking a tile from which a piece can be moved
         if self.activeTile.nextTile:
+
+            # Automatically hide other sensitive buttons if already active
+            if self.inactiveTile:
+                if self.inactiveTile != self.activeTile:
+                    if self.inactiveTile.button.get_active():
+                        self.inactiveTile.button.set_active(False)
+                        self.inactiveTile.nextTile.button.set_sensitive(False)
+
             if clickedButton.get_active():
                 self.activeTile.nextTile.button.set_sensitive(True)
             else:
@@ -215,6 +243,10 @@ class UrWindow(Adw.ApplicationWindow):
             # Update the icons and then disable the board for the next diceroll
             self.update_images()
             self.disable_board()
+
+        # elif self.activeTile.nextTile:
+            # self.inactiveTile.nextTile.button.set_sensitive(False)
+        #     print("uhh...")
 
 
 

@@ -29,7 +29,9 @@ configure_file(
 ur_sources = [
   '__init__.py',
   'main.py',
-  'window.py',
+  'start_window.py',
+  'game_window.py',
+  'game_elements.py',
   'game.py',
   'constants.py',
   'main.css',

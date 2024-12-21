@@ -1,154 +1,6 @@
 import random
 import time
-from abc import ABC, abstractmethod
-
-from .constants import Constants
-from gi.repository import Gtk, Gdk, Adw, Gio
-
-class gameDice():
-    def __init__(self, win, owner):
-        self.win = win
-        self.owner = owner
-
-        if self.owner.side == "L":
-            self.button = self.win.whiteButton
-            self.label = self.win.whiteLabel
-        else:
-            self.button = self.win.blackButton
-            self.label = self.win.blackLabel
-
-        self.button.connect("clicked", self.dice_click)
-        self.button.set_child(Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/dice.svg"))
-
-    def update_label(self, diceroll=None):
-        if diceroll:
-            self.label.set_visible(True)
-            self.label.set_text(diceroll)
-        else:
-            self.label.set_visible(False)
-
-    def dice_click(self, button):
-        diceRoll = self.win.game.roll_dice()
-        movable = self.win.game.calculate_movable(self.owner, diceRoll)
-
-        # Update the label and sensitivity of this dice's button
-        self.update_label(str(diceRoll))
-        self.button.set_sensitive(False)
-
-        # Hide the label of the other dice's button
-        self.win.game.otherPlayer.dice.update_label()
-
-        # If no pieces can be moved, let the other player roll their dice
-        if not movable:
-            # Enable the other player's dice
-            self.win.game.otherPlayer.dice.button.set_sensitive(True)
-
-        self.win.game.alternate_players()
-
-
-boardRosettes = (4, 8, 14)
-
-# Create the dictionary which will hold movable pieces and where they can move to
-
-class Board(ABC):
-    def is_occupied(self, position):
-        """"
-        Return the occupying piece if occupied, None otherwise
-        """
-        return self.positions[position]
-
-    def add_piece(self, piece, position):
-        """
-        Add a piece to the board
-        """
-        self.positions[position] = piece
-        piece.position = position
-
-    def return_piece(self, piece):
-        """
-        Remove a piece from the board, moving it back to the pile
-        """
-        self.positions[piece.position] = None
-        piece.position = 0
-
-    def destroy_piece(self, piece):
-        """
-        Completely remove a piece, after having reached the end
-        """
-        self.positions[piece.position] = None
-        piece.position = None  # to prevent double rosette bug
-        piece.owner.pieces.remove(piece)
-
-    @abstractmethod
-    def move_piece(self, position, piece):
-        pass
-
-class halfBoard(Board):
-    def __init__(self):
-        self.positions = {i: None for i in range(1, 5)}
-        self.positions.update({13: None, 14: None})
-
-    def move_piece(self, piece, position):
-        # Update the position dictionaries
-        self.return_piece(piece)  # remove piece from its current/old spot
-        self.add_piece(piece, position)  # add it to its new spot
-
-
-class commonBoard(Board):
-    def __init__(self):
-        self.positions = {i: None for i in range(5, 13)}
-
-    def replace_piece(self, position):
-        # If the other player's piece is already there,
-        occupyingPiece = self.is_occupied(position)
-        if occupyingPiece:
-            # Return it to their pile (position = 0)
-            self.return_piece(occupyingPiece)
-            print(f"{occupyingPiece.owner.side}{occupyingPiece.ID} was returned to {occupyingPiece.owner.name}'s pile.")
-
-    def move_piece(self, piece, position):
-        self.replace_piece(position)
-
-        # Move the piece to the new spot (after removing old piece above if applicable)
-        self.return_piece(piece)
-        self.add_piece(piece, position)
-
-class Piece:
-    def __init__(self, player, pieceNumber):
-        self.owner = player
-        self.position = 0
-        self.ID = pieceNumber
-
-    @property
-    def side(self):
-        if 5 <= self.position <= 12:
-            return "C"
-        else:
-            return self.owner.side
-
-    @property
-    def board(self):
-        if self.position <= 4 or 13 <= self.position <= 15:
-            return self.owner.board
-
-    def __str__(self):
-        return f"{self.owner.name}'s piece {self.owner.side}{self.ID} at position {self.position}"
-
-class Player:
-    def __init__(self, name, side, win):
-        self.name = name
-        self.side = side
-        self.pieces = [Piece(self, _ + 1) for _ in range(Constants.NUM_PIECES)]
-        self.board = halfBoard()
-        self.dice = gameDice(win, self)
-
-    def __str__(self):
-        # return f"{self.name} on the {self.side} side."
-        a = ""
-        for piece in self.pieces:
-            a += str(piece) + "\n"
-        return a
-
+from .game_elements import gameDice, halfBoard, commonBoard, Piece, Pile, Player
 
 class Game:
     __gtype_name__ = 'UrGame'
@@ -159,6 +11,7 @@ class Game:
         self.players = [Player("Player 1", "L", self.win), Player("Player 2", "R", self.win)]
         self.currentPlayer = self.players[0]
         self.boardCommon = commonBoard()
+        self.boardRosettes = (4, 8, 14)
 
     @property
     def otherPlayer(self):
@@ -168,10 +21,6 @@ class Game:
 
     @property
     def winner(self):
-        # for player in self.players:
-        #     if not player.pieces:
-        #         return player
-
         return next((player for player in self.players if not player.pieces), None)
 
     def roll_dice(self):
@@ -219,14 +68,7 @@ class Game:
             totalBoard += f"                {left}  {middle}  {right}\n"
 
         print(totalBoard)
-        print("-----------------------------------")
-
-
-    def format_tile(self, side, pos):
-        if pos <= 4 or 13 <= pos <= 15:
-            tile.nextTile = get_tile_by_var(f"{piece.owner.side}Tile{pos}")
-        elif 5 <= pos <= 12:
-            tile.nextTile = get_tile_by_var(f"CTile{pos}")
+        print("-----------------------------------\n")
 
 
     def calculate_movable(self, player, diceroll):
@@ -262,7 +104,7 @@ class Game:
                 occupiedStatus = self.boardCommon.is_occupied(newPosition)
                 if occupiedStatus:
                     # Check that the piece to replace is not one of the current player's, and that it is not on a rosette
-                    if (occupiedStatus.owner != piece.owner) and (occupiedStatus.position not in boardRosettes):
+                    if (occupiedStatus.owner != piece.owner) and (occupiedStatus.position not in self.boardRosettes):
                         piece.nextPos = newPosition
                 else:
                     piece.nextPos = newPosition
@@ -339,35 +181,23 @@ class Game:
         # Check for a winner
         if self.winner:
             print(f"{self.winner.name} has exhausted all of their pieces and won the game!\n")
-            self.win.app.on_win_action(self.winner)
+            self.win.app.on_win(self.winner)
             return
 
         # After moving the piece, check whether it landed on a rosette
         # TODO: fix rosettes
-        if selectedPiece.position in boardRosettes:
+        if selectedPiece.position in self.boardRosettes:
             print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
             # Skip the other player
             self.alternate_players()
 
-        # -----------------------------------------------
-
     def alternate_players(self):
+        # Hide the label of the other dice's button
+        self.otherPlayer.dice.update_label()
+
+        # Switch the current and other players
         self.currentPlayer = self.otherPlayer
 
-    # def check_winner(self, player):
-    #     return not player.pieces
-
-    # def play_turn(self, diceroll):
-        ## Display the empty board at the start of gameplay
-    #     self.print_board()
-
-    #     self.currentPlayer.dice.update_label(str(diceroll))
-
-        ## Move the current player
-    #     self.calculate_movable(self.currentPlayer, diceroll)
-
-        ## Set the other player as the new currentPlayer (next player)
-    #     self.currentPlayer = self.otherPlayer
 
 
 

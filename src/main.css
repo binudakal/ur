@@ -1,32 +1,33 @@
 :root {
   --table-rad: 14px;
   --board-rad: 10px;
+  --board-color: #242c5a;
   --board-outline: #242c5a;
-  --table-color: #C4AC78;
-  --edge-color: #7b6533;
+  /* --table-color: #C4AC78; */
+  /* --edge-color: #7b6533; */
+  --table-color: #998466;
+  --edge-color: hsl(32, 100%, 13%);
 
   --brighten: 110%;
-
-
-
 }
 
 .tile {
   padding : 8px;
   -gtk-icon-size: 50px;
-  background-color: #ddd1a1;
+  /* background-color: #ddd1a1; */
+  background-color: #fff7a89f;
 }
 .tile:hover{
   /* background-color: #e4dab4; */
   filter: brightness(var(--brighten));
 }
 
-.invisible {
+.off-board {
   padding : 8px;
   -gtk-icon-size: 50px;
   background: transparent;
 }
-.invisible:hover{
+.off-board:hover{
   filter: brightness(var(--brighten));
 }
 
@@ -50,33 +51,55 @@
 
 
 .board-top{
-  background-color: var(--board-outline);
+  background-color: var(--board-color);
   border: 10px solid var(--board-outline);
   border-radius: var(--board-rad);
 }
 .board-mid{
-  background-color: var(--board-outline);
+  background-color: var(--board-color);
   border: 10px solid var(--board-outline);
   border-top: 5px;
   border-bottom: 5px;
   border-radius: 0 0 0 0;
 }
 .board-bottom{
-  background-color: var(--board-outline);
+  background-color: var(--board-color);
   border: 10px solid var(--board-outline);
   border-radius: var(--board-rad);
 }
 
 
+/* .pile-top{ */
+/*   padding : 8px; */
+/*   -gtk-icon-size: 50px; */
+/*   background: transparent; */
+/* } */
+/* .pile-top:hover{ */
+/*   filter: brightness(var(--brighten)); */
+/* } */
+
 .pile-top{
   padding : 8px;
   -gtk-icon-size: 50px;
-  background: transparent;
+  background-color: rgba(0,0,0,0);
 }
 .pile-top:hover{
-  filter: brightness(var(--brighten));
+  background-color: #d0b484;
 }
 
+/* .dice{ */
+/*   font-size: 42px; */
+/*   padding : 8px; */
+/*   -gtk-icon-size: 50px; */
+/*   background: transparent; */
+/*   margin: 10px 0px 10px 0px; */
+/* } */
+/* .dice:hover{ */
+/*   filter: brightness(calc(var(--brighten) + 30%)); */
+/* } */
+/* .dice-label { */
+/*   color: white; */
+/* } */
 
 .dice{
   font-size: 42px;
@@ -86,7 +109,7 @@
   margin: 10px 0px 10px 0px;
 }
 .dice:hover{
-  filter: brightness(calc(var(--brighten) + 30%));
+  background-color: rgb(202, 191, 148);
 }
 .dice-label {
   color: white;
@@ -98,4 +121,5 @@
 /*   0% { opacity: 0; } */
 /*   100% { opacity: 1; } */
 /* } */
+
 
