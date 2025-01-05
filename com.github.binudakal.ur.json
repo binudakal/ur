@@ -29,16 +29,12 @@
             "buildsystem" : "meson",
             "sources" : [
                 {
-                    "type" : "git",
-                    "url" : "file:///home/binudakal/Documents/Github Repos"
+                    "type" : "git"
                 }
             ],
             "config-opts" : [
                 "--libdir=lib"
             ]
         }
-    ],
-    "build-options" : {
-        "env" : {        }
-    }
+    ]
 }
