@@ -27,7 +27,7 @@ install_data(
 tile_dir = 'hicolor' / 'symbolic' / 'tiles'
 
 install_data(
-  tile_dir / 'rosette.svg',
+  tile_dir / '4-8-14.svg',
   tile_dir / '1-3-11.svg',
   tile_dir / '2-6-9-12.svg',
   tile_dir / '7-10.svg',
