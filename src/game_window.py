@@ -21,39 +21,39 @@ from gi.repository import Gtk, Gdk, Adw, Gio
 from .game import *
 from .constants import Constants
 
+# Adw.init()
 
-class gameTile():
+class GameTile():
     def __init__(self, button, var, location):
 
         self.button = button
         self.var = var
         self.location = location
 
-        self.side = var[:1]
+        self.side = var[0]
 
         self.defaultImage = None
         self.currentImage = None
 
         self.images = {
-            self.location in (4, 8, 14): "/app/share/icons/hicolor/symbolic/tiles/rosette.svg",
-            self.location in (1, 3, 11): "/app/share/icons/hicolor/symbolic/tiles/1-3-11.svg",
-            self.location in (2, 6, 9, 12): "/app/share/icons/hicolor/symbolic/tiles/2-6-9-12.svg",
-            self.location in (7, 10): "/app/share/icons/hicolor/symbolic/tiles/7-10.svg",
-            self.location == 5: "/app/share/icons/hicolor/symbolic/tiles/5.svg",
-            self.location == 13: "/app/share/icons/hicolor/symbolic/tiles/13.svg",
-            self.location == 15: "/app/share/icons/hicolor/symbolic/tiles/15.svg",
+            self.location in (4, 8, 14): "4-8-14",
+            self.location in (1, 3, 11): "1-3-11",
+            self.location in (2, 6, 9, 12): "2-6-9-12",
+            self.location in (7, 10): "7-10",
+            self.location == 5: "5",
+            self.location == 13: "13",
+            self.location == 15: "15",
             self.location == 0: None
         }
 
         # Set image to button's child
         if self.images[True]:
-            self.defaultImage = Gtk.Image.new_from_file(self.images[True])
+            self.defaultImage = Gtk.Image.new_from_file(f"/app/share/icons/hicolor/symbolic/tiles/{self.images[True]}.svg")
             self.button.set_child(self.defaultImage)
 
         # Set CSS to tile's button
         if self.location not in (0, 15):
             self.button.set_css_classes(['tile'])
-
 
     def update_tile(self, tile, piece):
         tile.button.set_sensitive(True)
@@ -62,70 +62,62 @@ class gameTile():
 
     def set_image(self, image):
         if self.location not in (0, 15):
-            if not image:
-                self.button.set_icon_name("")
-            else:
-                self.button.set_child(image)
+            self.button.set_child(image)
+
 
     def __str__(self):
         return (f"GameTile(var={self.var}, location={self.location}, "
                 f"side={self.side}, nextTile={self.nextTile})")
 
 
-@Gtk.Template(resource_path='/com/github/binudakal/ur/game_window.ui')
 class GameWindow(Adw.ApplicationWindow):
-    __gtype_name__ = 'GameWindow'
-
-    LTile0 = Gtk.Template.Child()
-    LTile1 = Gtk.Template.Child()
-    LTile2 = Gtk.Template.Child()
-    LTile3 = Gtk.Template.Child()
-    LTile4 = Gtk.Template.Child()
-    RTile0 = Gtk.Template.Child()
-    RTile1 = Gtk.Template.Child()
-    RTile2 = Gtk.Template.Child()
-    RTile3 = Gtk.Template.Child()
-    RTile4 = Gtk.Template.Child()
-    CTile5 = Gtk.Template.Child()
-    CTile6 = Gtk.Template.Child()
-    CTile7 = Gtk.Template.Child()
-    CTile8 = Gtk.Template.Child()
-    CTile9 = Gtk.Template.Child()
-    CTile10 = Gtk.Template.Child()
-    CTile11 = Gtk.Template.Child()
-    CTile12 = Gtk.Template.Child()
-    LTile13 = Gtk.Template.Child()
-    LTile14 = Gtk.Template.Child()
-    LTile15 = Gtk.Template.Child()
-    RTile13 = Gtk.Template.Child()
-    RTile14 = Gtk.Template.Child()
-    RTile15 = Gtk.Template.Child()
-
-    whiteButton = Gtk.Template.Child()
-    whiteLabel = Gtk.Template.Child()
-    blackButton = Gtk.Template.Child()
-    blackLabel = Gtk.Template.Child()
-
-    returnMenu = Gtk.Template.Child()
-    resetGame = Gtk.Template.Child()
-
-    # TODO: Dynamically store tile widgets
-    # ....
-
+    __gtype_name__ = "GameWindow"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.app = self.get_application()
 
+        self.load_ui()
+
+        # Get dice buttons and labels
+        self.whiteButton = self.builder.get_object("whiteButton")
+        self.whiteLabel = self.builder.get_object("whiteLabel")
+        self.blackButton = self.builder.get_object("blackButton")
+        self.blackLabel = self.builder.get_object("blackLabel")
+
+        # Connect return and reset buttons
+        self.builder.get_object("returnMenu").connect("clicked", self.app.on_return)
+
+        # Create a game instance
+        self.game = UrGame(self)
+
+        # Create tiles
+        self.allTiles = []
+        for i in list(range(0, 5)) + list(range(5, 13)) + list(range(13, 16)):
+            for side in ("C") if i in range(5, 13) else ("L", "R"):
+                # Create the current tile
+                currentTile = GameTile(self.builder.get_object(f"{side}Tile{i}"), f"{side}Tile{i}", i)
+                # Connect button handlers
+                currentTile.button.connect("clicked", self.tile_click, currentTile)
+                self.allTiles.append(currentTile)  # Append to list of allTiles
+
         self.activeTile = None
         self.inactiveTile = None
 
-        # Create a game instance
-        self.game = Game(self)
 
-        # Create a toast overlay
-        # self.toast_overlay = Adw.ToastOverlay()
-        # self.set_child(self.toast_overlay)
+    def load_ui(self):
+        # Initialise builder
+        self.builder = Gtk.Builder()
+        # Load horizontal/vertical UI file
+        self.builder.add_from_resource(f"/com/github/binudakal/ur/{Constants.ORIENTATION}_game.ui")
+
+        # Get game window's content from builder
+        builderWindow = self.builder.get_object(self.__gtype_name__)
+
+        # Transfer content to this window
+        windowContent = builderWindow.get_content()
+        builderWindow.set_content(None)
+        self.set_content(windowContent)
 
         # Load CSS
         css_provider = Gtk.CssProvider()
@@ -135,41 +127,6 @@ class GameWindow(Adw.ApplicationWindow):
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
-
-        # Create tiles
-        self.allTiles = []
-        for attr in dir(GameWindow):
-            if "Tile" in attr:
-                position = int(attr[1:].replace("Tile", ""))
-
-                # Create the current tile
-                currentTile = gameTile(getattr(self, attr), attr, int(position))
-                # Connect button handlers
-                currentTile.button.connect("clicked", self.tile_click, currentTile)
-                self.allTiles.append(currentTile) # append to list of allTiles
-
-                # currentTile.button.set_sensitive(True)
-
-
-        #
-        self.returnMenu.connect("clicked", self.return_menu)
-        self.resetGame.connect("clicked", self.reset_game)
-
-    def return_menu(self, button):
-        print("return")
-        self.app.menuWin.present()
-
-        self.hide()
-        self.destroy()
-
-    def reset_game(self, button):
-        print("game reset")
-
-
-
-    def set_sensitivity(self, button_id, sensitivity):
-        button = getattr(self, f'{button_id}')
-        button.set_sensitive(sensitivity)
 
 
     def load_movable(self, movablePieces):
@@ -192,10 +149,7 @@ class GameWindow(Adw.ApplicationWindow):
                     elif 5 <= piece.nextPos <= 12:
                         tile.nextTile = get_tile_by_var(f"CTile{piece.nextPos}")
 
-                    if piece.owner.side == "L":
-                        tile.currentImage = Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/white_counter.svg")
-                    elif piece.owner.side == "R":
-                        tile.currentImage = Gtk.Image.new_from_file("/app/share/icons/hicolor/symbolic/black_counter.svg")
+                    tile.currentImage = Gtk.Image.new_from_file(f"/app/share/icons/hicolor/symbolic/{"white" if piece.owner.side == "L" else "black" }_counter.svg")
 
     def update_images(self):
         # Restore the inactive tile's default image
@@ -244,9 +198,6 @@ class GameWindow(Adw.ApplicationWindow):
             self.update_images()
             self.disable_board()
 
-        # elif self.activeTile.nextTile:
-            # self.inactiveTile.nextTile.button.set_sensitive(False)
-        #     print("uhh...")
 
 
 
