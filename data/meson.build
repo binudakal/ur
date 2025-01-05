@@ -1,3 +1,14 @@
+pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
+
+gnome = import('gnome')
+
+gnome.compile_resources('ur',
+  'ur.gresource.xml',
+  gresource_bundle: true,
+  install: true,
+  install_dir: pkgdatadir,
+)
+
 desktop_file = i18n.merge_file(
         input: 'com.github.binudakal.ur.desktop.in',
        output: 'com.github.binudakal.ur.desktop',

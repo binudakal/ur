@@ -9,7 +9,7 @@
             <child type="top">
               <object class="AdwHeaderBar" id="headerbar">
                 <child type="title">
-                  <object class="AdwWindowTitle" id="window_title">
+                  <object class="AdwWindowTitle">
                     <property name="title" translatable="no">Ur</property>
                   </object>
                 </child>
@@ -32,7 +32,6 @@
                     <property name="vexpand">true</property>
                     <property name="icon-name">com.github.binudakal.ur</property>
                     <property name="title" translatable="no">Ur</property>
-                    <!-- <property name="description" translatable="yes">Drop images here to compress them</property> -->
                     <child>
                       <object class="GtkBox">
                         <property name="orientation">vertical</property>
@@ -115,8 +114,8 @@
   <menu id="primary_menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Preferences</attribute>
-        <attribute name="action">app.preferences</attribute>
+        <attribute name="label" translatable="yes">_Scores</attribute>
+        <attribute name="action">app.scores</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
@@ -129,3 +128,4 @@
     </section>
   </menu>
 </interface>
+

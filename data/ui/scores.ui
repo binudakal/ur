@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="UrScoresDialog" parent="AdwDialog">
+    <property name="title" translatable="no">Scores</property>
+    <child>
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="headerbar">
+            <child type="title">
+              <object class="AdwWindowTitle">
+                <property name="title" translatable="no">Scores</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="GtkBox" id="mainbox">
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <child>
+              <object class="GtkGrid">
+                <child>
+                  <object class="GtkGrid" id="leftPlayer">
+                    <child>
+                      <object class="GtkImage">
+                        <property name="file">/app/share/icons/hicolor/symbolic/white_counter.svg</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                        <style>
+                          <class name="player-icon"></class>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Player 1</property>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                        </layout>
+                        <style>
+                          <class name="player-name"></class>
+                        </style>
+                      </object>
+                    </child>
+                    <layout>
+                      <property name="row">0</property>
+                      <property name="column">0</property>
+                    </layout>
+                    <style>
+                      <class name="player-side"></class>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="playerScores">
+                    <property name="label">7:2</property>
+                    <layout>
+                      <property name="row">0</property>
+                      <property name="column">1</property>
+                    </layout>
+                    <style>
+                      <class name="player-scores"></class>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkGrid"  id="rightPlayer">
+                    <child>
+                      <object class="GtkImage">
+                        <property name="file">/app/share/icons/hicolor/symbolic/black_counter.svg</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                        <style>
+                          <class name="player-icon"></class>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Player 2</property>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                        </layout>
+                        <style>
+                          <class name="player-name"></class>
+                        </style>
+                      </object>
+                    </child>
+                    <layout>
+                      <property name="row">0</property>
+                      <property name="column">2</property>
+                    </layout>
+                    <style>
+                      <class name="player-side"></class>
+                    </style>
+                  </object>
+                </child>
+                <style>
+                  <class name="scores"></class>
+                </style>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+
+
+  </template>
+</interface>

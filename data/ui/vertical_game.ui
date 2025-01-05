@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<interface>
+<interface domain="ur">
   <requires lib="gtk" version="4.0"/>
   <requires lib="Adw" version="1.0"/>
-  <template class="GameWindow" parent="AdwApplicationWindow">
-    <property name="title" translatable="no">Ur</property>
+  <object id="GameWindow" class="AdwApplicationWindow">
     <style>
       <class name="window"></class>
     </style>
     <property name="content">
-      <object class="AdwToastOverlay" id="toast_overlay">
+      <object class="AdwToastOverlay" id="toastOverlay">
         <child>
           <object class="AdwToolbarView">
             <child type="top">
@@ -23,14 +22,9 @@
                     </child>
                   </object>
                 </child>
-                <child>
-                  <object class="GtkBox">
-                    <child>
-                      <object class="GtkButton" id="resetGame">
-                        <property name="icon-name">view-refresh-symbolic</property>
-                        <property name="tooltip-text" translatable="yes">Reset Game</property>
-                      </object>
-                    </child>
+                <child type="title">
+                  <object class="AdwWindowTitle">
+                    <property name="title" translatable="no">Ur</property>
                   </object>
                 </child>
                 <child type="end">
@@ -54,7 +48,7 @@
                     <property name="halign">center</property>
                     <property name="valign">center</property>
                       <child>
-                        <object class="GtkGrid">
+                        <object class="GtkBox">
                           <style>
                               <class name="table-edge"></class>
                           </style>
@@ -77,6 +71,8 @@
 
                                        <child>
                                           <object class="GtkButton" id="whiteButton">
+                                            <property name="margin-top">10</property>
+                                            <property name="margin-bottom">10</property>
                                             <style>
                                               <class name="dice"></class>
                                             </style>
@@ -173,9 +169,6 @@
                                               <property name="row">1</property>
                                               <property name="column">1</property>
                                             </layout>
-                                            <style>
-                                              <class name="tile"></class>
-                                            </style>
                                           </object>
                                         </child>
                                         <child>
@@ -298,7 +291,7 @@
                                          <object class="GtkGrid" id="midMid">
                                            <property name="row-spacing">10</property>
                                            <style>
-                                             <class name="board-mid"></class>
+                                             <class name="board-mid-v"></class>
                                            </style>
                                            <!-- MIDDLE TWO -->
                                              <child>
@@ -501,6 +494,8 @@
                                          <child>
                                           <object class="GtkButton" id="blackButton">
                                             <property name="sensitive">False</property>
+                                            <property name="margin-top">10</property>
+                                            <property name="margin-bottom">10</property>
                                             <style>
                                               <class name="dice"></class>
                                             </style>
@@ -557,12 +552,12 @@
         </child>
       </object>
     </property>
-  </template>
+  </object>
   <menu id="primary_menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">_Preferences</attribute>
-        <attribute name="action">app.preferences</attribute>
+        <attribute name="label" translatable="yes">_Scores</attribute>
+        <attribute name="action">app.scores</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
@@ -575,6 +570,9 @@
     </section>
   </menu>
 </interface>
+
+
+
 
 
 
