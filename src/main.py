@@ -7,18 +7,21 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Gio, Adw
 from .start_window import StartWindow
 from .game_window import GameWindow
-# from .game import *
+from .scores import UrScoresDialog
 
 
 class UrApplication(Adw.Application):
     """The main application singleton class."""
 
+    scores_dialog = None
+
     def __init__(self):
         super().__init__(application_id='com.github.binudakal.ur',
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
-        self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
+        self.create_action('scores', self.on_scores, ['<primary>s'])
         self.create_action('about', self.on_about)
-        self.create_action('preferences', self.on_preferences)
+        self.create_action('return', lambda *_: self.on_return(), ['<primary>r'])
+        self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.win = None
 
     def do_activate(self):
@@ -36,25 +39,10 @@ class UrApplication(Adw.Application):
 
         win.present()
 
-    def on_about(self, widget, _):
-        """Callback for the app.about action."""
-        about = Adw.AboutWindow(transient_for=self.props.active_window,
-                    application_name='Ur',
-                    application_icon='com.github.binudakal.ur',
-                    developer_name='Binuda Kalugalage',
-                    license_type=Gtk.License.GPL_3_0,
-                    website='https://github.com/binudakal/ur',
-                    issue_url='https://github.com/binudakal/ur/issues/new',
-                    version='0.1.0',
-                    developers=[
-                            'Binuda Kalugalage https://github.com/binudakal'
-                    ],
-                    designers=[
-                        'Binuda Kalugalage https://github.com/binudakal'
-                    ],
-                    copyright='© Binuda Kalugalage'
-                )
-        about.present()
+    def on_return(self, widget=None):
+        if self.win != self.menuWin:
+            self.menuWin.present()
+            self.win.close()
 
     def on_win(self, winner):
         """Display an alert dialog when a player wins the game."""
@@ -77,28 +65,52 @@ class UrApplication(Adw.Application):
         print(f'Selected "{response}" response.')
 
         if response == "new_game":
-            self.win.destroy()
+            self.win.close()
             self.win = GameWindow(application=self)
 
             self.win.present()
 
         elif response == "main_menu":
-            self.win.destroy()
+            self.win.close()
             self.win = self.menuWin
 
             self.win.present()
 
     def on_impossible(self, player):
-        toast = Adw.Toast(
-            title = f"{player.name} has no possible moves!"
-        )
+        toast = Adw.Toast(title = f"{player.name} has no possible moves!")
+        toastOverlay = self.win.builder.get_object("toastOverlay")
+        toastOverlay.add_toast(toast)
 
-        self.win.toast_overlay. add_toast(toast)
-
-
-    def on_preferences(self, widget, _):
+    def on_scores(self, widget, _):
         """Callback for the app.preferences action."""
-        print('app.preferences action activated')
+        print('on_scores event')
+
+        if self.scores_dialog is not None:
+            self.scores_dialog.force_close()
+        self.scores_dialog = UrScoresDialog(self)
+        self.scores_dialog.present()
+
+    def on_about(self, widget, _):
+        """Callback for the app.about action."""
+        about = Adw.AboutWindow(transient_for=self.props.active_window,
+                    application_name='Ur',
+                    application_icon='com.github.binudakal.ur',
+                    developer_name='Binuda Kalugalage',
+                    license_type=Gtk.License.GPL_3_0,
+                    website='https://github.com/binudakal/ur',
+                    issue_url='https://github.com/binudakal/ur/issues/new',
+                    version='0.1.0',
+                    developers=[
+                            'Binuda Kalugalage https://github.com/binudakal'
+                    ],
+                    designers=[
+                        'Binuda Kalugalage https://github.com/binudakal'
+                    ],
+                    copyright='© Binuda Kalugalage'
+                )
+        about.present()
+
+
 
     def create_action(self, name, callback, shortcuts=None):
         """Add an application action.
@@ -121,6 +133,7 @@ def main(version):
     app = UrApplication()
     return app.run(sys.argv)
 
-if __name__ == "__main__":
-    main(None)
+# if __name__ == "__main__":
+#     main(None)
+
 

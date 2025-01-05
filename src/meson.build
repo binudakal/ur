@@ -1,13 +1,5 @@
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 moduledir = pkgdatadir / 'ur'
-gnome = import('gnome')
-
-gnome.compile_resources('ur',
-  'ur.gresource.xml',
-  gresource_bundle: true,
-  install: true,
-  install_dir: pkgdatadir,
-)
 
 python = import('python')
 
@@ -33,6 +25,7 @@ ur_sources = [
   'game_window.py',
   'game_elements.py',
   'game.py',
+  'scores.py',
   'constants.py',
   'main.css',
 ]
