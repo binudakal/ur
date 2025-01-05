@@ -17,12 +17,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+
 from gi.repository import Gtk, Gdk, Adw, Gio
 from .game_window import GameWindow
 from .constants import Constants
 
 @Gtk.Template(resource_path='/com/github/binudakal/ur/start_window.ui')
-
 class StartWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'StartWindow'
 
@@ -45,16 +45,15 @@ class StartWindow(Adw.ApplicationWindow):
         self.hide()
         self.app.win.present()
 
-        print("Orientation:", Constants.ORIENTATION)
-
     def set_num_pieces(self, spinButton):
         Constants.NUM_PIECES = int(spinButton.get_adjustment().get_value())
 
     def set_orientation(self, switch, state):
-        if state:
-            Constants.ORIENTATION = "HORIZONTAL"
-        else:
-            Constants.ORIENTATION = "VERTICAL"
+        Constants.ORIENTATION = "horizontal" if state else "vertical"
+
+
+
+
 
 
 
