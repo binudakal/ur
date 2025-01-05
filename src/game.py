@@ -2,7 +2,7 @@ import random
 import time
 from .game_elements import gameDice, halfBoard, commonBoard, Piece, Pile, Player
 
-class Game:
+class UrGame:
     __gtype_name__ = 'UrGame'
 
     def __init__(self, win):
@@ -74,6 +74,7 @@ class Game:
     def calculate_movable(self, player, diceroll):
 
         print(f"{player.name} rolled a {diceroll}.")
+        # return player.pile.get_movable(diceroll)
 
         # If a player rolls 0, skip their turn
         if diceroll == 0:
@@ -121,7 +122,7 @@ class Game:
         # Handle scenario with no possible moves
         if not movablePieces:
             print(f"{player.name} has no possible moves.\n")
-            # self.app.on_impossible(player)
+            self.app.on_impossible(player)
             return
 
         # Print the piece movement options
@@ -197,6 +198,7 @@ class Game:
 
         # Switch the current and other players
         self.currentPlayer = self.otherPlayer
+
 
 
 
