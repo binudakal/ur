@@ -76,26 +76,18 @@
                         </object>
                       </child>
                       <child>
-                          <object class="GtkBox" id="switchBox">
-                            <property name="spacing">10</property>
+                          <object class="AdwToggleGroup" id="orientToggle">
                             <property name="halign">center</property>
-                            <property name="valign">center</property>
                             <child>
-                              <object class="GtkLabel">
-                                <property name="halign">end</property>
+                              <object class="AdwToggle">
                                 <property name="label" translatable="yes">Vertical</property>
+                                <property name="name">vertical</property>
                               </object>
                             </child>
                             <child>
-                              <object class="GtkSwitch" id="orientToggle">
-                                <property name="halign">center</property>
-                                <property name="valign">center</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkLabel">
-                                <property name="halign">start</property>
+                              <object class="AdwToggle">
                                 <property name="label" translatable="yes">Horizontal</property>
+                                <property name="name">horizontal</property>
                               </object>
                             </child>
                           </object>

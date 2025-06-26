@@ -1,6 +1,6 @@
 # start_window.py
 #
-# Copyright 2024 Binuda Kalugalage
+# Copyright 2025 Binuda Kalugalage
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,8 +36,7 @@ class StartWindow(Adw.ApplicationWindow):
 
         self.newGame.connect("clicked", self.start_new_game)
         self.pieceSelect.connect("value-changed", self.set_num_pieces)
-        self.orientToggle.connect("state-set", self.set_orientation)
-
+        self.orientToggle.connect("notify::active", self.set_orientation)
 
     def start_new_game(self, button):
         self.app.win = GameWindow(application=self.app)
@@ -48,8 +47,9 @@ class StartWindow(Adw.ApplicationWindow):
     def set_num_pieces(self, spinButton):
         Constants.NUM_PIECES = int(spinButton.get_adjustment().get_value())
 
-    def set_orientation(self, switch, state):
-        Constants.ORIENTATION = "horizontal" if state else "vertical"
+    def set_orientation(self, toggle, state):
+        Constants.ORIENTATION = toggle.get_active_name()
+
 
 
 
