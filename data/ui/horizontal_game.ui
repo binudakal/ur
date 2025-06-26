@@ -282,6 +282,20 @@
                                             </object>
                                           </child>
                                           <child>
+                                            <object class="GtkLabel" id="whitePieces">
+                                              <property name="label"></property>
+                                              <property name="halign">end</property>
+                                              <property name="valign">end</property>
+                                              <style>
+                                                <class name="dice-label"></class>
+                                              </style>
+                                              <layout>
+                                                <property name="row">1</property>
+                                                <property name="column">0</property>
+                                              </layout>
+                                            </object>
+                                          </child>
+                                          <child>
                                               <object class="GtkToggleButton" id="LTile15">
                                                 <property name="sensitive">false</property>
                                                 <property name="margin-top">0</property>
@@ -342,7 +356,6 @@
                                            <child>
                                             <object class="GtkToggleButton" id="RTile0">
                                               <property name="sensitive">False</property>
-
                                               <style>
                                                 <class name="pile-top"></class>
                                               </style>
@@ -355,6 +368,20 @@
                                                   <property name="file">/app/share/icons/hicolor/symbolic/black_counter.svg</property>
                                                 </object>
                                               </child>
+                                            </object>
+                                          </child>
+                                           <child>
+                                            <object class="GtkLabel" id="blackPieces">
+                                              <property name="label"></property>
+                                              <property name="halign">end</property>
+                                              <property name="valign">end</property>
+                                              <style>
+                                                <class name="dice-label"></class>
+                                              </style>
+                                              <layout>
+                                                <property name="row">0</property>
+                                                <property name="column">0</property>
+                                              </layout>
                                             </object>
                                           </child>
                                           <child>

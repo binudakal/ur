@@ -1,7 +1,7 @@
 :root {
   --icon-size: 40%;
-  --table-rad: 14px;
-  --board-rad: 10px;
+  --table-rad: 8px;
+  --board-rad: 8px;
   --board-color: #242c5a;
   --board-outline: #242c5a;
   /* --table-color: #C4AC78; */

@@ -51,6 +51,8 @@ class UrApplication(Adw.Application):
             close_response="new_game",
         )
 
+        # TODO: Increment score for winner
+
         # Set the buttons for the dialog
         dialog.add_response("new_game", "New Game")
         dialog.set_response_appearance("new_game", Adw.ResponseAppearance.SUGGESTED)

@@ -35,18 +35,6 @@
                         </style>
                       </object>
                     </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label">Player 1</property>
-                        <layout>
-                          <property name="row">1</property>
-                          <property name="column">0</property>
-                        </layout>
-                        <style>
-                          <class name="player-name"></class>
-                        </style>
-                      </object>
-                    </child>
                     <layout>
                       <property name="row">0</property>
                       <property name="column">0</property>
@@ -79,18 +67,6 @@
                         </layout>
                         <style>
                           <class name="player-icon"></class>
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="label">Player 2</property>
-                        <layout>
-                          <property name="row">1</property>
-                          <property name="column">0</property>
-                        </layout>
-                        <style>
-                          <class name="player-name"></class>
                         </style>
                       </object>
                     </child>

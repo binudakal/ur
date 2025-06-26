@@ -73,6 +73,8 @@ class Board(ABC):
         self.positions[position] = piece
         piece.position = position
 
+        piece.owner.pile.update_label()
+
     def return_piece(self, piece):
         """
         Remove a piece from the board, moving it back to the pile
@@ -80,13 +82,17 @@ class Board(ABC):
         self.positions[piece.position] = None
         piece.position = 0
 
+        piece.owner.pile.update_label()
+
     def destroy_piece(self, piece):
         """
         Completely remove a piece, after having reached the end
         """
         self.positions[piece.position] = None
         piece.position = None  # to prevent double rosette bug
-        piece.owner.pieces.remove(piece)
+
+        piece.owner.pile.remove(piece)
+        piece.owner.pile.update_label()
 
     @abstractmethod
     def move_piece(self, position, piece):
@@ -143,32 +149,28 @@ class Piece:
     def __str__(self):
         return f"Piece {self.owner.side}{self.ID} at position {self.position}"
 
-class Node:
-    def __init__(self, item=None):
-        self.item = item
-        self.link = None
 
-class Pile:
+class Pile(list):
     """ Pile class for holding player pieces """
 
-    def __init__(self, pieces):
-        self.length = 0
-        self.top = None
+    def __init__(self, win, owner, pieces):
+        super().__init__(pieces)
 
-        for piece in pieces:
-            self.push(piece)
+        self.win = win
+        self.owner = owner
 
-    def push(self, item):
-        new_node = Node(item)
-        new_node.link = self.top
-        self.top = new_node
-        self.length += 1
+        self.pieces = pieces
 
-    def __len__(self) -> int:
-        return self.length
+        if self.owner.side == "L":
+            self.label = self.win.whitePieces
+        else:
+            self.label = self.win.blackPieces
 
     def is_empty(self) -> bool:
         return self.top is None
+
+    def update_label(self):
+        self.label.set_text(str(sum(1 for p in self if p.position == 0)))
 
     def find_movable(diceroll) -> list:
         # If a player rolls 0, they cannot move any pieces
@@ -178,7 +180,7 @@ class Pile:
         # Flag which will be used to skip other pieces in the pile
         pilePieceConsidered = False
 
-        for piece in player.pieces:
+        for piece in player.pile:
             # Reset the piece's old next position
             piece.nextPos = None
 
@@ -211,7 +213,7 @@ class Pile:
             if piece.position == 0:
                 pilePieceConsidered = True
 
-        movablePieces = list(filter(lambda x: x.nextPos is not None, player.pieces))
+        movablePieces = list(filter(lambda x: x.nextPos is not None, player.pile))
 
         # Handle scenario with no possible moves
         if not movablePieces:
@@ -234,15 +236,16 @@ class Player:
     def __init__(self, name, side, win):
         self.name = name
         self.side = side
-        self.pieces = [Piece(self, _ + 1) for _ in range(Constants.NUM_PIECES)]
         self.board = halfBoard()
         self.dice = gameDice(win, self)
-        self.pile = Pile(self.pieces)
+        self.pile = Pile(win, self, [Piece(self, _ + 1) for _ in range(Constants.NUM_PIECES)])
+
+        self.pile.update_label()
 
     def __str__(self):
         # return f"{self.name} on the {self.side} side."
         a = f"{self.name}:\n"
-        for piece in self.pieces:
+        for piece in self.pile:
             a += str(piece) + "\n"
         return a
 

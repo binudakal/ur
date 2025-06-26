@@ -82,8 +82,10 @@ class GameWindow(Adw.ApplicationWindow):
         # Get dice buttons and labels
         self.whiteButton = self.builder.get_object("whiteButton")
         self.whiteRoll = self.builder.get_object("whiteRoll")
+        self.whitePieces = self.builder.get_object("whitePieces")
         self.blackButton = self.builder.get_object("blackButton")
         self.blackRoll = self.builder.get_object("blackRoll")
+        self.blackPieces = self.builder.get_object("blackPieces")
 
         # Connect return and reset buttons
         self.builder.get_object("returnMenu").connect("clicked", self.app.on_return)

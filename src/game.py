@@ -40,7 +40,7 @@ class UrGame:
 
     @property
     def winner(self):
-        return next((player for player in self.players if not player.pieces), None)
+        return next((player for player in self.players if not player.pile), None)
 
     def roll_dice(self):
         return sum(random.randint(0, 1) for _ in range(4))
@@ -49,11 +49,11 @@ class UrGame:
         off_board = lambda x: x.position == 0
 
         player1Pile = "Player 1's pile:  "
-        for piece1 in filter(off_board, self.players[0].pieces):
+        for piece1 in filter(off_board, self.players[0].pile):
             player1Pile += f"{self.players[0].side}{piece1.ID}, "
 
         player2Pile = "Player 2's pile:  "
-        for piece2 in filter(off_board, self.players[1].pieces):
+        for piece2 in filter(off_board, self.players[1].pile):
             player2Pile += f"{self.players[1].side}{piece2.ID}, "
 
         print(f"\n{player1Pile[:-2]}\n{player2Pile[:-2]}")
@@ -103,7 +103,7 @@ class UrGame:
         # Flag which will be used to skip other pieces in the pile
         pilePieceConsidered = False
 
-        for piece in player.pieces:
+        for piece in player.pile:
             # Reset the piece's old next position
             piece.nextPos = None
 
@@ -136,7 +136,7 @@ class UrGame:
             if piece.position == 0:
                 pilePieceConsidered = True
 
-        movablePieces = list(filter(lambda x: x.nextPos is not None, player.pieces))
+        movablePieces = list(filter(lambda x: x.nextPos is not None, player.pile))
 
         # Handle scenario with no possible moves
         if not movablePieces:
