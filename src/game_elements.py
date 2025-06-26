@@ -8,10 +8,10 @@ class gameDice:
 
         if self.owner.side == "L":
             self.button = self.win.whiteButton
-            self.label = self.win.whiteLabel
+            self.label = self.win.whiteRoll
         else:
             self.button = self.win.blackButton
-            self.label = self.win.blackLabel
+            self.label = self.win.blackRoll
 
         # Connect the dice's button to the click function
         self.button.connect("clicked", self.dice_click)
@@ -145,15 +145,6 @@ class Pile:
         self.top = new_node
         self.length += 1
 
-    def pop(self):
-        if self.is_empty():
-            raise Exception('Stack is empty')
-
-        item = self.top.item
-        self.top = self.top.link
-        self.length -= 1
-        return item
-
     def __len__(self) -> int:
         return self.length
 
@@ -235,4 +226,5 @@ class Player:
         for piece in self.pieces:
             a += str(piece) + "\n"
         return a
+
 

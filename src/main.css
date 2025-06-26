@@ -12,6 +12,10 @@
   --brighten: 110%;
 }
 
+.section {
+  outline: 1px solid red;
+}
+
 .tile {
   padding : 8px;
   -gtk-icon-size: var(--icon-size);

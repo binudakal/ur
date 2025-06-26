@@ -81,9 +81,9 @@ class GameWindow(Adw.ApplicationWindow):
 
         # Get dice buttons and labels
         self.whiteButton = self.builder.get_object("whiteButton")
-        self.whiteLabel = self.builder.get_object("whiteLabel")
+        self.whiteRoll = self.builder.get_object("whiteRoll")
         self.blackButton = self.builder.get_object("blackButton")
-        self.blackLabel = self.builder.get_object("blackLabel")
+        self.blackRoll = self.builder.get_object("blackRoll")
 
         # Connect return and reset buttons
         self.builder.get_object("returnMenu").connect("clicked", self.app.on_return)
@@ -197,6 +197,7 @@ class GameWindow(Adw.ApplicationWindow):
             # Update the icons and then disable the board for the next diceroll
             self.update_images()
             self.disable_board()
+
 
 
 
