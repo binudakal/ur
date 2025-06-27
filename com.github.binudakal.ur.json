@@ -25,7 +25,6 @@
     "modules" : [
         {
             "name" : "ur",
-            "builddir" : true,
             "buildsystem" : "meson",
             "sources" : [
                 {
@@ -34,7 +33,11 @@
             ],
             "config-opts" : [
                 "--libdir=lib"
-            ]
+            ],
+            "builddir" : true
         }
-    ]
+    ],
+    "build-options" : {
+        "env" : {        }
+    }
 }
