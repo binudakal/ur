@@ -18,7 +18,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from abc import ABC, abstractmethod
-from .constants import Constants
+from .settings import Settings
 
 class gameDice:
     def __init__(self, win, owner):
@@ -172,73 +172,13 @@ class Pile(list):
     def update_label(self):
         self.label.set_text(str(sum(1 for p in self if p.position == 0)))
 
-    def find_movable(diceroll) -> list:
-        # If a player rolls 0, they cannot move any pieces
-        if diceroll == 0:
-            return
-
-        # Flag which will be used to skip other pieces in the pile
-        pilePieceConsidered = False
-
-        for piece in player.pile:
-            # Reset the piece's old next position
-            piece.nextPos = None
-
-            # Only consider the first piece in the pile encountered if there are multiple
-            if piece.position == 0 and pilePieceConsidered:
-                continue
-
-            # Calculate the potential new position
-            newPosition = piece.position + diceroll
-
-            # Check if spaces are occupied
-            if newPosition <= 4 or 13 <= newPosition <= 14:
-                if not player.board.is_occupied(newPosition):
-                    piece.nextPos = newPosition
-
-            # With current player's pieces
-            elif 5 <= newPosition <= 12:
-                occupiedStatus = self.boardCommon.is_occupied(newPosition)
-                if occupiedStatus:
-                    # Check that the piece to replace is not one of the current player's, and that it is not on a rosette
-                    if (occupiedStatus.owner != piece.owner) and (occupiedStatus.position not in self.boardRosettes):
-                        piece.nextPos = newPosition
-                else:
-                    piece.nextPos = newPosition
-
-            # Off the board by exactly 1
-            elif newPosition == 15:
-                piece.nextPos = newPosition
-
-            if piece.position == 0:
-                pilePieceConsidered = True
-
-        movablePieces = list(filter(lambda x: x.nextPos is not None, player.pile))
-
-        # Handle scenario with no possible moves
-        if not movablePieces:
-            print(f"{player.name} has no possible moves.\n")
-            # self.app.on_impossible(player)
-            return
-
-        # Print the piece movement options
-        print("\n #  MOVE OPTIONS")
-        for i, piece in enumerate(movablePieces):
-            print(f"[{i + 1}] {player.side}{piece.ID}: {piece.position} --> {piece.nextPos}")
-
-        self.win.load_movable(movablePieces)
-
-        return movablePieces
-
-
-
 class Player:
     def __init__(self, name, side, win):
         self.name = name
         self.side = side
         self.board = halfBoard()
         self.dice = gameDice(win, self)
-        self.pile = Pile(win, self, [Piece(self, _ + 1) for _ in range(Constants.NUM_PIECES)])
+        self.pile = Pile(win, self, [Piece(self, _ + 1) for _ in range(Settings.get_num_pieces())])
 
         self.pile.update_label()
 

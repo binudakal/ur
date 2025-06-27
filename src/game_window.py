@@ -19,7 +19,7 @@
 
 from gi.repository import Gtk, Gdk, Adw, Gio
 from .game import *
-from .constants import Constants
+from .settings import Settings
 
 # Adw.init()
 
@@ -79,6 +79,8 @@ class GameWindow(Adw.ApplicationWindow):
 
         self.load_ui()
 
+        self.connect("close-request", self.on_game_close)
+
         # Get dice buttons and labels
         self.whiteButton = self.builder.get_object("whiteButton")
         self.whiteRoll = self.builder.get_object("whiteRoll")
@@ -106,12 +108,15 @@ class GameWindow(Adw.ApplicationWindow):
         self.activeTile = None
         self.inactiveTile = None
 
+    def on_game_close(self, window):
+        self.app.quit()
+        return False
 
     def load_ui(self):
         # Initialise builder
         self.builder = Gtk.Builder()
         # Load horizontal/vertical UI file
-        self.builder.add_from_resource(f"/com/github/binudakal/ur/{Constants.ORIENTATION}_game.ui")
+        self.builder.add_from_resource(f"/com/github/binudakal/ur/{"horizontal" if Settings.is_horizontal() else "vertical"}_game.ui")
 
         # Get game window's content from builder
         builderWindow = self.builder.get_object(self.__gtype_name__)

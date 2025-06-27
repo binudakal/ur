@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="ur">
-	<schema id="com.github.binudakal.ur" path="/com/github/binudakal/ur/">
-	</schema>
+<schema id="com.github.binudakal.ur" path="/com/github/binudakal/ur/">
+  <key name="num-pieces" type="i">
+    <default>7</default>
+    <summary>Number of pieces per player</summary>
+    <description>How many pieces each player starts with.</description>
+  </key>
+  <key name="horizontal" type="b">
+    <default>false</default>
+    <summary>Board orientation</summary>
+    <description>Whether to lay out the board horizontally.</description>
+  </key>
+</schema>
 </schemalist>

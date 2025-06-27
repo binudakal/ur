@@ -20,7 +20,7 @@
 
 from gi.repository import Gtk, Gdk, Adw, Gio
 from .game_window import GameWindow
-from .constants import Constants
+from .settings import Settings
 
 @Gtk.Template(resource_path='/com/github/binudakal/ur/start_window.ui')
 class StartWindow(Adw.ApplicationWindow):
@@ -34,9 +34,15 @@ class StartWindow(Adw.ApplicationWindow):
         super().__init__(**kwargs)
         self.app = self.get_application()
 
+        # Connect controls to respective functions
+        self.connect("close-request", self.quit_app)
         self.newGame.connect("clicked", self.start_new_game)
         self.pieceSelect.connect("value-changed", self.set_num_pieces)
         self.orientToggle.connect("notify::active", self.set_orientation)
+
+        # Initialise control values
+        self.orientToggle.set_active(Settings.is_horizontal())
+        self.pieceSelect.get_adjustment().set_value((Settings.get_num_pieces()))
 
     def start_new_game(self, button):
         self.app.win = GameWindow(application=self.app)
@@ -45,10 +51,14 @@ class StartWindow(Adw.ApplicationWindow):
         self.app.win.present()
 
     def set_num_pieces(self, spinButton):
-        Constants.NUM_PIECES = int(spinButton.get_adjustment().get_value())
+        Settings.set_num_pieces(int(spinButton.get_adjustment().get_value()))
 
     def set_orientation(self, toggle, state):
-        Constants.ORIENTATION = toggle.get_active_name()
+        Settings.set_orientation(toggle.get_active_name())
+
+    def quit_app(self, window):
+        self.app.quit()
+        return False
 
 
 

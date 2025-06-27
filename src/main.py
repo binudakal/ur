@@ -40,9 +40,24 @@ class UrApplication(Adw.Application):
         win.present()
 
     def on_return(self, widget=None):
-        if self.win != self.menuWin:
+        # if self.win != self.menuWin:
+        #     self.menuWin.present()
+        #     self.win.close()
+
+        # if self.win != self.menuWin:
+            # show the menu again
+        #     self.menuWin.present()
+            # just hide the game window, don't close it
+        #     self.win.hide()
+
+        # only if we're in a GameWindow
+        if self.win is not self.menuWin:
+            # hide the game window (no close-request, so no quit)
+            self.win.hide()
+            # show the StartWindow again
             self.menuWin.present()
-            self.win.close()
+            # update app.win pointer
+            self.win = self.menuWin
 
     def on_win(self, winner):
         """Display an alert dialog when a player wins the game."""
@@ -67,13 +82,15 @@ class UrApplication(Adw.Application):
         print(f'Selected "{response}" response.')
 
         if response == "new_game":
-            self.win.close()
+            # self.win.close()
+            self.win.hide()
             self.win = GameWindow(application=self)
 
             self.win.present()
 
         elif response == "main_menu":
-            self.win.close()
+            # self.win.close()
+            self.win.hide()
             self.win = self.menuWin
 
             self.win.present()

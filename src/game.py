@@ -27,7 +27,7 @@ class UrGame:
     def __init__(self, win):
         self.win = win
         self.app = win.app
-        self.players = [Player("Player 1", "L", self.win), Player("Player 2", "R", self.win)]
+        self.players = [Player("White", "L", self.win), Player("Black", "R", self.win)]
         self.currentPlayer = self.players[0]
         self.boardCommon = commonBoard()
         self.boardRosettes = (4, 8, 14)
@@ -205,7 +205,6 @@ class UrGame:
             return
 
         # After moving the piece, check whether it landed on a rosette
-        # TODO: fix rosettes
         if selectedPiece.position in self.boardRosettes:
             print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
             # Skip the other player

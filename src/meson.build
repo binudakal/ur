@@ -26,7 +26,7 @@ ur_sources = [
   'game_elements.py',
   'game.py',
   'scores.py',
-  'constants.py',
+  'settings.py',
   'main.css',
 ]
 
