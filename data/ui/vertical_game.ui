@@ -93,7 +93,7 @@
                                           <property name="halign">end</property>
                                           <property name="valign">end</property>
                                           <style>
-                                            <class name="dice-result"></class>
+                                            <class name="dice-label"></class>
                                           </style>
                                           <layout>
                                             <property name="row">0</property>
