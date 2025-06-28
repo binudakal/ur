@@ -21,8 +21,6 @@ from gi.repository import Gtk, Gdk, Adw, Gio
 from .game import *
 from .settings import Settings
 
-# Adw.init()
-
 class GameTile():
     def __init__(self, button, var, location):
 

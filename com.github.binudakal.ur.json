@@ -1,7 +1,7 @@
 {
     "id" : "com.github.binudakal.ur",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "master",
+    "runtime-version" : "48",
     "sdk" : "org.gnome.Sdk",
     "command" : "ur",
     "finish-args" : [
@@ -28,16 +28,10 @@
             "buildsystem" : "meson",
             "sources" : [
                 {
-                    "type" : "git"
+                    "type" : "git",
+                    "url": "https://github.com/binudakal/ur"
                 }
-            ],
-            "config-opts" : [
-                "--libdir=lib"
-            ],
-            "builddir" : true
+            ]
         }
-    ],
-    "build-options" : {
-        "env" : {        }
-    }
+    ]
 }
