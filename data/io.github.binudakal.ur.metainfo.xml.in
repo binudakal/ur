@@ -23,14 +23,17 @@
 	<screenshot type="default">
 	<image type="source">
 	https://raw.githubusercontent.com/binudakal/ur/master/data/screenshots/screen1.png</image>
+	<caption>Starting window</caption>
 </screenshot>
 <screenshot>
 	<image type="source">
 	https://raw.githubusercontent.com/binudakal/ur/master/data/screenshots/screen2.png</image>
+<caption>Vertical view</caption>
 </screenshot>
 <screenshot>
 	<image type="source">
 	https://raw.githubusercontent.com/binudakal/ur/master/data/screenshots/screen3.png</image>
+<caption>Horizontal view</caption>
 </screenshot>
 </screenshots>
 <translation type="gettext">Ur</translation>
