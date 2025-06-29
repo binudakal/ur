@@ -1,9 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-	<id>com.github.binudakal.ur.desktop</id>
-	<metadata_license>CC0-1.0</metadata_license>
-	<project_license>GPL-3.0-or-later</project_license>
-	<description>
-	  <p>No description</p>
-	</description>
+<id>com.github.binudakal.ur</id>
+<metadata_license>CC0-1.0</metadata_license>
+<project_license>GPL-3.0-or-later</project_license>
+<content_rating type="oars-1.1" />
+<name translate="no">Ur</name>
+<summary>The Royal Game of Ur</summary>
+<description>
+	<p>The Royal Game of Ur is a two-player strategy race board game of the tables family that was first played in ancient Mesopotamia during the early third millennium BC.
+	- Wikipedia</p>
+</description>
+<developer id="com.github.binudakal">
+	<name translate="no">Binuda Kalugalage</name>
+</developer>
+<update_contact>bjithmalk@gmail.com</update_contact>
+<url type="homepage">https://github.com/binudakal/ur</url>
+<url type="bugtracker">https://github.com/binudakal/ur/issues</url>
+<screenshots>
+	<screenshot type="default">
+	<image type="source">
+	https://raw.githubusercontent.com/binudakal/ur/master/data/screenshots/screen1.png</image>
+</screenshot>
+<screenshot>
+	<image type="source">
+	https://raw.githubusercontent.com/binudakal/ur/master/data/screenshots/screen2.png</image>
+</screenshot>
+<screenshot>
+	<image type="source">
+	https://raw.githubusercontent.com/binudakal/ur/master/data/screenshots/screen3.png</image>
+</screenshot>
+</screenshots>
+<translation type="gettext">Ur</translation>
+<launchable type="desktop-id">com.github.binudakal.ur.desktop</launchable>
+<releases>
+<release version="0.1.0" date="2025-06-29">
+	<description translate="no">
+	<p>Changelog:</p>
+<ul>
+	<li>Initial version</li>
+</ul>
+</description>
+</release>
+</releases>
+<branding>
+	<color type="primary" scheme_preference="light">#f66151</color>
+<color type="primary" scheme_preference="dark">#a51d2d</color>
+</branding>
 </component>
