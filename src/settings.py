@@ -1,6 +1,6 @@
 from gi.repository import Gio
 
-SETTINGS_SCHEMA = "com.github.binudakal.ur"
+SETTINGS_SCHEMA = "io.github.binudakal.ur"
 
 class Settings:
     _settings = Gio.Settings.new(SETTINGS_SCHEMA)

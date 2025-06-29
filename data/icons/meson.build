@@ -1,4 +1,4 @@
-application_id = 'com.github.binudakal.ur'
+application_id = 'io.github.binudakal.ur'
 
 scalable_dir = 'hicolor' / 'scalable' / 'apps'
 install_data(

@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://raw.githubusercontent.com/binudakal/ur/master/data/icons/hicolor/scalable/apps/com.github.binudakal.ur.svg" width="300"></img>
+<img src="https://raw.githubusercontent.com/binudakal/ur/master/data/icons/hicolor/scalable/apps/io.github.binudakal.ur.svg" width="300"></img>
 </div>
 
 # Ur
@@ -19,10 +19,10 @@ Written in GTK4 and Python.
 
 ### Linux
 
-Download the official flatpak on Flathub [here](https://flathub.org/apps/details/com.github.binudakal.ur).
+Download the official flatpak on Flathub [here](https://flathub.org/apps/details/io.github.binudakal.ur).
 
 <div align="start">
-<a href='https://flathub.org/apps/details/com.github.binudakal.ur'><img width="250" alt='Download on Flathub' src='https://raw.githubusercontent.com/binudakal/ur/master/data/assets/flathub-badge.svg'/></a>
+<a href='https://flathub.org/apps/details/io.github.binudakal.ur'><img width="250" alt='Download on Flathub' src='https://raw.githubusercontent.com/binudakal/ur/master/data/assets/flathub-badge.svg'/></a>
 </div><br>
 
 ## License

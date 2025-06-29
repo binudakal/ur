@@ -16,7 +16,7 @@ class UrApplication(Adw.Application):
     scores_dialog = None
 
     def __init__(self):
-        super().__init__(application_id='com.github.binudakal.ur',
+        super().__init__(application_id='io.github.binudakal.ur',
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
         self.create_action('scores', self.on_scores, ['<primary>s'])
         self.create_action('about', self.on_about)
@@ -113,7 +113,7 @@ class UrApplication(Adw.Application):
         """Callback for the app.about action."""
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                     application_name='Ur',
-                    application_icon='com.github.binudakal.ur',
+                    application_icon='io.github.binudakal.ur',
                     developer_name='Binuda Kalugalage',
                     license_type=Gtk.License.GPL_3_0,
                     website='https://github.com/binudakal/ur',

@@ -10,8 +10,8 @@ gnome.compile_resources('ur',
 )
 
 desktop_file = i18n.merge_file(
-        input: 'com.github.binudakal.ur.desktop.in',
-       output: 'com.github.binudakal.ur.desktop',
+        input: 'io.github.binudakal.ur.desktop.in',
+       output: 'io.github.binudakal.ur.desktop',
          type: 'desktop',
        po_dir: '../po',
       install: true,
@@ -24,8 +24,8 @@ if desktop_utils.found()
 endif
 
 appstream_file = i18n.merge_file(
-        input: 'com.github.binudakal.ur.metainfo.xml.in',
-       output: 'com.github.binudakal.ur.metainfo.xml',
+        input: 'io.github.binudakal.ur.metainfo.xml.in',
+       output: 'io.github.binudakal.ur.metainfo.xml',
        po_dir: '../po',
       install: true,
   install_dir: get_option('datadir') / 'metainfo'
@@ -35,7 +35,7 @@ appstreamcli = find_program('appstreamcli', required: false, disabler: true)
 test('Validate appstream file', appstreamcli,
      args: ['validate', '--no-net', '--explain', appstream_file])
 
-install_data('com.github.binudakal.ur.gschema.xml',
+install_data('io.github.binudakal.ur.gschema.xml',
   install_dir: get_option('datadir') / 'glib-2.0' / 'schemas'
 )
 

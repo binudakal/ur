@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="ur">
-<schema id="com.github.binudakal.ur" path="/com/github/binudakal/ur/">
+<schema id="io.github.binudakal.ur" path="/com/github/binudakal/ur/">
   <key name="num-pieces" type="i">
     <default>7</default>
     <summary>Number of pieces per player</summary>

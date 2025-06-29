@@ -20,7 +20,7 @@
 from gi.repository import Gtk, Gdk, Adw, Gio
 
 UI_PATH = '/com/github/binudakal/ur/'
-SETTINGS_SCHEMA = 'com.github.binudakal.ur'
+SETTINGS_SCHEMA = 'io.github.binudakal.ur'
 
 
 @Gtk.Template(resource_path=UI_PATH + 'scores.ui')

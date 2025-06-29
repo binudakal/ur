@@ -5,6 +5,6 @@ Comment=The Royal Game of Ur
 Terminal=false
 Type=Application
 Categories=GTK;
-Icon=com.github.binudakal.ur
+Icon=io.github.binudakal.ur
 StartupWMClass=Ur
 StartupNotify=true

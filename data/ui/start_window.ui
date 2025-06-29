@@ -30,7 +30,7 @@
                 <child>
                   <object class="AdwStatusPage" id="homebox">
                     <property name="vexpand">true</property>
-                    <property name="icon-name">com.github.binudakal.ur</property>
+                    <property name="icon-name">io.github.binudakal.ur</property>
                     <property name="title" translatable="no">Ur</property>
                     <child>
                       <object class="GtkBox">
