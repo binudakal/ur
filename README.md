@@ -19,17 +19,13 @@ Written in GTK4 and Python.
 
 ### Linux
 
-Download the official flatpak on Flathub [here](https://flathub.org/apps/details/io.github.binudakal.ur).
-
-<div align="start">
-<a href='https://flathub.org/apps/details/io.github.binudakal.ur'><img width="250" alt='Download on Flathub' src='https://raw.githubusercontent.com/binudakal/ur/master/data/assets/flathub-badge.svg'/></a>
-</div><br>
+Download the official flatpak [here](https://raw.githubusercontent.com/binudakal/ur/master/io.github.binudakal.ur.flatpak).
 
 ## License
 
 Ur is available under GPL-3.0-or-later. See the COPYING file for more info.
 
-    Copyright (C) 2024  Binuda Kalugalage
+    Copyright (C) 2025  Binuda Kalugalage
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
