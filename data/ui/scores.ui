@@ -46,7 +46,7 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="playerScores">
-                    <property name="label">7:2</property>
+                    <property name="label"></property>
                     <layout>
                       <property name="row">0</property>
                       <property name="column">1</property>

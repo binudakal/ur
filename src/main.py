@@ -8,7 +8,7 @@ from gi.repository import Gtk, Gio, Adw
 from .start_window import StartWindow
 from .game_window import GameWindow
 from .scores import UrScoresDialog
-
+from .settings import Settings
 
 class UrApplication(Adw.Application):
     """The main application singleton class."""
@@ -40,33 +40,20 @@ class UrApplication(Adw.Application):
         win.present()
 
     def on_return(self, widget=None):
-        # if self.win != self.menuWin:
-        #     self.menuWin.present()
-        #     self.win.close()
-
-        # if self.win != self.menuWin:
-            # show the menu again
-        #     self.menuWin.present()
-            # just hide the game window, don't close it
-        #     self.win.hide()
-
-        # only if we're in a GameWindow
         if self.win is not self.menuWin:
-            # hide the game window (no close-request, so no quit)
             self.win.hide()
-            # show the StartWindow again
             self.menuWin.present()
-            # update app.win pointer
             self.win = self.menuWin
 
     def on_win(self, winner):
+        # Increment score for winner
+        Settings.increment_score(winner.name)
+
         """Display an alert dialog when a player wins the game."""
         dialog = Adw.AlertDialog(
             heading=f"{winner.name} has won!",
             close_response="new_game",
         )
-
-        # TODO: Increment score for winner
 
         # Set the buttons for the dialog
         dialog.add_response("new_game", "New Game")
@@ -82,14 +69,12 @@ class UrApplication(Adw.Application):
         print(f'Selected "{response}" response.')
 
         if response == "new_game":
-            # self.win.close()
             self.win.hide()
             self.win = GameWindow(application=self)
 
             self.win.present()
 
         elif response == "main_menu":
-            # self.win.close()
             self.win.hide()
             self.win = self.menuWin
 
@@ -102,7 +87,6 @@ class UrApplication(Adw.Application):
 
     def on_scores(self, widget, _):
         """Callback for the app.preferences action."""
-        print('on_scores event')
 
         if self.scores_dialog is not None:
             self.scores_dialog.force_close()

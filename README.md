@@ -12,7 +12,7 @@ Written in GTK4 and Python.
 <div align="center">
 <img src="https://raw.githubusercontent.com/binudakal/ur/master/data/screenshots/screenshot1.png" width="300"></img>
 <img src="https://raw.githubusercontent.com/binudakal/ur/master/data/screenshots/screenshot2.png" width="300"></img>
-<img src="https://raw.githubusercontent.com/binudakal/ur/master/data/screenshots/screenshot3.png" width="300"></img>
+<img src="https://raw.githubusercontent.com/binudakal/ur/master/data/screenshots/screenshot3.png" height="300"></img>
 </div>
 
 ## Installation

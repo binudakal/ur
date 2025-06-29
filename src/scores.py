@@ -26,6 +26,8 @@ UI_PATH = '/io/github/binudakal/ur/'
 class UrScoresDialog(Adw.Dialog):
     __gtype_name__ = 'UrScoresDialog'
 
+    playerScores = Gtk.Template.Child()
+
     def __init__(self, parent, **kwargs):
         super().__init__(**kwargs)
 
@@ -39,4 +41,7 @@ class UrScoresDialog(Adw.Dialog):
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
+
+        # Set score label
+        self.playerScores.set_text(f"{Settings.get_scores('white')}:{Settings.get_scores('black')}")
 

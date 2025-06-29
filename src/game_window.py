@@ -21,6 +21,8 @@ from gi.repository import Gtk, Gdk, Adw, Gio
 from .game import *
 from .settings import Settings
 
+UI_PATH = '/io/github/binudakal/ur/'
+
 class GameTile():
     def __init__(self, button, var, location):
 
@@ -114,7 +116,7 @@ class GameWindow(Adw.ApplicationWindow):
         # Initialise builder
         self.builder = Gtk.Builder()
         # Load horizontal/vertical UI file
-        self.builder.add_from_resource(f"/io/github/binudakal/ur/{"horizontal" if Settings.is_horizontal() else "vertical"}_game.ui")
+        self.builder.add_from_resource(f"{UI_PATH}{"horizontal" if Settings.is_horizontal() else "vertical"}_game.ui")
 
         # Get game window's content from builder
         builderWindow = self.builder.get_object(self.__gtype_name__)
