@@ -119,7 +119,7 @@ class commonBoard(Board):
         if occupyingPiece:
             # Return it to their pile (position = 0)
             self.return_piece(occupyingPiece)
-            print(f"\n{occupyingPiece.owner.side}{occupyingPiece.ID} was returned to {occupyingPiece.owner.name}'s pile.")
+            # print(f"\n{occupyingPiece.owner.side}{occupyingPiece.ID} was returned to {occupyingPiece.owner.name}'s pile.")
 
     def move_piece(self, piece, position):
         self.replace_piece(position)

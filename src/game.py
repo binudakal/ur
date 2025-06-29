@@ -92,12 +92,12 @@ class UrGame:
 
     def calculate_movable(self, player, diceroll):
 
-        print(f"{player.name} rolled a {diceroll}.")
+        # print(f"{player.name} rolled a {diceroll}.")
         # return player.pile.get_movable(diceroll)
 
         # If a player rolls 0, skip their turn
         if diceroll == 0:
-            self.print_board()
+            # self.print_board()
             return
 
         # Flag which will be used to skip other pieces in the pile
@@ -140,14 +140,14 @@ class UrGame:
 
         # Handle scenario with no possible moves
         if not movablePieces:
-            print(f"{player.name} has no possible moves.\n")
+            # print(f"{player.name} has no possible moves.\n")
             self.app.on_impossible(player)
             return
 
-        # Print the piece movement options
-        print("\n #  MOVE OPTIONS")
-        for i, piece in enumerate(movablePieces):
-            print(f"[{i + 1}] {player.side}{piece.ID}: {piece.position} --> {piece.nextPos}")
+        # # Print the piece movement options
+        # print("\n #  MOVE OPTIONS")
+        # for i, piece in enumerate(movablePieces):
+        #     print(f"[{i + 1}] {player.side}{piece.ID}: {piece.position} --> {piece.nextPos}")
 
         self.win.load_movable(movablePieces)
 
@@ -196,17 +196,17 @@ class UrGame:
             player.board.move_piece(selectedPiece, newPosition)
 
         # Display the game board after moving a piece
-        self.print_board()
+        # self.print_board()
 
         # Check for a winner
         if self.winner:
-            print(f"{self.winner.name} has exhausted all of their pieces and won the game!\n")
+            # print(f"{self.winner.name} has exhausted all of their pieces and won the game!\n")
             self.win.app.on_win(self.winner)
             return
 
         # After moving the piece, check whether it landed on a rosette
         if selectedPiece.position in self.boardRosettes:
-            print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
+            # print(f"{player.name} landed on a rosette at tile {selectedPiece.position} and rolls again!")
             # Skip the other player
             self.alternate_players()
 

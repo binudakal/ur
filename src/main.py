@@ -66,7 +66,7 @@ class UrApplication(Adw.Application):
 
     def on_win_response(self, _dialog, task):
         response = _dialog.choose_finish(task)
-        print(f'Selected "{response}" response.')
+        # print(f'Selected "{response}" response.')
 
         if response == "new_game":
             self.win.hide()
