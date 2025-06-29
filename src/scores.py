@@ -18,10 +18,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from gi.repository import Gtk, Gdk, Adw, Gio
+from .settings import Settings
 
-UI_PATH = '/com/github/binudakal/ur/'
-SETTINGS_SCHEMA = 'io.github.binudakal.ur'
-
+UI_PATH = '/io/github/binudakal/ur/'
 
 @Gtk.Template(resource_path=UI_PATH + 'scores.ui')
 class UrScoresDialog(Adw.Dialog):

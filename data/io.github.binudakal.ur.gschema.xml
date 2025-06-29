@@ -4,12 +4,22 @@
   <key name="num-pieces" type="i">
     <default>7</default>
     <summary>Number of pieces per player</summary>
-    <description>How many pieces each player starts with.</description>
+    <description>How many pieces each player starts with</description>
   </key>
   <key name="horizontal" type="b">
     <default>false</default>
     <summary>Board orientation</summary>
     <description>Whether to lay out the board horizontally.</description>
+  </key>
+  <key name="white-wins" type="i">
+    <default>0</default>
+    <summary>Number of wins by white</summary>
+    <description>How many games white has won</description>
+  </key>
+  <key name="black-wins" type="i">
+    <default>0</default>
+    <summary>Number of wins by black</summary>
+    <description>How many games black has won</description>
   </key>
 </schema>
 </schemalist>

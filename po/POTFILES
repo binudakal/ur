@@ -1,6 +1,6 @@
-data/com.github.binudakal.ur.desktop.in
-data/com.github.binudakal.ur.metainfo.xml.in
-data/com.github.binudakal.ur.gschema.xml
+data/io.github.binudakal.ur.desktop.in
+data/io.github.binudakal.ur.metainfo.xml.in
+data/io.github.binudakal.ur.gschema.xml
 src/main.py
 src/window.py
 src/window.ui

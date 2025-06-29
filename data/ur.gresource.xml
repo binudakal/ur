@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/com/github/binudakal/ur">
+  <gresource prefix="/io/github/binudakal/ur">
     <file alias="start_window.ui">ui/start_window.ui</file>
     <file alias="vertical_game.ui">ui/vertical_game.ui</file>
     <file alias="horizontal_game.ui">ui/horizontal_game.ui</file>

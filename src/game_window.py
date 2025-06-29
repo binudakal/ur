@@ -114,7 +114,7 @@ class GameWindow(Adw.ApplicationWindow):
         # Initialise builder
         self.builder = Gtk.Builder()
         # Load horizontal/vertical UI file
-        self.builder.add_from_resource(f"/com/github/binudakal/ur/{"horizontal" if Settings.is_horizontal() else "vertical"}_game.ui")
+        self.builder.add_from_resource(f"/io/github/binudakal/ur/{"horizontal" if Settings.is_horizontal() else "vertical"}_game.ui")
 
         # Get game window's content from builder
         builderWindow = self.builder.get_object(self.__gtype_name__)

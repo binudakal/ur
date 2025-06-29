@@ -22,7 +22,9 @@ from gi.repository import Gtk, Gdk, Adw, Gio
 from .game_window import GameWindow
 from .settings import Settings
 
-@Gtk.Template(resource_path='/com/github/binudakal/ur/start_window.ui')
+UI_PATH = '/io/github/binudakal/ur/'
+
+@Gtk.Template(resource_path=UI_PATH + 'start_window.ui')
 class StartWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'StartWindow'
 
